@@ -58,7 +58,7 @@
     <div class="menu">
         <a href="index">홈</a>
         <a href="#">인테리어</a>
-        <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
+        <a href="signin">로그인</a>
     </div>
 </div>
 
