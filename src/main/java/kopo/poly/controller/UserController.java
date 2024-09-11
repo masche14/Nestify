@@ -16,107 +16,79 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/User")
 public class UserController {
 
-    // 로그인 페이지
+    // 로그인 페이지 표시 (GET 요청)
     @GetMapping("/signin")
-    public String showLoginPage(HttpSession session, Model model) {
-        String savedId = (String) session.getAttribute("savedId");
-        if (savedId != null) {
-            model.addAttribute("savedId", savedId);
-        }
-        return "User/signin"; // 정확한 경로로 수정
+    public String showSigninPage() {
+        return "User/signin";
     }
 
-    // 이메일 인증 페이지로 이동
-//    @PostMapping("/email_verification")
-//    public String verifyEmail(
-//            @RequestParam("id") String id,
-//            @RequestParam("pwd") String pwd,
-//            @RequestParam("source") String source,
-//            HttpSession session) {
-//        session.setAttribute("savedId", id); // 아이디 저장
-//        session.setAttribute("source", source); // source 저장
-//        return "redirect:User/email_verification"; // 이메일 인증 페이지로 이동
-//    }
+    // 로그인 처리 (POST 요청)
+    @PostMapping("/signin")
+    public String processSignin(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
+        // 로그인 처리 로직
+        // 사용자 인증, 세션 설정 등
+        session.setAttribute("username", username);
+        return "redirect:/home"; // 성공 시 리다이렉트
+    }
 
-    // 이메일 인증 페이지
+    // 회원가입 페이지 표시 (GET 요청)
+    @GetMapping("/signup_detail")
+    public String showSignupPage() {
+        return "User/signup_detail";
+    }
+
+    // 회원가입 처리 (POST 요청)
+    @PostMapping("/signup_detail")
+    public String processSignup(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
+        // 회원가입 처리 로직
+        // 데이터베이스에 사용자 정보 저장 등
+        return "redirect:/User/signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
+    }
+
+    // 비밀번호 재설정 페이지 표시 (GET 요청)
+    @GetMapping("/reset_pwd")
+    public String showResetPwdPage() {
+        return "User/reset_pwd";
+    }
+
+    // 비밀번호 재설정 처리 (POST 요청)
+    @PostMapping("/reset_pwd")
+    public String processResetPwd(@RequestParam String email, @RequestParam String newPassword, Model model) {
+        // 비밀번호 재설정 로직
+        // 데이터베이스에서 비밀번호 변경 등
+        return "redirect:/User/signin"; // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
+    }
+
+    // 이메일 인증 페이지 표시 (GET 요청)
     @GetMapping("/email_verification")
     public String showEmailVerificationPage() {
-        return "User/email_verification"; // /WEB-INF/views/email_verification.jsp
+        return "User/email_verification";
     }
 
-    // 이메일 인증 처리
-//    @PostMapping("/processEmail")
-//    public String processEmail(
-//            @RequestParam("email") String email,
-//            HttpSession session) {
-//        System.out.println("저장할 이메일: " + email);
-//        session.setAttribute("userEmail", email); // 이메일 저장
-//        String source = (String) session.getAttribute("source");
-//
-//        switch (source) {
-//            case "signup":
-//                return "redirect:User/signup_detail"; // 회원가입 상세 페이지로 이동
-//            case "find_id":
-//                return "redirect:User/find_id"; // 아이디 찾기 결과 페이지로 이동
-//            case "reset_pwd":
-//                return "redirect:User/reset_pwd"; // 비밀번호 재설정 페이지로 이동
-//            default:
-//                return "redirect:User/index"; // 기본적으로 홈 페이지로 이동
-//        }
-//    }
-
-    // 회원가입 상세 페이지
-    @GetMapping("/signup_detail")
-    public String showSignupDetailPage() {
-        return "User/signup_detail"; // /WEB-INF/views/signup_detail.jsp
+    // 이메일 인증 처리 (POST 요청)
+    @PostMapping("/email_verification")
+    public String processEmailVerification(@RequestParam String email, Model model) {
+        // 이메일 인증 로직
+        // 이메일 확인 후 처리 등
+        return "redirect:/User/signup_detail"; // 이메일 인증 후 회원가입 페이지로 리다이렉트
     }
 
-    // 아이디 찾기 결과 페이지
+    // 아이디 찾기 결과 페이지 표시 (GET 요청)
     @GetMapping("/find_id")
-    public String showFindIdResultPage(HttpSession session, Model model) {
-//        String email = (String) session.getAttribute("userEmail");
-//        String userId = null;
-//
-//        if ("2420110173@gspace.kopo.ac.kr".equals(email)) {
-//            model.addAttribute("userName", "USER01");
-//            userId = "masche";
-//        } else {
-//            return "redirect:signup_detail"; // 회원가입 상세 페이지로 이동
-//        }
-//
-//        session.setAttribute("savedId", userId); // 아이디 저장
-//        model.addAttribute("userId", userId);
-        return "User/find_id"; // /WEB-INF/views/find_id.jsp
+    public String showFindIdPage() {
+        return "User/find_id";
     }
 
-    // 비밀번호 재설정 페이지
-    @GetMapping("/reset_pwd")
-    public String showResetPwdPage(HttpSession session, Model model) {
-        String savedId = (String) session.getAttribute("savedId");
-        if (savedId != null) {
-            model.addAttribute("savedId", savedId);
-        }
-        return "User/reset_pwd"; // /WEB-INF/views/reset_pwd.jsp
+    // 아이디 찾기 처리 (POST 요청)
+    @PostMapping("/find_id")
+    public String processFindId(@RequestParam String email, Model model) {
+        // 아이디 찾기 로직
+        // 이메일로 사용자 아이디 찾기 등
+        return "User/find_id_result"; // 찾은 아이디 결과 페이지로 이동
     }
-
-    // 회원가입 처리
-    @PostMapping("/processSignup")
-    public String processSignup(
-            @RequestParam("id") String id,
-            HttpSession session) {
-        session.setAttribute("savedId", id); // 가입된 아이디 저장
-        return "redirect:User/signin"; // 로그인 페이지로 리다이렉트
-    }
-
-    // 홈 페이지 (index.jsp로 설정)
+        // 홈 페이지 (index.jsp로 설정)
     @GetMapping("/index")
     public String showHomePage() {
         return "User/index"; // /WEB-INF/views/index.jsp
-    }
-
-    // 인테리어 페이지
-    @GetMapping("/interior")
-    public String showInteriorPage() {
-        return "User/interior"; // /WEB-INF/views/interior.jsp
     }
 }
