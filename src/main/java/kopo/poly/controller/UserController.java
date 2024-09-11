@@ -27,47 +27,48 @@ public class UserController {
     }
 
     // 이메일 인증 페이지로 이동
-    @PostMapping("/email_verification")
-    public String verifyEmail(
-            @RequestParam("id") String id,
-            @RequestParam("pwd") String pwd,
-            @RequestParam("source") String source,
-            HttpSession session) {
-        session.setAttribute("savedId", id); // 아이디 저장
-        session.setAttribute("source", source); // source 저장
-        return "redirect:/email_verification"; // 이메일 인증 페이지로 이동
-    }
+//    @PostMapping("/email_verification")
+//    public String verifyEmail(
+//            @RequestParam("id") String id,
+//            @RequestParam("pwd") String pwd,
+//            @RequestParam("source") String source,
+//            HttpSession session) {
+//        session.setAttribute("savedId", id); // 아이디 저장
+//        session.setAttribute("source", source); // source 저장
+//        return "redirect:User/email_verification"; // 이메일 인증 페이지로 이동
+//    }
 
     // 이메일 인증 페이지
     @GetMapping("/email_verification")
     public String showEmailVerificationPage() {
-        return "email_verification"; // /WEB-INF/views/email_verification.jsp
+        return "User/email_verification"; // /WEB-INF/views/email_verification.jsp
     }
 
     // 이메일 인증 처리
-    @PostMapping("/processEmail")
-    public String processEmail(
-            @RequestParam("email") String email,
-            HttpSession session) {
-        session.setAttribute("userEmail", email); // 이메일 저장
-        String source = (String) session.getAttribute("source");
-
-        switch (source) {
-            case "signup":
-                return "redirect:/signup_detail"; // 회원가입 상세 페이지로 이동
-            case "find_id":
-                return "redirect:/find_id"; // 아이디 찾기 결과 페이지로 이동
-            case "reset_pwd":
-                return "redirect:/reset_pwd"; // 비밀번호 재설정 페이지로 이동
-            default:
-                return "redirect:/index"; // 기본적으로 홈 페이지로 이동
-        }
-    }
+//    @PostMapping("/processEmail")
+//    public String processEmail(
+//            @RequestParam("email") String email,
+//            HttpSession session) {
+//        System.out.println("저장할 이메일: " + email);
+//        session.setAttribute("userEmail", email); // 이메일 저장
+//        String source = (String) session.getAttribute("source");
+//
+//        switch (source) {
+//            case "signup":
+//                return "redirect:User/signup_detail"; // 회원가입 상세 페이지로 이동
+//            case "find_id":
+//                return "redirect:User/find_id"; // 아이디 찾기 결과 페이지로 이동
+//            case "reset_pwd":
+//                return "redirect:User/reset_pwd"; // 비밀번호 재설정 페이지로 이동
+//            default:
+//                return "redirect:User/index"; // 기본적으로 홈 페이지로 이동
+//        }
+//    }
 
     // 회원가입 상세 페이지
     @GetMapping("/signup_detail")
     public String showSignupDetailPage() {
-        return "signup_detail"; // /WEB-INF/views/signup_detail.jsp
+        return "User/signup_detail"; // /WEB-INF/views/signup_detail.jsp
     }
 
     // 아이디 찾기 결과 페이지
@@ -80,12 +81,12 @@ public class UserController {
             model.addAttribute("userName", "USER01");
             userId = "masche";
         } else {
-            return "redirect:/signup_detail"; // 회원가입 상세 페이지로 이동
+            return "redirect:signup_detail"; // 회원가입 상세 페이지로 이동
         }
 
         session.setAttribute("savedId", userId); // 아이디 저장
         model.addAttribute("userId", userId);
-        return "find_id"; // /WEB-INF/views/find_id.jsp
+        return "User/find_id"; // /WEB-INF/views/find_id.jsp
     }
 
     // 비밀번호 재설정 페이지
@@ -95,7 +96,7 @@ public class UserController {
         if (savedId != null) {
             model.addAttribute("savedId", savedId);
         }
-        return "reset_pwd"; // /WEB-INF/views/reset_pwd.jsp
+        return "User/reset_pwd"; // /WEB-INF/views/reset_pwd.jsp
     }
 
     // 회원가입 처리
@@ -104,18 +105,18 @@ public class UserController {
             @RequestParam("id") String id,
             HttpSession session) {
         session.setAttribute("savedId", id); // 가입된 아이디 저장
-        return "redirect:/signin"; // 로그인 페이지로 리다이렉트
+        return "redirect:User/signin"; // 로그인 페이지로 리다이렉트
     }
 
     // 홈 페이지 (index.jsp로 설정)
     @GetMapping("/index")
     public String showHomePage() {
-        return "index"; // /WEB-INF/views/index.jsp
+        return "User/index"; // /WEB-INF/views/index.jsp
     }
 
     // 인테리어 페이지
     @GetMapping("/interior")
     public String showInteriorPage() {
-        return "interior"; // /WEB-INF/views/interior.jsp
+        return "User/interior"; // /WEB-INF/views/interior.jsp
     }
 }
