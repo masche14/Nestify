@@ -56,9 +56,9 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="index.jsp">홈</a>
+        <a href="index">홈</a>
         <a href="#">인테리어</a>
-        <a href="signin.jsp">로그인</a>
+        <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
     </div>
 </div>
 
