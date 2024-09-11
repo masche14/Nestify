@@ -64,7 +64,7 @@
 
 <div class="content">
     <div class="container">
-        <form id="emailVerificationForm">
+        <form action="User/email_verification" id="emailVerificationForm">
             <div class="form_box">
                 <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
                 <div class="input_box">

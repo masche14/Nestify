@@ -88,7 +88,7 @@
 </div>
 <div class="content">
     <div class="container">
-        <form id="signinForm">
+        <form action="User/signin" id="signinForm">
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
