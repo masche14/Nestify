@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +14,13 @@
     <title>로그인</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="<c:url value='/resources/static/css/userStyles.css'/>">
-    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
-    <script src="<c:url value='/resources/static/js/setReferrer.js'/>" defer></script>
+    <link rel="stylesheet" href="<c:url value='/css/userStyles.css'/>">
+    <script type="text/javascript" src="<c:url value='/js/jquery-3.6.0.min.js'/>"></script>
+    <script src="<c:url value='/js/setReferrer.js'/>" defer></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             const savedId = '<c:out value="${sessionScope.savedId}" />';
+
             if (savedId) {
                 document.getElementById('input_id').value = savedId;
             }

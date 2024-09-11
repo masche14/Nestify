@@ -23,7 +23,7 @@ public class UserController {
         if (savedId != null) {
             model.addAttribute("savedId", savedId);
         }
-        return "signin"; // /WEB-INF/views/signin.jsp
+        return "User/signin"; // 정확한 경로로 수정
     }
 
     // 이메일 인증 페이지로 이동
