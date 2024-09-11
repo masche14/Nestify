@@ -49,6 +49,7 @@
             });
         }
     </script>
+    //
 
 <%--    <script>--%>
 <%--        // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정--%>
