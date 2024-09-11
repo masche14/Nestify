@@ -39,11 +39,11 @@
 
             // DOM 요소에 사용자 이름과 ID를 표시
             if (userName) {
-                document.getElementById('nameDisplay').textContent = `${userName}`;
+                document.getElementById('nameDisplay').textContent = userName;
             }
 
             if (userId) {
-                document.getElementById('idDisplay').textContent = `${userId}`;
+                document.getElementById('idDisplay').textContent = userId;
             }
 
             // 로그인 페이지로 이동하는 함수

@@ -74,18 +74,18 @@ public class UserController {
     // 아이디 찾기 결과 페이지
     @GetMapping("/find_id")
     public String showFindIdResultPage(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("userEmail");
-        String userId = null;
-
-        if ("2420110173@gspace.kopo.ac.kr".equals(email)) {
-            model.addAttribute("userName", "USER01");
-            userId = "masche";
-        } else {
-            return "redirect:signup_detail"; // 회원가입 상세 페이지로 이동
-        }
-
-        session.setAttribute("savedId", userId); // 아이디 저장
-        model.addAttribute("userId", userId);
+//        String email = (String) session.getAttribute("userEmail");
+//        String userId = null;
+//
+//        if ("2420110173@gspace.kopo.ac.kr".equals(email)) {
+//            model.addAttribute("userName", "USER01");
+//            userId = "masche";
+//        } else {
+//            return "redirect:signup_detail"; // 회원가입 상세 페이지로 이동
+//        }
+//
+//        session.setAttribute("savedId", userId); // 아이디 저장
+//        model.addAttribute("userId", userId);
         return "User/find_id"; // /WEB-INF/views/find_id.jsp
     }
 

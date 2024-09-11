@@ -6,6 +6,7 @@
     <title>로그인</title>
     <link rel="stylesheet" href="/css/userStyles.css"/> <!-- CSS 경로 수정 -->
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <script src="/js/setReferrer.js" defer></script>
 <%--    <script type="text/javascript">--%>
 <%--        // HTML 로딩이 완료된 후 실행됨--%>
 <%--        $(document).ready(function () {--%>
