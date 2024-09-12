@@ -70,7 +70,7 @@
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
             // 첫 번째 스크립트: savedId가 있으면 input_id 요소에 값을 설정
-            if (userId && userId.trim() !== ""){
+            if (userId!=="null"){
                 document.getElementById('input_id').value = userId;
             } else {
                 document.getElementById('input_id').value = "";
