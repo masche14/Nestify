@@ -18,7 +18,15 @@ public class UserController {
 
     // 로그인 페이지 표시 (GET 요청)
     @GetMapping("/signin")
-    public String showSigninPage() {
+    public String showSigninPage(HttpSession session, Model model) {
+        String userId= (String) session.getAttribute("userId");
+
+        if (userId != null){
+            model.addAttribute("userId", userId);
+        } else {
+            model.addAttribute("userId", "");
+        }
+
         return "User/signin";
     }
 
@@ -128,6 +136,7 @@ public class UserController {
     // 아이디 찾기 처리 (POST 요청)
     @PostMapping("/find_id")
     public String processFindId(@RequestParam String findIdSource,HttpSession session,Model model) {
+        log.info("소스값:"+findIdSource);
         session.setAttribute("findIdSource", findIdSource);
 
         switch (findIdSource) {

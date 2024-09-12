@@ -51,7 +51,7 @@
 </div>
 <div class="content">
     <div class="container">
-        <form method="post" add="find_id" id="findIdForm">
+        <form method="post" action="find_id" id="findIdForm">
             <div class="form_box">
                 <div class="noti">
                     <div class="show_info" id="user_info">
@@ -63,6 +63,7 @@
                         <span>입니다.</span>
                     </div>
                     <div class="extra_top_margin input_box">
+                        <input type="hidden" name="findIdSource" id="findIdSource">
                         <button type="button" class="two_button" id="goToLogin" onclick="setSource('signin')">로그인 페이지</button>
                         <button type="button" class="two_button" id="goToResetPwd" onclick="setSource('reset_pwd')">비밀번호 재설정</button>
                     </div>
