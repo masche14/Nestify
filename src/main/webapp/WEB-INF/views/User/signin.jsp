@@ -58,8 +58,14 @@
 <%--            });--%>
 <%--        }--%>
 <%--    </script>--%>
+    <%
+        // 세션에서 userId 값을 가져옴
+        String userId = (String) session.getAttribute("userId");
+        // 가져온 후 세션에서 해당 값을 제거
+        session.removeAttribute("userId");
+    %>
     <script>
-        var userId = "<%= (String)request.getAttribute("userId") %>";
+        var userId = "<%= userId %>";
 
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {

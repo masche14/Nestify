@@ -45,7 +45,7 @@ public class UserController {
 
         if (id.equals(chk_id)) {
             if (pwd.equals(chk_pwd)) {
-                return "redirect:/index";
+                return "redirect:/User/index";
             } else {
                 model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
             }
