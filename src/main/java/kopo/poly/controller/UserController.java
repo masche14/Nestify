@@ -47,13 +47,13 @@ public class UserController {
             if (pwd.equals(chk_pwd)) {
                 return "redirect:/User/index";
             } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+                session.setAttribute("error", "비밀번호가 일치하지 않습니다.");
             }
         } else {
-            model.addAttribute("error", "아이디가 일치하지 않습니다.");
+            session.setAttribute("error", "존재하지 않는 아이디입니다.");
         }
 
-        return "User/siginin";
+        return "User/signin";
     }
 
     // 회원가입 페이지 표시 (GET 요청)
@@ -72,15 +72,15 @@ public class UserController {
 
     // 비밀번호 재설정 페이지 표시 (GET 요청)
     @GetMapping("/reset_pwd")
-    public String showResetPwdPage() {
+    public String showResetPwdPage(HttpSession session, Model model) {
         return "User/reset_pwd";
     }
 
     // 비밀번호 재설정 처리 (POST 요청)
     @PostMapping("/reset_pwd")
-    public String processResetPwd(@RequestParam String email, @RequestParam String newPassword, Model model) {
-        // 비밀번호 재설정 로직
-        // 데이터베이스에서 비밀번호 변경 등
+    public String processResetPwd(@RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, HttpSession session, Model model) {
+        log.info(id);
+        session.setAttribute("userId", id);
         return "redirect:/User/signin"; // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
     }
 
