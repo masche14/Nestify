@@ -84,9 +84,11 @@ public class UserController {
 
     // 이메일 인증 처리 (POST 요청)
     @PostMapping("/email_verification")
-    public String processEmailVerification(@RequestParam String email, @RequestParam String source, Model model) {
+    public String processEmailVerification(@RequestParam String email, @RequestParam String source, HttpSession session, Model model) {
         // 이메일 인증 로직
         // 이메일 확인 후 처리 등
+        log.info(email);
+        session.setAttribute("email", email);
         log.info(source);
 
         switch (source) {
@@ -103,16 +105,40 @@ public class UserController {
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)
     @GetMapping("/find_id")
-    public String showFindIdPage() {
+    public String showFindIdPage(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("email");
+
+        String chk_email = "2420110173@gspace.kopo.ac.kr";
+        String userName = "User01";
+        String userId = "masche";
+
+        if (email.equals(chk_email)) {
+            model.addAttribute("userName", userName);
+            model.addAttribute("userId", userId);
+            session.setAttribute("userEmail", email);
+            session.setAttribute("userId", userId);
+        } else {
+            // 이메일이 일치하지 않는 경우 빈 문자열을 명시적으로 전달
+            model.addAttribute("userName", "");
+            model.addAttribute("userId", "");
+        }
         return "User/find_id";
     }
 
     // 아이디 찾기 처리 (POST 요청)
     @PostMapping("/find_id")
-    public String processFindId(@RequestParam String email, Model model) {
-        // 아이디 찾기 로직
-        // 이메일로 사용자 아이디 찾기 등
-        return "User/find_id_result"; // 찾은 아이디 결과 페이지로 이동
+    public String processFindId(@RequestParam String findIdSource,HttpSession session,Model model) {
+        session.setAttribute("findIdSource", findIdSource);
+
+        switch (findIdSource) {
+            case "signin":
+                return "redirect:signin";
+            case "reset_pwd":
+                return "redirect:reset_pwd";
+            default:
+                return "redirect:find_id";
+        }
+         // 찾은 아이디 결과 페이지로 이동
     }
         // 홈 페이지 (index.jsp로 설정)
     @GetMapping("/index")

@@ -14,51 +14,24 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
+    <script src="/js/setSource.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script>
+        var userName = "<%= (String)request.getAttribute("userName") %>";
+        var userId = "<%= (String)request.getAttribute("userId") %>";
+
+        // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
-            // 세션 스토리지에서 이메일 정보를 가져오기
-            const email = sessionStorage.getItem('userEmail');
 
-            let userName, userId;
-
-            if (email === '2420110173@gspace.kopo.ac.kr') {
-                userName = 'USER01';
-                userId = 'masche';
+            if (userName && userName.trim() !== "") {
+                if (userId && userId.trim() !== "") {
+                    document.getElementById('nameDisplay').textContent = userName;
+                    document.getElementById('idDisplay').textContent = userId;
+                }
             } else {
-                alert("해당 이메일로 등록된 회원정보가 없습니다.");
-                window.location.href = "signup_detail";
-                return; // 이메일이 없으면 함수 종료
+                alert("해당 이메일로 가입된 계정이 존재하지 않습니다.");
+                window.location.href="signup_detail"
             }
-
-            // 세션 스토리지에서 이메일 정보를 삭제
-            sessionStorage.removeItem('userEmail');
-
-            // 세션 스토리지에 아이디 정보 저장
-            sessionStorage.setItem('savedId', userId);
-
-            // DOM 요소에 사용자 이름과 ID를 표시
-            if (userName) {
-                document.getElementById('nameDisplay').textContent = userName;
-            }
-
-            if (userId) {
-                document.getElementById('idDisplay').textContent = userId;
-            }
-
-            // 로그인 페이지로 이동하는 함수
-            function goToSignin() {
-                window.location.href = "signin";
-            }
-
-            // 비밀번호 찾기 페이지로 이동하는 함수
-            function goToResetPwd() {
-                window.location.href = "reset_pwd";
-            }
-
-            // 버튼에 이벤트 리스너 추가
-            document.getElementById('goToLogin').addEventListener('click', goToSignin);
-            document.getElementById('goToResetPwd').addEventListener('click', goToResetPwd);
         });
     </script>
 </head>
@@ -90,8 +63,8 @@
                         <span>입니다.</span>
                     </div>
                     <div class="extra_top_margin input_box">
-                        <button type="button" class="two_button" id="goToLogin">로그인 페이지</button>
-                        <button type="button" class="two_button" id="goToResetPwd">비밀번호 재설정</button>
+                        <button type="button" class="two_button" id="goToLogin" onclick="setSource('signin')">로그인 페이지</button>
+                        <button type="button" class="two_button" id="goToResetPwd" onclick="setSource('reset_pwd')">비밀번호 재설정</button>
                     </div>
                 </div>
             </div>
