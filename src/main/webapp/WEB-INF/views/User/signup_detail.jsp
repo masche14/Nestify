@@ -48,7 +48,7 @@
 
 <div class="content">
     <div class="container">
-        <form action="User/signup_detail" id="signupForm">
+        <form method="post" action="signup_detail" id="signupForm">
             <div class="form_box">
                 <label class="label_bold" for="input_name">이름 / NAME</label>
                 <div class="input_box">

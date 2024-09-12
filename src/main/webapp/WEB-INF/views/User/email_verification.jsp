@@ -18,31 +18,32 @@
     <script>
         // DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('nextButton').addEventListener('click', function() {
-                // 이메일 입력 값을 가져오기
-                const email = document.getElementById('input_email').value;
-
-                // 이메일이 비어있는지 확인
-                if (!email) {
-                    alert("이메일을 입력하세요.");
-                    return; // 이메일이 없으면 함수 종료
-                }
-
-                // 이메일 정보를 세션 스토리지에 저장
-                sessionStorage.setItem('userEmail', email);
-
-                // 세션 스토리지에서 source 값을 읽어옴
-                const source = sessionStorage.getItem('source');
-
-                // source 값에 따라 다른 페이지로 이동
-                if (source === 'signup') {
-                    window.location.href = "signup_detail"; // 회원가입 상세 페이지로 이동
-                } else if (source === 'find_id') {
-                    window.location.href = "find_id"; // 아이디 찾기 결과 페이지로 이동
-                } else if (source === 'reset_pwd') {
-                    window.location.href = "reset_pwd"; // 비밀번호 재설정 페이지로 이동
-                }
-            });
+            // document.getElementById('nextButton').addEventListener('click', function() {
+            //     // 이메일 입력 값을 가져오기
+            //     const email = document.getElementById('input_email').value;
+            //
+            //     // 이메일이 비어있는지 확인
+            //     if (!email) {
+            //         alert("이메일을 입력하세요.");
+            //         return; // 이메일이 없으면 함수 종료
+            //     }
+            //
+            //     // 이메일 정보를 세션 스토리지에 저장
+            //     sessionStorage.setItem('userEmail', email);
+            //
+            //     // 세션 스토리지에서 source 값을 읽어옴
+            //     const source = sessionStorage.getItem('source');
+            //
+            //     // source 값에 따라 다른 페이지로 이동
+            //     if (source === 'signup') {
+            //         window.location.href = "signup_detail"; // 회원가입 상세 페이지로 이동
+            //     } else if (source === 'find_id') {
+            //         window.location.href = "find_id"; // 아이디 찾기 결과 페이지로 이동
+            //     } else if (source === 'reset_pwd') {
+            //         window.location.href = "reset_pwd"; // 비밀번호 재설정 페이지로 이동
+            //     }
+            // });
+            document.getElementById('sourceField').value = sessionStorage.getItem('source');
         });
     </script>
 </head>
@@ -64,11 +65,12 @@
 
 <div class="content">
     <div class="container">
-        <form action="User/email_verification" id="emailVerificationForm">
+        <form method="post" action="email_verification" id="emailVerificationForm">
+            <input type="hidden" id="sourceField" name="source">
             <div class="form_box">
                 <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
                 <div class="input_box">
-                    <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요."    >
+                    <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." required>
                     <button type="button" class="side_btn">코드전송</button>
                 </div>
 
@@ -76,12 +78,12 @@
             <div class="form_box">
                 <label class="label_bold" for="email_confirm">인증코드 입력</label>
                 <div class="input_box">
-                    <input type="password" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력.">
+                    <input type="password" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력." required>
                     <button type="button" class="side_btn">인증확인</button>
                 </div>
             </div>
             <div class="button_login_wrap">
-                <button type="button" class="btn_next" id="nextButton">다음</button>
+                <button type="submit" class="btn_next" id="nextButton">다음</button>
             </div>
         </form>
     </div>

@@ -78,7 +78,7 @@
 </div>
 <div class="content">
     <div class="container">
-        <form add="User/find_id" id="findIdForm">
+        <form method="post" add="find_id" id="findIdForm">
             <div class="form_box">
                 <div class="noti">
                     <div class="show_info" id="user_info">

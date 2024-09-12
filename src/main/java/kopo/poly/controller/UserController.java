@@ -57,7 +57,7 @@ public class UserController {
     // 회원가입 처리 (POST 요청)
     @PostMapping("/signup_detail")
     public String processSignup(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
-        // 회원가입 처리 로직
+            // 회원가입 처리 로직
         // 데이터베이스에 사용자 정보 저장 등
         return "redirect:/User/signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
     }
@@ -84,10 +84,21 @@ public class UserController {
 
     // 이메일 인증 처리 (POST 요청)
     @PostMapping("/email_verification")
-    public String processEmailVerification(@RequestParam String email, Model model) {
+    public String processEmailVerification(@RequestParam String email, @RequestParam String source, Model model) {
         // 이메일 인증 로직
         // 이메일 확인 후 처리 등
-        return "redirect:/User/signup_detail"; // 이메일 인증 후 회원가입 페이지로 리다이렉트
+        log.info(source);
+
+        switch (source) {
+            case "signup":
+                return "redirect:signup_detail";
+            case "find_id":
+                return "redirect:find_id";
+            case "reset_pwd":
+                return "redirect:reset_pwd";
+            default:
+                return "redirect:email_verification";
+        }
     }
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)

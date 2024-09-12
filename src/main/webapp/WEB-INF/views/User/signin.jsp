@@ -100,13 +100,13 @@
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
-                    <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요.">
+                    <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
                 </div>
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
                 <div class="input_box">
-                    <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요.">
+                    <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
                 </div>
             </div>
             <div class="form_box">
@@ -114,7 +114,7 @@
                 <label for="auto_login">자동 로그인</label>
             </div>
             <div class="button_login_wrap">
-                <button type="button" class="btn_login" onclick="goToReferrer()">로그인</button>
+                <button type="submit" class="btn_login">로그인</button>
             </div>
             <div class="forgot_login">
                 <a href="email_verification" onclick="setSourceAndSubmit('signup')">회원가입</a>
