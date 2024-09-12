@@ -62,12 +62,63 @@ public class UserController {
         return "User/signup_detail";
     }
 
+    @PostMapping("/nickChk")
+    public String processNickChk(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
+        String chk_nickname="안응민";
+
+        session.setAttribute("userName", name);
+        session.setAttribute("userGender", gender);
+        session.setAttribute("userNickname", nickname);
+        session.setAttribute("userId", id);
+        session.setAttribute("userPwd", pwd);
+        session.setAttribute("userPwd2", pwd2);
+        session.setAttribute("userAgree", agree);
+
+        if (nickname.equals(chk_nickname)) {
+            session.setAttribute("chk_result","이미 존재하는 닉네임 입니다.");
+            return "redirect:signup_detail";
+        } else {
+            session.setAttribute("chk_result", "사용 가능한 닉네임 입니다.");
+            return "redirect:signup_detail";
+        }
+    }
+
+    @PostMapping("/idChk")
+    public String processIdChk(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
+        log.info("닉네임체크");
+        String chk_id="masche";
+
+        session.setAttribute("userName", name);
+        session.setAttribute("userGender", gender);
+        session.setAttribute("userNickname", nickname);
+        session.setAttribute("userId", id);
+        session.setAttribute("userPwd", pwd);
+        session.setAttribute("userPwd2", pwd2);
+        session.setAttribute("userAgree", agree);
+
+        if (nickname.equals(chk_id)) {
+            model.addAttribute("chk_result","이미 존재하는 아이디입니다.");
+            return "redirect:signup_detail";
+        } else {
+            model.addAttribute("chk_result", "사용 가능한 아이디입니다.");
+            return "redirect:signup_detail";
+        }
+    }
+
     // 회원가입 처리 (POST 요청)
     @PostMapping("/signup_detail")
-    public String processSignup(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
-            // 회원가입 처리 로직
+    public String processSignup(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
+        log.info("name :"+name);
+        log.info("gender :"+gender);
+        log.info("nickname :"+nickname);
+        log.info("id :"+id);
+        log.info("pwd :"+pwd);
+        log.info("pwd2 :"+pwd2);
+        log.info("agree :"+agree);
+        session.setAttribute("userId", id);
+        // 회원가입 처리 로직
         // 데이터베이스에 사용자 정보 저장 등
-        return "redirect:/User/signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
+        return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
     }
 
     // 비밀번호 재설정 페이지 표시 (GET 요청)
