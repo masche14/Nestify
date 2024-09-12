@@ -24,11 +24,28 @@ public class UserController {
 
     // 로그인 처리 (POST 요청)
     @PostMapping("/signin")
-    public String processSignin(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
+    public String processSignin(@RequestParam String id, @RequestParam String pwd, Model model, HttpSession session) {
         // 로그인 처리 로직
         // 사용자 인증, 세션 설정 등
-        session.setAttribute("username", username);
-        return "redirect:/home"; // 성공 시 리다이렉트
+//        session.setAttribute("userId", id);
+
+        log.info(id);
+        log.info(pwd);
+
+        String chk_id = "masche";
+        String chk_pwd = "1234";
+
+        if (id.equals(chk_id)) {
+            if (pwd.equals(chk_pwd)) {
+                return "redirect:/index";
+            } else {
+                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+            }
+        } else {
+            model.addAttribute("error", "아이디가 일치하지 않습니다.");
+        }
+
+        return "User/siginin";
     }
 
     // 회원가입 페이지 표시 (GET 요청)

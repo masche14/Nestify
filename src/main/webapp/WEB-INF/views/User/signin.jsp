@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link rel="stylesheet" href="/css/userStyles.css"/> <!-- CSS 경로 수정 -->
+<%--    <%--%>
+<%--        String error = (String) request.getAttribute("error");--%>
+<%--        if (error != null && !error.isEmpty()) {--%>
+<%--    %>--%>
+<%--    <p style="color: red;"><%= error %></p>--%>
+<%--    <%--%>
+<%--        }--%>
+<%--    %>--%>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/setReferrer.js" defer></script>
 <%--    <script type="text/javascript">--%>
@@ -88,7 +96,7 @@
 </div>
 <div class="content">
     <div class="container">
-        <form action="User/signin" id="signinForm">
+        <form method="post" action="signin" id="signinForm">
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">

@@ -6,6 +6,8 @@ function setReferrer() {
 }
 
 function goToReferrer() {
+    document.getElementById("signinForm").submit()
+
     const referrerUrl = sessionStorage.getItem('referrerUrl');
     if (referrerUrl) {
         window.location.href = referrerUrl;
