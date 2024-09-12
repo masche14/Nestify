@@ -72,6 +72,8 @@
             // 첫 번째 스크립트: savedId가 있으면 input_id 요소에 값을 설정
             if (userId && userId.trim() !== ""){
                 document.getElementById('input_id').value = userId;
+            } else {
+                document.getElementById('input_id').value = "";
             }
         });
 
