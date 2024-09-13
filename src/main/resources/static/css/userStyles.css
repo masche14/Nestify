@@ -139,6 +139,18 @@ input {
     font-size: 1rem; /* 16px -> 1rem */
 }
 
+label {
+    margin-left: 0.125rem;
+}
+
+.margin_left_4px{
+    margin-left: 0.125rem;
+}
+
+.margin_lef_zero {
+    margin-left:0 !important;
+}
+
 .label_bold {
     font-weight: 400;
 }

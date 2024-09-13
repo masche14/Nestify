@@ -48,11 +48,11 @@
             </div>
             <div class="form_box">
                 <div class="radio_box">
-                    <span>성별</span>
+                    <span class="margin_left_4px">성별</span>
                     <input type="radio" id="male" name="gender" value="남성" required>
-                    <label for="male">남성</label>
+                    <label class="margin_lef_zero" for="male">남성</label>
                     <input type="radio" id="female" name="gender" value="여성">
-                    <label for="female">여성</label>
+                    <label class="margin_lef_zero" for="female">여성</label>
                 </div>
             </div>
             <div class="form_box">
