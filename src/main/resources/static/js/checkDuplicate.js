@@ -3,13 +3,16 @@ function checkDuplicate(type) {
     // 입력된 값과 메시지를 표시할 요소를 가져옵니다.
     const value = document.getElementById(type).value;
     const messageElement = document.getElementById(type + 'Message');
-
-    // 요소가 제대로 선택되었는지 확인
-    console.log('선택된 메시지 요소:', messageElement);
-
-    if (!messageElement) {
-        console.error('해당 ID를 가진 요소를 찾을 수 없습니다:', type + 'Message');
-        return;
+    
+    if (!value.trim()) {
+        if (type === "input_nickname"){
+            alert('닉네임을 입력해주세요.');
+            return;
+        }
+        else if (type === "input_id") {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
     }
 
     fetch('check-duplicate', {
