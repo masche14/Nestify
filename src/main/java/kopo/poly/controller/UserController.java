@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor
 @Controller
@@ -62,12 +65,43 @@ public class UserController {
         return "User/signup_detail";
     }
 
+    // 중복확인
+    @PostMapping("/check-duplicate")
+    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value) {
+        Map<String, String> response = new HashMap<>();
+        boolean isDuplicate = false;
+
+        String EXISTING_NICKNAME = "abc";
+        String EXISTING_ID = "abc";
+
+        // 테스트용으로 특정 문자열과 비교
+        if ("nickname".equals(type)) {
+            // nickname 중복 확인
+            isDuplicate = EXISTING_NICKNAME.equals(value);
+        } else if ("id".equals(type)) {
+            // id 중복 확인
+            isDuplicate = EXISTING_ID.equals(value);
+        }
+
+        // 결과에 따라 메시지 설정
+        if (isDuplicate) {
+            response.put("message", type.equals("nickname") ? "닉네임이 이미 존재합니다." : "아이디가 이미 존재합니다.");
+        } else {
+            response.put("message", type.equals("nickname") ? "사용 가능한 닉네임입니다." : "사용 가능한 아이디입니다.");
+        }
+
+        return response;
+    }
+
     // 회원가입 처리 (POST 요청)
     @PostMapping("/signup_detail")
-    public String processSignup(@RequestParam String username, @RequestParam String password, @RequestParam String email, Model model) {
-            // 회원가입 처리 로직
+    public String processSignup(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, HttpSession session, Model model) {
+        // 회원가입 처리 로직
         // 데이터베이스에 사용자 정보 저장 등
-        return "redirect:/User/signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
+        log.info(gender);
+        session.setAttribute("userId", id);
+
+        return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
     }
 
     // 비밀번호 재설정 페이지 표시 (GET 요청)

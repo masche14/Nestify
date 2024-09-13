@@ -15,19 +15,10 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <script src="/js/checkDuplicate/js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 폼 제출 이벤트 리스너 추가
-            document.getElementById('signupForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // 기본 폼 제출 동작 막기
-
-                // 아이디 값을 세션 스토리지에 저장
-                const id = document.getElementById('input_id').value;
-                sessionStorage.setItem('savedId', id);
-
-                // 로그인 페이지로 이동
-                window.location.href = "signin";
-            });
         });
     </script>
 </head>
@@ -58,9 +49,9 @@
             <div class="form_box">
                 <div class="radio_box">
                     <span>성별</span>
-                    <input type="radio" id="male" name="gender" required>
+                    <input type="radio" id="male" name="gender" value="남성" required>
                     <label for="male">남성</label>
-                    <input type="radio" id="female" name="gender">
+                    <input type="radio" id="female" name="gender" value="여성">
                     <label for="female">여성</label>
                 </div>
             </div>
@@ -68,14 +59,14 @@
                 <label class="label_bold" for="input_nickname">닉네임 / NICKNAME</label>
                 <div class="input_box">
                     <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요."    >
-                    <button type="button" class="side_btn">중복확인</button>
+                    <button type="button" class="side_btn" onclick="checkDuplicate('input_nickname')">중복확인</button>
                 </div>
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
                     <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요."    >
-                    <button type="button" class="side_btn">중복확인</button>
+                    <button type="button" class="side_btn" onclick="checkDuplicate('input_id')">중복확인</button>
                 </div>
             </div>
             <div class="form_box">
