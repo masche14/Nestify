@@ -15,7 +15,7 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
-    <script src="/js/checkDuplicate/js" defer></script>
+    <script src="/js/checkDuplicate.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 폼 제출 이벤트 리스너 추가
@@ -61,6 +61,7 @@
                     <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요."    >
                     <button type="button" class="side_btn" onclick="checkDuplicate('input_nickname')">중복확인</button>
                 </div>
+                <p id="input_nicknameMessage"></p> <!-- 닉네임 중복 확인 결과 표시 -->
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
@@ -68,6 +69,7 @@
                     <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요."    >
                     <button type="button" class="side_btn" onclick="checkDuplicate('input_id')">중복확인</button>
                 </div>
+                <p id="input_idMessage"></p> <!-- 아이디 중복 확인 결과 표시 -->
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>

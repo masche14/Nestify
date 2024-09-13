@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +64,11 @@ public class UserController {
 
     // 중복확인
     @PostMapping("/check-duplicate")
+    @ResponseBody
     public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value) {
+        log.info("중복확인 실행");
+        log.info(type);
+        log.info(value);
         Map<String, String> response = new HashMap<>();
         boolean isDuplicate = false;
 
@@ -75,20 +76,31 @@ public class UserController {
         String EXISTING_ID = "abc";
 
         // 테스트용으로 특정 문자열과 비교
-        if ("nickname".equals(type)) {
+        if ("input_nickname".equals(type)) {
             // nickname 중복 확인
             isDuplicate = EXISTING_NICKNAME.equals(value);
-        } else if ("id".equals(type)) {
+            log.info(String.valueOf(isDuplicate));
+        } else if ("input_id".equals(type)) {
             // id 중복 확인
             isDuplicate = EXISTING_ID.equals(value);
+            log.info(String.valueOf(isDuplicate));
         }
 
         // 결과에 따라 메시지 설정
         if (isDuplicate) {
-            response.put("message", type.equals("nickname") ? "닉네임이 이미 존재합니다." : "아이디가 이미 존재합니다.");
+            if ("input_nickname".equals(type)) {
+                response.put("message", "닉네임이 이미 존재합니다.");
+            } else if ("input_id".equals(type)) {
+                response.put("message", "아이디가 이미 존재합니다.");
+            }
         } else {
-            response.put("message", type.equals("nickname") ? "사용 가능한 닉네임입니다." : "사용 가능한 아이디입니다.");
+            if ("input_nickname".equals(type)) {
+                response.put("message", "사용 가능한 닉네임입니다.");
+            } else if ("input_id".equals(type)) {
+                response.put("message", "사용 가능한 아이디입니다.");
+            }
         }
+        log.info(response.toString());
 
         return response;
     }

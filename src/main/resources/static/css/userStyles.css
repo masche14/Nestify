@@ -223,3 +223,11 @@ a {
 .radio_box {
     padding: 0.3125rem 0; /* 5px 0px -> 0.3125rem 0 */
 }
+
+#nicknameMessage {
+    display: none; /* 처음에는 보이지 않게 설정 */
+}
+
+#idMessage {
+    display: none; /* 처음에는 보이지 않게 설정 */
+}
