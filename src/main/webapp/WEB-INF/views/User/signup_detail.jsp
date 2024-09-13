@@ -58,7 +58,7 @@
             <div class="form_box">
                 <label class="label_bold" for="input_nickname">닉네임 / NICKNAME</label>
                 <div class="input_box">
-                    <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요."    >
+                    <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요." required >
                     <button type="button" class="side_btn" onclick="checkDuplicate('input_nickname')">중복확인</button>
                 </div>
                 <p id="input_nicknameMessage"></p> <!-- 닉네임 중복 확인 결과 표시 -->

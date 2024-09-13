@@ -65,7 +65,7 @@ public class UserController {
     // 중복확인
     @PostMapping("/check-duplicate")
     @ResponseBody
-    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value) {
+    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value, HttpSession session, Model model) {
         log.info("중복확인 실행");
         log.info(type);
         log.info(value);
@@ -100,6 +100,16 @@ public class UserController {
                 response.put("message", "사용 가능한 아이디입니다.");
             }
         }
+
+        session.setAttribute(type+"_duplicate", isDuplicate);
+
+//        String test;
+//        if (!(Boolean) session.getAttribute("input_id_duplicate")&&!(Boolean) session.getAttribute("input_nickname_duplicate")) {
+//             test = "가입 가능";
+//        } else{test="가입 불가능";}
+//
+//        log.info(test);
+
         log.info(response.toString());
 
         return response;

@@ -1,7 +1,8 @@
 // 중복 확인 함수
 function checkDuplicate(type) {
     // 입력된 값과 메시지를 표시할 요소를 가져옵니다.
-    const value = document.getElementById(type).value;
+    const inputElement = document.getElementById(type);
+    const value = inputElement.value;
     const messageElement = document.getElementById(type + 'Message');
     
     if (!value.trim()) {
@@ -28,7 +29,12 @@ function checkDuplicate(type) {
             // 서버로부터 받은 메시지를 해당 HTML 요소에 표시합니다.
             messageElement.textContent = data.message;
             // 스타일을 적용하거나 추가적으로 처리할 수 있습니다.
-            messageElement.style.color = isDuplicateMessage(data.message) ? 'red' : 'green';
+            if (isDuplicateMessage(data.message)) {
+                messageElement.style.color = 'red';
+                inputElement.value = ''; // 중복일 경우 입력 필드 값 지우기
+            } else {
+                messageElement.style.color = 'green';
+            }
             messageElement.style.display = 'block'; // 메시지가 있을 때만 표시
         })
         .catch(error => {
