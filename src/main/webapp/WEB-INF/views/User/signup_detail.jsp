@@ -20,7 +20,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // JSP에서 세션 에러 메시지를 자바스크립트 변수에 직접 전달
             const error = "<%= (String)session.getAttribute("error") %>";
-            if (error && error.trim() !== "") {
+            if (error && error.trim() !== "null") {
                 alert(error); // 알림 표시
                 document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
             }
@@ -32,7 +32,7 @@
 
 <%
     // 에러 메시지를 출력한 후 세션에서 제거
-    if (session.getAttribute("error") != null) {
+    if (session.getAttribute("error") != "null") {
         session.removeAttribute("error");
     }
 %>
