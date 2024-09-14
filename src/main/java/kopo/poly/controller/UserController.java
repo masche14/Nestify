@@ -142,7 +142,7 @@ public class UserController {
     public String showSignupPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         String userEmail = (String) session.getAttribute("email");
 
-        String duplicatedEmail = "zskfnxh@naver.com";
+        String duplicatedEmail = "2420110173@gspace.kopo.ac.kr";
 
         if (userEmail.equals(duplicatedEmail)) {
             String alert = "해당 이메일로 가입된 계정이 이미 존재합니다.";

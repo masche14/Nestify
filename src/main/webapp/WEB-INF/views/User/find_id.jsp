@@ -17,8 +17,8 @@
     <script src="/js/setSource.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script>
-        var userName = "<%= (String)request.getAttribute("userName") %>";
-        var userId = "<%= (String)request.getAttribute("userId") %>";
+        const userName = "<%= (String)request.getAttribute("userName") %>";
+        const userId = "<%= (String)request.getAttribute("userId") %>";
 
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {

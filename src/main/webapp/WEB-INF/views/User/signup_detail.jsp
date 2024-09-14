@@ -16,13 +16,12 @@
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/checkDuplicate.js" defer></script>
-    <script> // 수정필요
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 세션에서 에러 메시지를 가져와 알림을 띄운 후 페이지를 이동
-            const error = "<%= session.getAttribute("error") != null ? session.getAttribute("error") : "" %>";
-            if (error) {
+            // JSP에서 세션 에러 메시지를 자바스크립트 변수에 직접 전달
+            const error = "<%= (String)session.getAttribute("error") %>";
+            if (error && error.trim() !== "") {
                 alert(error); // 알림 표시
-                session.removeAttribute("error"); // 에러 메시지 제거
                 document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
             }
         });
@@ -32,14 +31,14 @@
 <header></header>
 
 <%
-    // 에러 메시지를 확인한 후 세션에서 제거
+    // 에러 메시지를 출력한 후 세션에서 제거
     if (session.getAttribute("error") != null) {
         session.removeAttribute("error");
     }
 %>
 
 <!-- 리다이렉트 폼 -->
-<form id="redirectForm" action="/find_id" method="get" style="display: none;"></form>
+<form id="redirectForm" action="find_id" method="get" style="display: none;"></form>
 
 <!-- 네비게이션 바 -->
 <div class="navbar">
