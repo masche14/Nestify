@@ -16,14 +16,31 @@
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/checkDuplicate.js" defer></script>
-    <script>
+    <script> // 수정필요
         document.addEventListener('DOMContentLoaded', function() {
-            // 폼 제출 이벤트 리스너 추가
+            // 세션에서 에러 메시지를 가져와 알림을 띄운 후 페이지를 이동
+            const error = "<%= session.getAttribute("error") != null ? session.getAttribute("error") : "" %>";
+            if (error) {
+                alert(error); // 알림 표시
+                session.removeAttribute("error"); // 에러 메시지 제거
+                document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
+            }
         });
     </script>
 </head>
 <body>
 <header></header>
+
+<%
+    // 에러 메시지를 확인한 후 세션에서 제거
+    if (session.getAttribute("error") != null) {
+        session.removeAttribute("error");
+    }
+%>
+
+<!-- 리다이렉트 폼 -->
+<form id="redirectForm" action="/find_id" method="get" style="display: none;"></form>
+
 <!-- 네비게이션 바 -->
 <div class="navbar">
     <!-- 좌측 로고 -->
