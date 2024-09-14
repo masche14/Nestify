@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css"/> <!-- CSS 경로 수정 -->
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/setReferrer.js" defer></script>
@@ -74,7 +76,7 @@
             </div>
             <div class="form_box">
                 <input type="checkbox" class="auto_login_chk" id="auto_login" name="auto_login">
-                <label for="auto_login">자동 로그인</label>
+                <label class="margin_lef_zero" for="auto_login">자동 로그인</label>
             </div>
             <div class="button_login_wrap">
                 <button type="submit" class="btn_login">로그인</button>

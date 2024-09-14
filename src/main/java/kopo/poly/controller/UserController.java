@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,85 +58,60 @@ public class UserController {
     }
 
     // 회원가입 페이지 표시 (GET 요청)
-    @GetMapping("/signup_detail")
-    public String showSignupPage() {
-        return "User/signup_detail";
-    }
+    // 중복확인
 
-    @PostMapping("/nickChk")
-    public String processNickChk(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
-        String chk_nickname="안응민";
+    @PostMapping("/check-duplicate")
+    @ResponseBody
+    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value, HttpSession session, Model model) {
+        log.info("중복확인 실행");
+        log.info(type);
+        log.info(value);
+        Map<String, String> response = new HashMap<>();
+        boolean isDuplicate = false;
 
-        session.setAttribute("userName", name);
-        session.setAttribute("userGender", gender);
-        session.setAttribute("userNickname", nickname);
-        session.setAttribute("userId", id);
-        session.setAttribute("userPwd", pwd);
-        session.setAttribute("userPwd2", pwd2);
-        session.setAttribute("userAgree", agree);
+        String EXISTING_NICKNAME = "abc";
+        String EXISTING_ID = "abc";
 
-        if (nickname.equals(chk_nickname)) {
-            session.setAttribute("chk_result","이미 존재하는 닉네임 입니다.");
-            return "redirect:signup_detail";
-        } else {
-            session.setAttribute("chk_result", "사용 가능한 닉네임 입니다.");
-            return "redirect:signup_detail";
+        // 테스트용으로 특정 문자열과 비교
+        if ("input_nickname".equals(type)) {
+            // nickname 중복 확인
+            isDuplicate = EXISTING_NICKNAME.equals(value);
+            log.info(String.valueOf(isDuplicate));
+        } else if ("input_id".equals(type)) {
+            // id 중복 확인
+            isDuplicate = EXISTING_ID.equals(value);
+            log.info(String.valueOf(isDuplicate));
         }
-    }
 
-    @PostMapping("/idChk")
-    public String processIdChk(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
-        log.info("닉네임체크");
-        String chk_id="masche";
-
-        session.setAttribute("userName", name);
-        session.setAttribute("userGender", gender);
-        session.setAttribute("userNickname", nickname);
-        session.setAttribute("userId", id);
-        session.setAttribute("userPwd", pwd);
-        session.setAttribute("userPwd2", pwd2);
-        session.setAttribute("userAgree", agree);
-
-        if (nickname.equals(chk_id)) {
-            model.addAttribute("chk_result","이미 존재하는 아이디입니다.");
-            return "redirect:signup_detail";
+        // 결과에 따라 메시지 설정
+        if (isDuplicate) {
+            if ("input_nickname".equals(type)) {
+                response.put("message", "닉네임이 이미 존재합니다.");
+            } else if ("input_id".equals(type)) {
+                response.put("message", "아이디가 이미 존재합니다.");
+            }
         } else {
-            model.addAttribute("chk_result", "사용 가능한 아이디입니다.");
-            return "redirect:signup_detail";
+            if ("input_nickname".equals(type)) {
+                response.put("message", "사용 가능한 닉네임입니다.");
+            } else if ("input_id".equals(type)) {
+                response.put("message", "사용 가능한 아이디입니다.");
+            }
         }
+
+        session.setAttribute(type+"_duplicate", isDuplicate);
+
+//        String test;
+//        if (!(Boolean) session.getAttribute("input_id_duplicate")&&!(Boolean) session.getAttribute("input_nickname_duplicate")) {
+//             test = "가입 가능";
+//        } else{test="가입 불가능";}
+//
+//        log.info(test);
+
+        log.info(response.toString());
+
+        return response;
     }
 
-    // 회원가입 처리 (POST 요청)
-    @PostMapping("/signup_detail")
-    public String processSignup(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, @RequestParam String agree, HttpSession session, Model model) {
-        log.info("name :"+name);
-        log.info("gender :"+gender);
-        log.info("nickname :"+nickname);
-        log.info("id :"+id);
-        log.info("pwd :"+pwd);
-        log.info("pwd2 :"+pwd2);
-        log.info("agree :"+agree);
-        session.setAttribute("userId", id);
-        // 회원가입 처리 로직
-        // 데이터베이스에 사용자 정보 저장 등
-        return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
-    }
-
-    // 비밀번호 재설정 페이지 표시 (GET 요청)
-    @GetMapping("/reset_pwd")
-    public String showResetPwdPage(HttpSession session, Model model) {
-        return "User/reset_pwd";
-    }
-
-    // 비밀번호 재설정 처리 (POST 요청)
-    @PostMapping("/reset_pwd")
-    public String processResetPwd(@RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, HttpSession session, Model model) {
-        log.info(id);
-        session.setAttribute("userId", id);
-        return "redirect:/User/signin"; // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
-    }
-
-    // 이메일 인증 페이지 표시 (GET 요청)
     @GetMapping("/email_verification")
     public String showEmailVerificationPage() {
         return "User/email_verification";
@@ -160,6 +136,46 @@ public class UserController {
             default:
                 return "redirect:email_verification";
         }
+    }
+
+    @GetMapping("/signup_detail")
+    public String showSignupPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        String userEmail = (String) session.getAttribute("email");
+
+        String duplicatedEmail = "zskfnxh@naver.com";
+
+        if (userEmail.equals(duplicatedEmail)) {
+            String alert = "해당 이메일로 가입된 계정이 이미 존재합니다.";
+            session.setAttribute("error", alert);
+        }
+
+        return "User/signup_detail";
+    }
+    // 회원가입 처리 (POST 요청)
+
+    @PostMapping("/signup_detail")
+    public String processSignup(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, HttpSession session, Model model) {
+        // 회원가입 처리 로직
+        // 데이터베이스에 사용자 정보 저장 등
+        log.info(gender);
+        session.setAttribute("userId", id);
+
+        return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
+    }
+    // 비밀번호 재설정 페이지 표시 (GET 요청)
+    // 비밀번호 재설정 처리 (POST 요청)
+    // 이메일 인증 페이지 표시 (GET 요청)
+
+    @GetMapping("/reset_pwd")
+    public String showResetPwdPage(HttpSession session, Model model) {
+        return "User/reset_pwd";
+    }
+
+    @PostMapping("/reset_pwd")
+    public String processResetPwd(@RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, HttpSession session, Model model) {
+        log.info(id);
+        session.setAttribute("userId", id);
+        return "redirect:/User/signin"; // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
     }
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)

@@ -15,18 +15,32 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
-    <script src="/js/submitForm.js"></script>
-    <%
-        String chk_result = (String) session.getAttribute("chk_result");
-        session.removeAttribute("error");
-        // 세션에서 userId 값을 가져옴
-        String userId = (String) session.getAttribute("userId");
-        // 가져온 후 세션에서 해당 값을 제거
-        session.removeAttribute("userId");
-    %>
+    <script src="/js/checkDuplicate.js" defer></script>
+    <script> // 수정필요
+        document.addEventListener('DOMContentLoaded', function() {
+            // 세션에서 에러 메시지를 가져와 알림을 띄운 후 페이지를 이동
+            const error = "<%= session.getAttribute("error") != null ? session.getAttribute("error") : "" %>";
+            if (error) {
+                alert(error); // 알림 표시
+                session.removeAttribute("error"); // 에러 메시지 제거
+                document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
+            }
+        });
+    </script>
 </head>
 <body>
 <header></header>
+
+<%
+    // 에러 메시지를 확인한 후 세션에서 제거
+    if (session.getAttribute("error") != null) {
+        session.removeAttribute("error");
+    }
+%>
+
+<!-- 리다이렉트 폼 -->
+<form id="redirectForm" action="/find_id" method="get" style="display: none;"></form>
+
 <!-- 네비게이션 바 -->
 <div class="navbar">
     <!-- 좌측 로고 -->
@@ -51,26 +65,28 @@
             </div>
             <div class="form_box">
                 <div class="radio_box">
-                    <span>성별</span>
+                    <span class="margin_left_4px">성별</span>
                     <input type="radio" id="male" name="gender" value="남성" required>
-                    <label for="male">남성</label>
+                    <label class="margin_lef_zero" for="male">남성</label>
                     <input type="radio" id="female" name="gender" value="여성">
-                    <label for="female">여성</label>
+                    <label class="margin_lef_zero" for="female">여성</label>
                 </div>
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_nickname">닉네임 / NICKNAME</label>
                 <div class="input_box">
-                    <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요."    >
-                    <button type="button" class="side_btn" id="nickChk" onclick="submitForm('nickChk')">중복확인</button>
+                    <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요." required >
+                    <button type="button" class="side_btn" onclick="checkDuplicate('input_nickname')">중복확인</button>
                 </div>
+                <p id="input_nicknameMessage"></p> <!-- 닉네임 중복 확인 결과 표시 -->
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
                     <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요."    >
-                    <button type="button" class="side_btn" id="idChk" onclick="setSource('idChk')">중복확인</button>
+                    <button type="button" class="side_btn" onclick="checkDuplicate('input_id')">중복확인</button>
                 </div>
+                <p id="input_idMessage"></p> <!-- 아이디 중복 확인 결과 표시 -->
             </div>
             <div class="form_box">
                 <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
@@ -81,11 +97,11 @@
             <div class="form_box">
                 <label class="label_bold" for="chk_pwd">비밀번호 확인 / PASSWORD CHECK</label>
                 <div class="input_box">
-                    <input type="password" class="input_info" id="chk_pwd" name="pwd2" placeholder="비밀번호를 확인하세요." required>
+                    <input type="password" class="input_info" id="chk_pwd" name="chk_pwd" placeholder="비밀번호를 확인하세요." required>
                 </div>
             </div>
             <div class="form_box">
-                <input type="checkbox" class="auto_login_chk" id="confirm_terms" name="agree" required>
+                <input type="checkbox" class="auto_login_chk" id="confirm_terms" name="auto_login" required>
                 <label for="confirm_terms">이용약관에 동의</label>
             </div>
             <div class="button_login_wrap">
