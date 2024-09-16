@@ -14,6 +14,7 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
+    <script src="/js/getExists.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script>
         // DOM이 완전히 로드된 후에 실행되도록 설정
@@ -46,7 +47,7 @@
                 <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
                 <div class="input_box">
                     <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." required>
-                    <button type="button" id="send_code" class="side_btn">코드전송</button>
+                    <button type="button" id="send_code" class="side_btn" onclick="getEmailExists('input_email')">코드전송</button>
                 </div>
 
             </div>

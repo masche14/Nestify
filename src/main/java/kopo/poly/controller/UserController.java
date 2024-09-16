@@ -1,6 +1,11 @@
 package kopo.poly.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kopo.poly.dto.UserInfoDTO;
+import kopo.poly.service.IUserInfoService;
+import kopo.poly.util.CmmUtil;
+import kopo.poly.util.EncryptUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,12 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping(value = "/User")
 public class UserController {
+
+    private final IUserInfoService userInfoService;
 
     // 로그인 페이지 표시 (GET 요청)
     @GetMapping("/signin")
@@ -115,6 +123,21 @@ public class UserController {
     @GetMapping("/email_verification")
     public String showEmailVerificationPage() {
         return "User/email_verification";
+    }
+
+    @ResponseBody
+    @PostMapping(value="/getEmailExists")
+    public UserInfoDTO getEmailExists(HttpServletRequest request, HttpSession session) throws Exception {
+        log.info("이메일 전송");
+        String email = CmmUtil.nvl(request.getParameter("email"));
+        log.info("email : {}", email);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setUserEmail(EncryptUtil.encAES128CBC(email));
+
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
+        log.info("이메일 전송 완료");
+        return rDTO;
     }
 
     // 이메일 인증 처리 (POST 요청)
