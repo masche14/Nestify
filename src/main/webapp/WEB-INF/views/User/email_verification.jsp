@@ -56,7 +56,7 @@
                 <label class="label_bold" for="email_confirm">인증코드 입력</label>
                 <div class="input_box">
                     <input type="text" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력." required>
-                    <button type="button" id="check_code" class="side_btn">인증확인</button>
+                    <button type="button" id="check_code" class="side_btn" onclick="approveCode()">인증확인</button>
                 </div>
             </div>
             <div class="button_login_wrap">
