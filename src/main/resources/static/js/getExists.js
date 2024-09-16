@@ -6,9 +6,9 @@ function getEmailExists(type) {
     // const messageElement = document.getElementById(type + 'Message');
     // 폼 데이터를 가져와 FormData 객체로 생성
     const formData = new FormData(document.querySelector("#emailVerificationForm"));
-
-// FormData 객체를 JSON 형식으로 변환
     const jsonData = Object.fromEntries(formData.entries());
+    console.log(jsonData); // jsonData가 이메일 값을 포함하는지 확인
+
 
     if (!value.trim()) {
         alert("이메일을 입력해주세요");
@@ -27,6 +27,7 @@ function getEmailExists(type) {
         .then(json => {
             alert("이메일로 인증번호가 발송되었습니다. \n받은 메일의 인증번호를 입력하기 바랍니다.");
             const emailAuthNumber = json.authNumber;
+            console.log(emailAuthNumber);
         })
         .catch(error => {
             console.error('Error:', error);

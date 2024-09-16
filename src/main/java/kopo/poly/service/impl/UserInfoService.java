@@ -42,14 +42,14 @@ public class UserInfoService implements IUserInfoService {
         log.info("rDTO : {}", rDTO);
 
 
-        int authNumber = ThreadLocalRandom.current().nextInt(100000, 100000);
+        int authNumber = ThreadLocalRandom.current().nextInt(100000, 1000000);
 
         log.info("authNumber : {}", authNumber);
 
         MailDTO dto = new MailDTO();
 
         dto.setTitle("이메일 확인 인증번호 발송 메일");
-        dto.setContents("인증번호는" + authNumber + "입니다.");
+        dto.setContents("인증번호는 " + authNumber + " 입니다.");
         dto.setToMail(EncryptUtil.decAES128CBC(CmmUtil.nvl(pDTO.getUserEmail())));
 
         mailService.doSendMail(dto);

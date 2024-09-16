@@ -127,16 +127,19 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(value="/getEmailExists")
-    public UserInfoDTO getEmailExists(HttpServletRequest request, HttpSession session) throws Exception {
+    public UserInfoDTO getEmailExists(@RequestBody Map<String, String> requestData, HttpServletRequest request, HttpSession session) throws Exception {
         log.info("이메일 전송");
-        String email = CmmUtil.nvl(request.getParameter("email"));
+        String email = CmmUtil.nvl(requestData.get("email"));
         log.info("email : {}", email);
 
         UserInfoDTO pDTO = new UserInfoDTO();
         pDTO.setUserEmail(EncryptUtil.encAES128CBC(email));
 
+        log.info("pDTO : {}", pDTO);
+
         UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
         log.info("이메일 전송 완료");
+
         return rDTO;
     }
 
