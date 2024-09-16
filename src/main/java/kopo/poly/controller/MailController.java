@@ -59,7 +59,7 @@ public class MailController {
         } else {         // 메일 발송 실패
             msg = "메일 발송을 실패하였습니다.";
         }
-
+        //
         log.info(msg);
 
 // 결과 메시지 전달하기

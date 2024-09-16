@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MailDTO {
-
+//
     String toMail;
     String title;
     String contents;
