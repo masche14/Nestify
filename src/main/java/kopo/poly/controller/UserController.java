@@ -8,6 +8,7 @@ import kopo.poly.util.CmmUtil;
 import kopo.poly.util.EncryptUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -140,12 +141,14 @@ public class UserController {
         UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
         log.info("이메일 전송 완료");
 
+        session.setAttribute("emailResultDTO", rDTO);
+
         return rDTO;
     }
 
     // 이메일 인증 처리 (POST 요청)
     @PostMapping("/email_verification")
-    public String processEmailVerification(@RequestParam String email, @RequestParam String source, HttpSession session, Model model) {
+    public String processEmailVerification(@RequestParam String email, @RequestParam String source, HttpServletRequest request, HttpSession session, Model model) {
         // 이메일 인증 로직
         // 이메일 확인 후 처리 등
         log.info(email);
@@ -168,9 +171,9 @@ public class UserController {
     public String showSignupPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         String userEmail = (String) session.getAttribute("email");
 
-        String duplicatedEmail = "2420110173@gspace.kopo.ac.kr";
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
-        if (userEmail.equals(duplicatedEmail)) {
+        if (emailResultDTO.getExistsYn().equals("Y")) {
             String alert = "해당 이메일로 가입된 계정이 이미 존재합니다.";
             session.setAttribute("error", alert);
         }
