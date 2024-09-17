@@ -22,6 +22,7 @@
             IF(COUNT(USER_ID) > 0, 'Y', 'N') AS EXISTS_YN
             , USER_ID
             , USER_NAME
+            , USER_EMAIL
         FROM USER_INFO
         WHERE USER_EMAIL = #{userEmail}
     </select>

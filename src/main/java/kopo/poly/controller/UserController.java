@@ -149,7 +149,8 @@ public class UserController {
         log.info("이메일 전송 완료");
 
         session.setAttribute("emailResultDTO", rDTO);
-
+        UserInfoDTO testDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        log.info("test : {}",testDTO.getExistsYn());
         return rDTO;
     }
 
@@ -179,6 +180,8 @@ public class UserController {
         String userEmail = (String) session.getAttribute("email");
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+
+        log.info("test : {}",emailResultDTO.getExistsYn());
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
             String alert = "해당 이메일로 가입된 계정이 이미 존재합니다.";
@@ -243,7 +246,10 @@ public class UserController {
             dto.setMsg(msg);
         }
         session.setAttribute("signinResultDTO", dto);
-        return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
+
+        if (msg.equals("회원가입되었습니다."))
+            return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
+        else return "redirect:signup_detail";
     }
     // 비밀번호 재설정 페이지 표시 (GET 요청)
     // 비밀번호 재설정 처리 (POST 요청)
@@ -264,17 +270,13 @@ public class UserController {
     // 아이디 찾기 결과 페이지 표시 (GET 요청)
     @GetMapping("/find_id")
     public String showFindIdPage(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("email");
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
-        String chk_email = "2420110173@gspace.kopo.ac.kr";
-        String userName = "User01";
-        String userId = "masche";
-
-        if (email.equals(chk_email)) {
-            model.addAttribute("userName", userName);
-            model.addAttribute("userId", userId);
-            session.setAttribute("userEmail", email);
-            session.setAttribute("userId", userId);
+        if (emailResultDTO.getExistsYn().equals("Y")) {
+            model.addAttribute("userName", emailResultDTO.getUserName());
+            model.addAttribute("userId", emailResultDTO.getUserId());
+            session.setAttribute("userEmail", emailResultDTO.getUserEmail());
+            session.setAttribute("userId", emailResultDTO.getUserId());
         } else {
             // 이메일이 일치하지 않는 경우 빈 문자열을 명시적으로 전달
             model.addAttribute("userName", "");
