@@ -18,6 +18,7 @@ public class UserInfoDTO {
     private String regDt;
     private String chgId;
     private String chgDt;
+    private String gender;
 //    private String chgNick;
 //    private String chgNickDt;
     private String existsYn;

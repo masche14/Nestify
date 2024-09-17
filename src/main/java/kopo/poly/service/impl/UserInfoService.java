@@ -76,7 +76,28 @@ public class UserInfoService implements IUserInfoService {
 
             mDTO.setToMail(EncryptUtil.decAES128CBC(pDTO.getUserEmail()));
             mDTO.setTitle("회원가입을 축하드립니다.");
+
+            mDTO.setContents(CmmUtil.nvl(pDTO.getUserName())+"님의 회원가입을 진심으로 축하드립니다.");
+
+            mailService.doSendMail(mDTO);
+
+        } else {
+            res = 0;
         }
-        return 0;
+
+        log.info("{}.insertUserInfo End", this.getClass().getName());
+
+        return res;
+    }
+
+    @Override
+    public UserInfoDTO getUserNicknameExists(UserInfoDTO pDTO) throws Exception {
+        log.info("{}.getUserEmailExists Start!", this.getClass().getName());
+
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoMapper.getUserNicknameExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info("rDTO : {}", rDTO);
+
+        return rDTO;
     }
 }

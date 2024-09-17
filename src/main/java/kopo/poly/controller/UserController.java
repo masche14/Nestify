@@ -2,6 +2,7 @@ package kopo.poly.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kopo.poly.dto.MsgDTO;
 import kopo.poly.dto.UserInfoDTO;
 import kopo.poly.service.IUserInfoService;
 import kopo.poly.util.CmmUtil;
@@ -14,6 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -183,12 +190,59 @@ public class UserController {
     // 회원가입 처리 (POST 요청)
 
     @PostMapping("/signup_detail")
-    public String processSignup(@RequestParam String name, @RequestParam String gender, @RequestParam String nickname, @RequestParam String id, @RequestParam String pwd, HttpSession session, Model model) {
+    public String processSignup(HttpServletRequest request, HttpSession session, Model model) {
+        UserInfoDTO pDTO;
+        int res = 0;
+        String msg = "";
+        MsgDTO dto;
         // 회원가입 처리 로직
         // 데이터베이스에 사용자 정보 저장 등
-        log.info(gender);
-        session.setAttribute("userId", id);
+        try {
+            String userEmail = CmmUtil.nvl((String) session.getAttribute("email"));
+            String userName = CmmUtil.nvl(request.getParameter("name"));
+            String gender = CmmUtil.nvl(request.getParameter("gender"));
+            String userNickname = CmmUtil.nvl(request.getParameter("nickname"));
+            String userId = CmmUtil.nvl(request.getParameter("id"));
+            String password = CmmUtil.nvl(EncryptUtil.encHashSHA256(request.getParameter("pwd")));
 
+            log.info("userName : {}", userName);
+            log.info("gender : {}", gender);
+            log.info("userNickname : {}", userNickname);
+            log.info("userId : {}", userId);
+            log.info("password : {}", password);
+            log.info("userEmail : {}", userEmail);
+
+            pDTO = new UserInfoDTO();
+
+            pDTO.setUserEmail(EncryptUtil.encAES128CBC(userEmail));
+            pDTO.setUserName(userName);
+            pDTO.setGender(gender);
+            pDTO.setUserNickname(userNickname);
+            pDTO.setUserId(userId);
+            pDTO.setPassword(password);
+
+            res = userInfoService.insertUserInfo(pDTO);
+
+            log.info("회원가입 결과(res) : "+res);
+
+            if (res==1){
+                msg="회원가입되었습니다.";
+                session.setAttribute("userId", userId);
+            } else if (res==2){
+                msg="이미 가입된 아이디 입니다.";
+            } else {
+                msg="오류로 인해 회원가입이 실패하였습니다.";
+            }
+
+        } catch (Exception e) {
+            msg = "실패하였습니다. : " + e;
+            log.info(e.toString());
+        } finally {
+            dto = new MsgDTO();
+            dto.setResult(res);
+            dto.setMsg(msg);
+        }
+        session.setAttribute("signinResultDTO", dto);
         return "redirect:signin"; // 회원가입 성공 후 로그인 페이지로 리다이렉트
     }
     // 비밀번호 재설정 페이지 표시 (GET 요청)

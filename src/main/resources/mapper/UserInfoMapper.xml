@@ -9,10 +9,19 @@
         WHERE USER_ID = #{userId}
     </select>
 
+    <select id="getUserNicknameExists" parameterType="UserInfoDTO" resultType="UserInfoDTO">
+        SELECT
+            IF(COUNT(USER_NICKNAME) > 0, 'Y', 'N') AS EXISTS_YN
+        FROM USER_INFO
+        WHERE USER_NICKNAME = #{userNickname}
+    </select>
+
     <!-- 회원 가입 전 이메일 중복체크하기 -->
     <select id="getUserEmailExists" parameterType="UserInfoDTO" resultType="UserInfoDTO">
         SELECT
             IF(COUNT(USER_ID) > 0, 'Y', 'N') AS EXISTS_YN
+            , USER_ID
+            , USER_NAME
         FROM USER_INFO
         WHERE USER_EMAIL = #{userEmail}
     </select>
@@ -27,7 +36,8 @@
          REG_ID,
          REG_DT,
          CHG_ID,
-         CHG_DT
+         CHG_DT,
+         GENDER
         )
         VALUES (#{userId},
                 #{userName},
@@ -37,7 +47,8 @@
                 #{regId},
                 NOW(),
                 #{chgId},
-                NOW())
+                NOW(),
+                #{gender})
     </insert>
 
 
