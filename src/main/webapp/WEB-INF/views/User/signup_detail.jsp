@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/userStyles.css">
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/checkDuplicate.js" defer></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // JSP에서 세션 에러 메시지를 자바스크립트 변수에 직접 전달
@@ -74,7 +75,7 @@
             <div class="form_box">
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
-                    <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요."    >
+                    <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
                     <button type="button" class="side_btn" onclick="checkDuplicate('input_id')">중복확인</button>
                 </div>
                 <p id="input_idMessage"></p> <!-- 아이디 중복 확인 결과 표시 -->

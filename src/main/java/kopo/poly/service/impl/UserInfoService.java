@@ -100,4 +100,11 @@ public class UserInfoService implements IUserInfoService {
 
         return rDTO;
     }
+
+    @Override
+    public UserInfoDTO getLogin(UserInfoDTO pDTO) throws Exception {
+        log.info("{}.getLogin Start!", this.getClass().getName());
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoMapper.getLogin(pDTO)).orElseGet(UserInfoDTO::new);
+        return rDTO;
+    }
 }

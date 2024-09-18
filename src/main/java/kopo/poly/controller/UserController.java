@@ -52,25 +52,43 @@ public class UserController {
     public String processSignin(@RequestParam String id, @RequestParam String pwd, Model model, HttpSession session) {
         // 로그인 처리 로직
         // 사용자 인증, 세션 설정 등
-//        session.setAttribute("userId", id);
+        log.info("{}.loginPoc Start", this.getClass().getName());
 
-        log.info(id);
-        log.info(pwd);
+        int res = 0;
+        String msg = "";
+        MsgDTO dto;
+        UserInfoDTO pDTO;
+        try {
+            pDTO = new UserInfoDTO();
+            pDTO.setUserId(id);
+            pDTO.setPassword(EncryptUtil.encHashSHA256(pwd));
 
-        String chk_id = "masche";
-        String chk_pwd = "1234";
+            UserInfoDTO rDTO = userInfoService.getLogin(pDTO);
 
-        if (id.equals(chk_id)) {
-            if (pwd.equals(chk_pwd)) {
-                return "redirect:/User/index";
+            if (!CmmUtil.nvl(rDTO.getUserId()).isEmpty()) {
+                res = 1;
+
+                msg = "로그인에 성공하였습니다.";
+                session.setAttribute("SS_USER_ID", id);
+                session.setAttribute("SS_USER_NAME", rDTO.getUserName());
             } else {
-                session.setAttribute("error", "비밀번호가 일치하지 않습니다.");
+                msg = "아이디와 비밀번호가 올바르지 않습니다.";
             }
-        } else {
-            session.setAttribute("error", "존재하지 않는 아이디입니다.");
+        } catch (Exception e) {
+            msg = "시스템 문제로 로그인이 실패하였습니다.";
+            res = 2;
+            log.info(e.toString());
+        } finally {
+            log.info("{}.loginProc End", this.getClass().getName());
         }
 
-        return "User/signin";
+        session.setAttribute("msg", msg);
+
+        if (res == 1) {
+            return "redirect:/User/index";
+        } else {
+            return "redirect:/User/signin";
+        }
     }
 
     // 회원가입 페이지 표시 (GET 요청)
@@ -78,29 +96,32 @@ public class UserController {
 
     @PostMapping("/check-duplicate")
     @ResponseBody
-    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value, HttpSession session, Model model) {
+    public Map<String, String> checkDuplicate(@RequestParam("type") String type, @RequestParam("value") String value, HttpSession session, Model model) throws Exception {
         log.info("중복확인 실행");
         log.info(type);
         log.info(value);
         Map<String, String> response = new HashMap<>();
-        boolean isDuplicate = false;
-
-        String EXISTING_NICKNAME = "abc";
-        String EXISTING_ID = "abc";
+        String isDuplicate = "";
 
         // 테스트용으로 특정 문자열과 비교
         if ("input_nickname".equals(type)) {
             // nickname 중복 확인
-            isDuplicate = EXISTING_NICKNAME.equals(value);
-            log.info(String.valueOf(isDuplicate));
+            UserInfoDTO pDTO = new UserInfoDTO();
+            pDTO.setUserNickname(value);
+            UserInfoDTO rDTO = userInfoService.getUserNicknameExists(pDTO);
+            log.info("닉네임 중복여부 : {}",rDTO.getExistsYn());
+            isDuplicate = rDTO.getExistsYn();
         } else if ("input_id".equals(type)) {
+            UserInfoDTO pDTO = new UserInfoDTO();
+            pDTO.setUserId(value);
+            UserInfoDTO rDTO = userInfoService.getUserIdExists(pDTO);
             // id 중복 확인
-            isDuplicate = EXISTING_ID.equals(value);
-            log.info(String.valueOf(isDuplicate));
+            log.info("아이디 중복여부 : {}",rDTO.getExistsYn());
+            isDuplicate = rDTO.getExistsYn();;
         }
 
         // 결과에 따라 메시지 설정
-        if (isDuplicate) {
+        if (isDuplicate.equals("Y")) {
             if ("input_nickname".equals(type)) {
                 response.put("message", "닉네임이 이미 존재합니다.");
             } else if ("input_id".equals(type)) {

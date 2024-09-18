@@ -10,16 +10,18 @@
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/setReferrer.js" defer></script>
     <%
-        String error = (String) session.getAttribute("error");
-        session.removeAttribute("error");
         // 세션에서 userId 값을 가져옴
         String userId = (String) session.getAttribute("userId");
         // 가져온 후 세션에서 해당 값을 제거
         session.removeAttribute("userId");
+
+        String msg = (String) session.getAttribute("msg");
+        session.removeAttribute("msg");
+
     %>
     <script>
         var userId = "<%= userId %>";
-        var error = "<%= error %>"
+        var error = "<%= msg %>"
 
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
