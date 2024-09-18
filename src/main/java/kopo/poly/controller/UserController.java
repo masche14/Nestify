@@ -135,14 +135,11 @@ public class UserController {
             }
         }
 
-        session.setAttribute(type+"_duplicate", isDuplicate);
-
-//        String test;
-//        if (!(Boolean) session.getAttribute("input_id_duplicate")&&!(Boolean) session.getAttribute("input_nickname_duplicate")) {
-//             test = "가입 가능";
-//        } else{test="가입 불가능";}
-//
-//        log.info(test);
+        if (type.equals("input_id")){
+            session.setAttribute("idResult", isDuplicate);
+        } else if (type.equals("input_nickname")){
+            session.setAttribute("nickResult", isDuplicate);
+        }
 
         log.info(response.toString());
 
@@ -215,6 +212,14 @@ public class UserController {
 
     @PostMapping("/signup_detail")
     public String processSignup(HttpServletRequest request, HttpSession session, Model model) {
+//        String idResult = (String) session.getAttribute("idResult");
+//        String nickResult = (String) session.getAttribute("nickResult");
+//
+//        if (!idResult.equals("N")||!nickResult.equals("N")) {
+//            session.setAttribute("dupResult","아이디 혹은 닉네임 중복 여부를 확인하세요.");
+//            return "redirect:signup_detail";
+//        }
+
         UserInfoDTO pDTO;
         int res = 0;
         String msg = "";

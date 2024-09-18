@@ -24,9 +24,24 @@
             if (error && error.trim() !== "null") {
                 alert(error); // 알림 표시
                 document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
+                return; // 에러가 있으면 이후 코드 실행 안 함
             }
+            // 폼 제출 전 확인하는 함수
+            function validateForm(event) {
+                if (!idChecked || !nicknameChecked) {
+                    event.preventDefault();  // 폼 제출을 막음
+                    alert("아이디와 닉네임 중복 여부를 확인해주세요.");
+                    return false;
+                }
+                // 중복 확인이 완료되었으면 폼을 제출
+                return true;
+            }
+
+            // 회원가입 버튼 클릭 시 validateForm 실행
+            document.getElementById('goToLogin').addEventListener('click', validateForm);
         });
     </script>
+
 </head>
 <body>
 <header></header>
@@ -76,7 +91,7 @@
                 <label class="label_bold" for="input_id">아이디 / ID</label>
                 <div class="input_box">
                     <input type="text" class="send_code input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
-                    <button type="button" class="side_btn" onclick="checkDuplicate('input_id')">중복확인</button>
+                    <button type="button" class="side_btn" id="id_check" onclick="checkDuplicate('input_id')">중복확인</button>
                 </div>
                 <p id="input_idMessage"></p> <!-- 아이디 중복 확인 결과 표시 -->
             </div>
@@ -84,7 +99,7 @@
                 <label class="label_bold" for="input_nickname">닉네임 / NICKNAME</label>
                 <div class="input_box">
                     <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요." required >
-                    <button type="button" class="side_btn" onclick="checkDuplicate('input_nickname')">중복확인</button>
+                    <button type="button" class="side_btn" id="nick_check" onclick="checkDuplicate('input_nickname')">중복확인</button>
                 </div>
                 <p id="input_nicknameMessage"></p> <!-- 닉네임 중복 확인 결과 표시 -->
             </div>
