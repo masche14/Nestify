@@ -325,7 +325,7 @@ public class UserController {
 
                 res = userInfoService.updateUserInfo(pDTO);
 
-                log.info("회원가입 결과(res) : "+res);
+                log.info("업데이트 결과(res) : "+res);
 
                 if (res==1){
                     msg="업데이트를 성공했습니다.";

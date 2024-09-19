@@ -40,6 +40,23 @@
             if (userId!=="null"){
                 document.getElementById('input_id').value = userId;
             }
+
+            // 폼 제출 전 확인하는 함수
+            function validateForm(event) {
+                // 중복 확인이 완료되었으면 폼을 제출
+                const pwd = document.getElementById("input_pwd").value;
+                const pwd2 = document.getElementById("chk_pwd").value;
+
+                if (pwd !== pwd2){
+                    event.preventDefault();
+                    alert("비밀번호와 비밀번호 확인에 입력된 값이\n일치하지 않습니다.");
+                    return false;
+                }
+                return true;
+            }
+
+            // 회원가입 버튼 클릭 시 validateForm 실행
+            document.getElementById('goToLogin').addEventListener('click', validateForm);
         });
     </script>
 </head>
