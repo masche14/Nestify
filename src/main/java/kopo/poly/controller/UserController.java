@@ -195,7 +195,6 @@ public class UserController {
 
     @GetMapping("/signup_detail")
     public String showSignupPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        String userEmail = (String) session.getAttribute("email");
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
@@ -212,13 +211,6 @@ public class UserController {
 
     @PostMapping("/signup_detail")
     public String processSignup(HttpServletRequest request, HttpSession session, Model model) {
-//        String idResult = (String) session.getAttribute("idResult");
-//        String nickResult = (String) session.getAttribute("nickResult");
-//
-//        if (!idResult.equals("N")||!nickResult.equals("N")) {
-//            session.setAttribute("dupResult","아이디 혹은 닉네임 중복 여부를 확인하세요.");
-//            return "redirect:signup_detail";
-//        }
 
         UserInfoDTO pDTO;
         int res = 0;
