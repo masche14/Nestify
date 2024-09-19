@@ -26,11 +26,13 @@
     <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
     <!-- 우측 메뉴 -->
-    <div class="menu">
-        <a href="index">홈</a>
-        <a href="#">인테리어</a>
-        <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
-    </div>
+        <div class="menu">
+            <a href="index">홈</a>
+            <a href="#">인테리어</a>
+            <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
+            <a href="#" >마이페이지</a>
+            <a href="#" >로그아웃</a>
+        </div>
 </div>
 
 

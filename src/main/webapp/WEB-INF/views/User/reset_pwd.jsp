@@ -1,4 +1,4 @@
-<%--
+<%@ page import="kopo.poly.dto.UserInfoDTO" %><%--
   Created by IntelliJ IDEA.
   User: data21
   Date: 2024-09-11
@@ -20,11 +20,22 @@
         String userId = (String) session.getAttribute("userId");
         // 가져온 후 세션에서 해당 값을 제거
         session.removeAttribute("userId");
+
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+
+        String exists = emailResultDTO.getExistsYn();
     %>
     <script>
         var userId = "<%= userId %>";
+        var exists = "<%= exists %>";
 
         document.addEventListener('DOMContentLoaded', function() {
+
+            if (exists === "N") {
+                alert("해당 이메일로 가입된 계정이 존재하지 않습니다.");
+                window.location.href="signup_detail"
+            }
+
             // 세션 스토리지에서 저장된 아이디를 가져오기
             if (userId!=="null"){
                 document.getElementById('input_id').value = userId;
