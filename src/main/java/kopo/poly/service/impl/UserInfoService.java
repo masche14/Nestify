@@ -10,6 +10,7 @@ import kopo.poly.util.EncryptUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -62,6 +63,7 @@ public class UserInfoService implements IUserInfoService {
         return rDTO;
     }
 
+    @Transactional
     @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
         log.info("{}.insertUserInfo", this.getClass().getName());

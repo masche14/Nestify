@@ -28,7 +28,7 @@
     </select>
 
     <select id="getLogin" parameterType="UserInfoDTO" resultType="UserInfoDTO">
-        SELECT  USER_ID, USER_NAME, USER_EMAIL
+        SELECT  USER_ID, USER_NAME, USER_EMAIL, USER_NICKNAME
         FROM USER_INFO
         WHERE USER_ID = #{userId}
             AND PASSWORD = #{password}
