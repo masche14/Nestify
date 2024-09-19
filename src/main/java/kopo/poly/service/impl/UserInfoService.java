@@ -109,4 +109,22 @@ public class UserInfoService implements IUserInfoService {
         UserInfoDTO rDTO = Optional.ofNullable(userInfoMapper.getLogin(pDTO)).orElseGet(UserInfoDTO::new);
         return rDTO;
     }
+
+    @Override
+    public int updateUserInfo(UserInfoDTO pDTO) throws Exception {
+        log.info("{}.updateUserInfo", this.getClass().getName());
+
+        int res;
+
+        int success = userInfoMapper.updateUserInfo(pDTO);
+
+        if (success > 0) {
+            res = 1;
+        } else {
+            res = 0;
+        }
+        log.info("{}.updateUserInfo End", this.getClass().getName());
+
+        return res;
+    }
 }

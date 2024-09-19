@@ -15,4 +15,6 @@ public interface IUserInfoMapper {
     UserInfoDTO getUserEmailExists(UserInfoDTO pDTO) throws Exception;
 
     UserInfoDTO getLogin(UserInfoDTO pDTO) throws Exception;
+
+    int updateUserInfo(UserInfoDTO pDTO) throws Exception;
 }

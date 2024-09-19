@@ -59,5 +59,25 @@
                 #{gender})
     </insert>
 
+    <update id="updateUserInfo" parameterType="UserInfoDTO">
+        UPDATE USER_INFO
+        <set>
+            <!-- 닉네임이 입력된 경우에만 업데이트 -->
+            <if test="userNickname != null and userNickname != ''">
+                USER_NICKNAME = #{userNickname},
+            </if>
+            <!-- 이메일이 입력된 경우에만 업데이트 -->
+            <if test="userEmail != null and userEmail != ''">
+                USER_EMAIL = #{userEmail},
+            </if>
+            <!-- 비밀번호가 입력된 경우에만 업데이트 -->
+            <if test="password != null and password != ''">
+                PASSWORD = #{password},
+            </if>
+        </set>
+        WHERE USER_ID = #{userId}
+    </update>
+
+
 
 </mapper>

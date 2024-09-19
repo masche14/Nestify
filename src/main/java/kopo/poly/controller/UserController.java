@@ -285,19 +285,67 @@ public class UserController {
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
-        String userId = emailResultDTO.getUserId();
-        log.info(userId);
+        String checkId = emailResultDTO.getUserId();
+        log.info(checkId);
 
-        if (userId.equals(id)) {
+        UserInfoDTO pDTO;
+
+        int res = 0;
+        String msg = "";
+        MsgDTO dto;
+        // 회원가입 처리 로직
+        // 데이터베이스에 사용자 정보 저장 등
+
+        if (checkId.equals(id)) {
             log.info("일치");
-            session.setAttribute("userId", id);
-            return "redirect:/User/signin";
-        }else{
-            log.info("불일치");
-            return "redirect:/User/reset_pwd";
-        }
 
-         // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
+            try {
+
+//                String userName = CmmUtil.nvl(request.getParameter("name"));
+//                String gender = CmmUtil.nvl(request.getParameter("gender"));
+//                String userNickname = CmmUtil.nvl(request.getParameter("nickname"));
+                String userId = CmmUtil.nvl(request.getParameter("id"));
+                String password = CmmUtil.nvl(EncryptUtil.encHashSHA256(request.getParameter("pwd")));
+
+//                log.info("userName : {}", userName);
+//                log.info("gender : {}", gender);
+//                log.info("userNickname : {}", userNickname);
+                log.info("userId : {}", userId);
+                log.info("password : {}", password);
+//                log.info("userEmail : {}", userEmail);
+
+                pDTO = new UserInfoDTO();
+
+//                pDTO.setUserEmail(EncryptUtil.encAES128CBC(userEmail));
+//                pDTO.setUserName(userName);
+//                pDTO.setGender(gender);
+//                pDTO.setUserNickname(userNickname);
+                pDTO.setUserId(userId);
+                pDTO.setPassword(password);
+
+                res = userInfoService.updateUserInfo(pDTO);
+
+                log.info("회원가입 결과(res) : "+res);
+
+                if (res==1){
+                    msg="업데이트를 성공했습니다.";
+                    session.setAttribute("userId", userId);
+                } else {
+                    msg="오류로 인해 업데이트를 실패하였습니다.";
+                }
+            } catch (Exception e) {
+                msg = "실패하였습니다. : " + e;
+                log.info(e.toString());
+            } finally {
+                dto = new MsgDTO();
+                dto.setResult(res);
+                dto.setMsg(msg);
+            }
+            session.setAttribute("signinResultDTO", dto);
+            return "redirect:/User/signin";
+
+        } else
+            return "redirect:/User/reset_pwd";
     }
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)
