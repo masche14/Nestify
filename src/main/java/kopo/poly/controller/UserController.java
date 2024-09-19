@@ -279,10 +279,25 @@ public class UserController {
     }
 
     @PostMapping("/reset_pwd")
-    public String processResetPwd(@RequestParam String id, @RequestParam String pwd, @RequestParam String pwd2, HttpSession session, Model model) {
+    public String processResetPwd(HttpServletRequest request, HttpSession session, Model model) {
+        String id = request.getParameter("id");
         log.info(id);
-        session.setAttribute("userId", id);
-        return "redirect:/User/signin"; // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
+
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+
+        String userId = emailResultDTO.getUserId();
+        log.info(userId);
+
+        if (userId.equals(id)) {
+            log.info("일치");
+            session.setAttribute("userId", id);
+            return "redirect:/User/signin";
+        }else{
+            log.info("불일치");
+            return "redirect:/User/reset_pwd";
+        }
+
+         // 비밀번호 재설정 후 로그인 페이지로 리다이렉트
     }
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)
