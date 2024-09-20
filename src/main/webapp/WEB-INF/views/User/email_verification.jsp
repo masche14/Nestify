@@ -19,8 +19,16 @@
     <script>
         // DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('sourceField').value = sessionStorage.getItem('source');
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
 
+            if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+                document.getElementById("loginNav").style.display = "none";
+            } else {
+                document.getElementById("myPageNav").style.display = "none";
+                document.getElementById("logoutNav").style.display = "none";
+            }
+
+            document.getElementById('sourceField').value = sessionStorage.getItem('source');
         });
     </script>
 </head>
@@ -37,6 +45,8 @@
         <a href="index">홈</a>
         <a href="#">인테리어</a>
         <a href="signin">로그인</a>
+        <a href="#" id="myPageNav" >마이페이지</a>
+        <a href="logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 

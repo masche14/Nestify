@@ -26,13 +26,24 @@
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
             if (error!=="null"){
-                alert(error);
+                if(error.includes("않습니다.")){
+                    alert(error);
+                }
             }
             // 첫 번째 스크립트: savedId가 있으면 input_id 요소에 값을 설정
             if (userId!=="null"){
                 document.getElementById('input_id').value = userId;
             } else {
                 document.getElementById('input_id').value = "";
+            }
+
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+
+            if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+                document.getElementById("loginNav").style.display = "none";
+            } else {
+                document.getElementById("myPageNav").style.display = "none";
+                document.getElementById("logoutNav").style.display = "none";
             }
         });
 
@@ -59,6 +70,8 @@
         <a href="index">홈</a>
         <a href="#">인테리어</a>
         <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
+        <a href="#" id="myPageNav" >마이페이지</a>
+        <a href="logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 <div class="content">

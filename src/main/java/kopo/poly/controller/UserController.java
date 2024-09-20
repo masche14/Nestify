@@ -33,9 +33,21 @@ public class UserController {
 
     private final IUserInfoService userInfoService;
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 무효화
+        return "redirect:/User/index";
+    }
+
     // 로그인 페이지 표시 (GET 요청)
     @GetMapping("/signin")
     public String showSigninPage(HttpSession session, Model model) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
+
         String userId= (String) session.getAttribute("userId");
 
         if (userId != null){
@@ -147,7 +159,7 @@ public class UserController {
     }
 
     @GetMapping("/email_verification")
-    public String showEmailVerificationPage() {
+    public String showEmailVerificationPage(HttpSession session) {
         return "User/email_verification";
     }
 

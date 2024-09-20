@@ -16,6 +16,18 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/setReferrer.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+           const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+
+           if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+               document.getElementById("loginNav").style.display = "none";
+           } else {
+               document.getElementById("myPageNav").style.display = "none";
+               document.getElementById("logoutNav").style.display = "none";
+           }
+        });
+    </script>
 </head>
 <body>
 
@@ -29,9 +41,9 @@
         <div class="menu">
             <a href="index">홈</a>
             <a href="#">인테리어</a>
-            <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
-            <a href="#" >마이페이지</a>
-            <a href="#" >로그아웃</a>
+            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+            <a href="#" id="myPageNav" >마이페이지</a>
+            <a href="logout" id="logoutNav">로그아웃</a>
         </div>
 </div>
 

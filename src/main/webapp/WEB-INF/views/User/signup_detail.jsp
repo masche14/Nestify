@@ -26,6 +26,16 @@
                 document.getElementById('redirectForm').submit(); // 폼을 통해 페이지 이동
                 return; // 에러가 있으면 이후 코드 실행 안 함
             }
+
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+
+            if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+                document.getElementById("loginNav").style.display = "none";
+            } else {
+                document.getElementById("myPageNav").style.display = "none";
+                document.getElementById("logoutNav").style.display = "none";
+            }
+
             // 폼 제출 전 확인하는 함수
             function validateForm(event) {
                 if (!idChecked || !nicknameChecked) {
@@ -74,6 +84,8 @@
         <a href="index">홈</a>
         <a href="#">인테리어</a>
         <a href="signin">로그인</a>
+        <a href="#" id="myPageNav" >마이페이지</a>
+        <a href="logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 

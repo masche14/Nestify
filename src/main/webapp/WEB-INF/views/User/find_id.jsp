@@ -32,6 +32,15 @@
                 alert("해당 이메일로 가입된 계정이 존재하지 않습니다.");
                 window.location.href="signup_detail"
             }
+
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+
+            if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+                document.getElementById("loginNav").style.display = "none";
+            } else {
+                document.getElementById("myPageNav").style.display = "none";
+                document.getElementById("logoutNav").style.display = "none";
+            }
         });
     </script>
 </head>
@@ -47,7 +56,10 @@
         <a href="index">홈</a>
         <a href="#">인테리어</a>
         <a href="signin">로그인</a>
+        <a href="#" id="myPageNav" >마이페이지</a>
+        <a href="logout" id="logoutNav">로그아웃</a>
     </div>
+
 </div>
 <div class="content">
     <div class="container">
