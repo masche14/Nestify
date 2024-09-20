@@ -160,6 +160,11 @@ public class UserController {
 
     @GetMapping("/email_verification")
     public String showEmailVerificationPage(HttpSession session) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
         return "User/email_verification";
     }
 
@@ -207,8 +212,16 @@ public class UserController {
 
     @GetMapping("/signup_detail")
     public String showSignupPage(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        if (emailResultDTO==null){
+            return "redirect:index";
+        }
 
         log.info("test : {}",emailResultDTO.getExistsYn());
 
@@ -287,6 +300,17 @@ public class UserController {
 
     @GetMapping("/reset_pwd")
     public String showResetPwdPage(HttpSession session, Model model) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
+
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        if (emailResultDTO==null){
+            return "redirect:index";
+        }
+
         return "User/reset_pwd";
     }
 
@@ -363,7 +387,16 @@ public class UserController {
     // 아이디 찾기 결과 페이지 표시 (GET 요청)
     @GetMapping("/find_id")
     public String showFindIdPage(HttpSession session, Model model) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
+
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        if (emailResultDTO==null){
+            return "redirect:index";
+        }
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
             model.addAttribute("userName", emailResultDTO.getUserName());
