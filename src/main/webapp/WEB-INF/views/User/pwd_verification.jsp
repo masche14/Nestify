@@ -30,10 +30,11 @@
 
             document.getElementById('sourceField').value = sessionStorage.getItem('source');
 
-            const error = "<%= (String) session.getAttribute("msg") %>"
+            const error = "<%= (String) session.getAttribute("msg") %>";
 
-            if (error) {
+            if (error && error.trim().length > 0) {
                 alert(error);
+                <% session.removeAttribute("msg"); %>
             }
         });
     </script>
