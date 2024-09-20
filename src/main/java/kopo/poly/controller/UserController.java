@@ -435,4 +435,59 @@ public class UserController {
     public String showHomePage() {
         return "User/index"; // /WEB-INF/views/index.jsp
     }
+
+    @GetMapping("/pwd_verification")
+    public String showPwdVerificationPage(HttpSession session){
+//        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+//
+//        if (SS_USER_ID != null){
+//            return "redirect:index";
+//        }
+//        
+        
+        return "User/pwd_verification";
+    }
+    
+    @PostMapping("/pwd_verification")
+    public String processPwdVerification(HttpServletRequest request, HttpSession session, Model model) {
+        log.info("{}.pwdVerification Start",this.getClass().getName());
+        int res = 0;
+        String msg = "";
+        MsgDTO dto;
+        UserInfoDTO pDTO;
+        
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+        
+        String pwd = request.getParameter("pwd");
+        try {
+            pDTO = new UserInfoDTO();
+            pDTO.setUserId(SS_USER_ID);
+            pDTO.setPassword(EncryptUtil.encHashSHA256(pwd));
+
+            UserInfoDTO rDTO = userInfoService.getLogin(pDTO);
+
+            if (!CmmUtil.nvl(rDTO.getUserId()).isEmpty()) {
+                res = 1;
+                msg = "비밀번호 인증에 성공하였습니다.";
+            } else {
+                msg = "비밀번호가 올바르지 않습니다.";
+            }
+        } catch (Exception e) {
+            msg = "시스템 문제로 인증이 실패하였습니다.";
+            res = 2;
+            log.info(e.toString());
+        } finally {
+            log.info("{}.pwdVerification End", this.getClass().getName());
+        }
+
+        log.info(msg);
+
+        session.setAttribute("msg", msg);
+
+        if (res == 1) {
+            return "redirect:/User/index";
+        } else {
+            return "redirect:/User/pwd_verification";
+        }
+    }
 }

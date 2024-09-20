@@ -110,6 +110,7 @@ public class UserInfoService implements IUserInfoService {
         return rDTO;
     }
 
+    @Transactional
     @Override
     public int updateUserInfo(UserInfoDTO pDTO) throws Exception {
         log.info("{}.updateUserInfo", this.getClass().getName());
