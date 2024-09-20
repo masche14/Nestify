@@ -380,8 +380,11 @@ public class UserController {
             session.setAttribute("signinResultDTO", dto);
             return "redirect:/User/signin";
 
-        } else
+        } else{
+            msg = "해당 이메일로 가입된 아이디가 아닙니다. 아이디를 다시 확인하세요.";
+            session.setAttribute("deferentId", msg);
             return "redirect:/User/reset_pwd";
+        }
     }
 
     // 아이디 찾기 결과 페이지 표시 (GET 요청)

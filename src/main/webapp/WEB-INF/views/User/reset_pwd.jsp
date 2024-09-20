@@ -41,6 +41,12 @@
                 document.getElementById('input_id').value = userId;
             }
 
+            const deferentId = "<%= (String) session.getAttribute("deferentId") %>"
+
+            if (deferentId && deferentId.trim() !== "null") {
+                alert(deferentId)
+            }
+
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
 
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
