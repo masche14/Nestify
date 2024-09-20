@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>이메일 인증</title>
+    <title>비밀번호 인증</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
@@ -29,6 +29,12 @@
             }
 
             document.getElementById('sourceField').value = sessionStorage.getItem('source');
+
+            const error = "<%= (String) session.getAttribute("msg") %>"
+
+            if (error) {
+                alert(error);
+            }
         });
     </script>
 </head>
@@ -44,8 +50,8 @@
     <div class="menu">
         <a href="index">홈</a>
         <a href="#">인테리어</a>
-        <a href="signin">로그인</a>
-        <a href="#" id="myPageNav" >마이페이지</a>
+        <a href="signin" id="loginNav">로그인</a>
+        <a href="pwd_verification" id="myPageNav" >마이페이지</a>
         <a href="logout" id="logoutNav">로그아웃</a>
     </div>
 </div>

@@ -87,7 +87,7 @@
     <div class="menu">
         <a href="index">홈</a>
         <a href="#">인테리어</a>
-        <a href="signin">로그인</a>
+        <a href="signin" id="loginNav">로그인</a>
         <a href="#" id="myPageNav" >마이페이지</a>
         <a href="logout" id="logoutNav">로그아웃</a>
     </div>

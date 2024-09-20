@@ -438,14 +438,13 @@ public class UserController {
 
     @GetMapping("/pwd_verification")
     public String showPwdVerificationPage(HttpSession session){
-//        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
-//
-//        if (SS_USER_ID != null){
-//            return "redirect:index";
-//        }
-//        
-        
-        return "User/pwd_verification";
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "User/pwd_verification";
+        } else {
+            return "redirect:index";
+        }
     }
     
     @PostMapping("/pwd_verification")
@@ -482,11 +481,11 @@ public class UserController {
 
         log.info(msg);
 
-        session.setAttribute("msg", msg);
-
         if (res == 1) {
+            session.removeAttribute("msg");
             return "redirect:/User/index";
         } else {
+            session.setAttribute("msg", msg);
             return "redirect:/User/pwd_verification";
         }
     }
