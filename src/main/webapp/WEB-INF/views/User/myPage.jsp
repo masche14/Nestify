@@ -97,22 +97,25 @@
 <div class="content">
   <div class="container myPage">
     <div class="info_wrap">
-      <div class="info_box">
-        <div><span>이름</span></div>
-        <div>
-          <span id="nameDisplay"></span>
+      <div class="img_box"></div>
+      <div class="info_box_container">
+        <div class="info_box">
+          <div><span>이름</span></div>
+          <div>
+            <span id="nameDisplay"></span>
+          </div>
         </div>
-      </div>
-      <div class="info_box">
-        <div><span>닉네임</span></div>
-        <div>
-          <span id="nicknameDisplay"></span>
+        <div class="info_box">
+          <div><span>닉네임</span></div>
+          <div>
+            <span id="nicknameDisplay"></span>
+          </div>
         </div>
-      </div>
-      <div class="info_box">
-        <div><span>이메일</span></div>
-        <div>
-          <span id="emailDisplay"></span>
+        <div class="info_box">
+          <div><span>이메일</span></div>
+          <div>
+            <span id="emailDisplay"></span>
+          </div>
         </div>
       </div>
     </div>
