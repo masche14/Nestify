@@ -1,5 +1,6 @@
-let emailAuthNumber;
-let approveResult;
+var emailAuthNumber;
+var approveResult;
+var nicknameChecked;
 
 // 중복 확인 함수
 function getEmailExists(type) {
@@ -57,7 +58,7 @@ function handleSubmit(event) {
     if (approveResult === "y") {
         document.getElementById('emailVerificationForm').submit();
     } else {
-        alert("인증 여부를 확인하세요.");
+        alert("이메일 인증 여부를 확인하세요.");
     }
 }
 

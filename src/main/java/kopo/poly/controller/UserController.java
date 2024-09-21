@@ -83,6 +83,8 @@ public class UserController {
                 msg = "로그인에 성공하였습니다.";
                 session.setAttribute("SS_USER_ID", id);
                 session.setAttribute("SS_USER_NAME", rDTO.getUserName());
+                session.setAttribute("SS_USER_NICKNAME", rDTO.getUserNickname());
+                session.setAttribute("SS_USER_EMAIL", rDTO.getUserEmail());
             } else {
                 msg = "아이디와 비밀번호가 올바르지 않습니다.";
             }
@@ -94,11 +96,10 @@ public class UserController {
             log.info("{}.loginProc End", this.getClass().getName());
         }
 
-        session.setAttribute("msg", msg);
-
         if (res == 1) {
             return "redirect:/User/index";
         } else {
+            session.setAttribute("msg", msg);
             return "redirect:/User/signin";
         }
     }
@@ -482,10 +483,21 @@ public class UserController {
         log.info(msg);
 
         if (res == 1) {
-            return "redirect:/User/index";
+            return "redirect:/User/myPage";
         } else {
             session.setAttribute("msg", msg);
             return "redirect:/User/pwd_verification";
         }
     }
+
+    @GetMapping("/myPage")
+    public String showMyPage(HttpSession session, Model model) {
+        return "User/myPage";
+    }
+
+    @PostMapping("/myPage")
+    public String processMyPage(HttpServletRequest request, HttpSession session, Model model) {
+        return "User/index";
+    }
+
 }

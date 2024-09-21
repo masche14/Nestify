@@ -243,3 +243,12 @@ a {
 #idMessage {
     display: none; /* 처음에는 보이지 않게 설정 */
 }
+
+.info_box {
+    width:100%;
+    height : 3.125rem;
+    /*margin-bottom: 0.625rem;*/
+    margin-bottom: 0.625rem;
+    padding-left: 0.3125rem;
+    /*gap: 0.3125rem*/
+}

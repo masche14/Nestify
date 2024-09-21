@@ -60,7 +60,6 @@
                     <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." required>
                     <button type="button" id="send_code" class="side_btn" onclick="getEmailExists('input_email')">코드전송</button>
                 </div>
-
             </div>
             <div class="form_box">
                 <label class="label_bold" for="email_confirm">인증코드 입력</label>
