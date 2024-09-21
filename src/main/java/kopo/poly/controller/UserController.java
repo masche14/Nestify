@@ -482,7 +482,6 @@ public class UserController {
         log.info(msg);
 
         if (res == 1) {
-            session.removeAttribute("msg");
             return "redirect:/User/index";
         } else {
             session.setAttribute("msg", msg);

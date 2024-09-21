@@ -28,14 +28,16 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
-            document.getElementById('sourceField').value = sessionStorage.getItem('source');
-
             const error = "<%= (String) session.getAttribute("msg") %>";
 
-            if (error && error.trim().length > 0) {
+            console.log(error);
+
+            if (error && error.trim() !== "null") {
                 alert(error);
                 <% session.removeAttribute("msg"); %>
             }
+
+            // document.getElementById('sourceField').value = sessionStorage.getItem('source');
         });
     </script>
 </head>
