@@ -580,6 +580,7 @@ public class UserController {
             if (res==1){
                 msg="업데이트를 성공했습니다.";
                 session.setAttribute("userId", userId);
+                session.removeAttribute("checkUserEmail");
             } else {
                 msg="오류로 인해 업데이트를 실패하였습니다.";
             }
