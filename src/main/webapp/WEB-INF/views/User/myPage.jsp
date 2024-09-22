@@ -107,7 +107,9 @@
 <div class="content">
   <div class="container myPage">
     <div class="info_wrap">
-      <div class="img_box"></div>
+      <div class="img_wrap">
+        <div class="img_box"></div>
+      </div>
       <div class="info_box_container">
         <div class="info_box">
           <div><span>이름</span></div>

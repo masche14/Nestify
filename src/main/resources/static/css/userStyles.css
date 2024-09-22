@@ -288,8 +288,13 @@ a {
     font-size: larger;
 }
 
-.img_box {
+.img_wrap {
     height: 50%;
+    padding: 0.625rem;
+}
+
+.img_box {
+    height: 100%;
     padding: 0.3125rem; /* 5px -> 0.3125rem */
     background-image: url("/myPageImg.webp");
     background-size: cover;
