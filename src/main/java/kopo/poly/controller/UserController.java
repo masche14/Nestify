@@ -186,7 +186,7 @@ public class UserController {
 
         session.setAttribute("emailResultDTO", rDTO);
         UserInfoDTO testDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
-        log.info("test : {}",testDTO.getExistsYn());
+        log.info("test : {}", testDTO.getExistsYn());
         return rDTO;
     }
 
@@ -291,9 +291,12 @@ public class UserController {
         }
         session.setAttribute("signinResultDTO", dto);
 
-        if (msg.equals("회원가입되었습니다."))
+        if (res==1){
             return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
-        else return "redirect:signup_detail";
+        }
+        else {
+            return "redirect:signup_detail";
+        }
     }
     // 비밀번호 재설정 페이지 표시 (GET 요청)
     // 비밀번호 재설정 처리 (POST 요청)
@@ -497,6 +500,80 @@ public class UserController {
 
     @PostMapping("/myPage")
     public String processMyPage(HttpServletRequest request, HttpSession session, Model model) {
+        UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        if (emailResultDTO!=null){
+            if(emailResultDTO.getExistsYn().equals("Y")){
+                String errorMsg = "이미 존재하는 이메일입니다.";
+                session.setAttribute("errorMsg", errorMsg);
+                session.removeAttribute("emailResultDTO");
+                return "redirect:/User/myPage";
+            }
+        }
+
+        UserInfoDTO pDTO;
+
+        int res = 0;
+        String msg = "";
+        MsgDTO dto;
+        // 회원가입 처리 로직
+        // 데이터베이스에 사용자 정보 저장 등
+
+        log.info("비밀번호 : {}",request.getParameter("pwd"));
+        log.info("이메일 : {}", request.getParameter("email"));
+
+        try {
+            String userNickname="";
+            String password="";
+            String userEmail="";
+
+            if (!request.getParameter("nickname").equals("")){
+                userNickname = CmmUtil.nvl(request.getParameter("nickname"));
+                session.setAttribute("SS_USER_NICKNAME", userNickname);
+            }
+
+            String userId = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
+
+            if (!request.getParameter("pwd").equals("")){
+                password = CmmUtil.nvl(EncryptUtil.encHashSHA256(request.getParameter("pwd")));
+            }
+
+            if (!request.getParameter("email").equals("")){
+                userEmail = CmmUtil.nvl(EncryptUtil.encAES128CBC(request.getParameter("email")));
+                session.setAttribute("SS_USER_EMAIL", userEmail);
+            }
+
+            log.info("userNickname : {}", userNickname);
+            log.info("userId : {}", userId);
+            log.info("password : {}", password);
+            log.info("userEmail : {}", userEmail);
+
+            pDTO = new UserInfoDTO();
+
+            pDTO.setUserEmail(userEmail);
+            pDTO.setUserNickname(userNickname);
+            pDTO.setUserId(userId);
+            pDTO.setPassword(password);
+
+            res = userInfoService.updateUserInfo(pDTO);
+
+            log.info("업데이트 결과(res) : "+res);
+
+            if (res==1){
+                msg="업데이트를 성공했습니다.";
+                session.setAttribute("userId", userId);
+            } else {
+                msg="오류로 인해 업데이트를 실패하였습니다.";
+            }
+        } catch (Exception e) {
+            msg = "실패하였습니다. : " + e;
+            log.info(e.toString());
+        } finally {
+            dto = new MsgDTO();
+            dto.setResult(res);
+            dto.setMsg(msg);
+        }
+        session.setAttribute("signinResultDTO", dto);
+
         return "User/index";
     }
 

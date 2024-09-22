@@ -2,18 +2,24 @@ var emailAuthNumber;
 var approveResult;
 var nicknameChecked;
 
-// 중복 확인 함수
 function getEmailExists(type) {
     const inputElement = document.getElementById(type);
     const value = inputElement.value;
-    const formData = new FormData(document.querySelector("#emailVerificationForm"));
-    const jsonData = Object.fromEntries(formData.entries());
-    console.log(jsonData);
 
     if (!value.trim()) {
         alert("이메일을 입력해주세요");
         return;
     }
+
+    if (!value.includes("@")) {
+        alert("이메일 형식이 올바르지 않습니다.");
+        return;
+    }
+
+    // 특정 div 내 input 값을 수집하여 json 데이터로 전송
+    const jsonData = {
+        email: value
+    };
 
     fetch('getEmailExists', {
         method: 'POST',

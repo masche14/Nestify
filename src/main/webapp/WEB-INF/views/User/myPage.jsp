@@ -29,14 +29,19 @@
       const SS_USER_NAME = "<%= (String) session.getAttribute("SS_USER_NAME") %>"
       const SS_USER_NICKNAME = "<%= (String) session.getAttribute("SS_USER_NICKNAME") %>"
       const SS_USER_EMAIL = "<%= EncryptUtil.decAES128CBC((String) session.getAttribute("SS_USER_EMAIL")) %>"
+      const errorMsg = "<%= (String) session.getAttribute("errorMsg") %>";
 
-      let approveResult = "n"
+      <% session.removeAttribute("errorMsg"); %>
 
       if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
         document.getElementById("loginNav").style.display = "none";
       } else {
         document.getElementById("myPageNav").style.display = "none";
         document.getElementById("logoutNav").style.display = "none";
+      }
+
+      if (errorMsg && errorMsg.trim() !== "null"){
+        alert(errorMsg)
       }
 
       document.getElementById("nameDisplay").textContent = SS_USER_NAME;
@@ -61,12 +66,17 @@
           alert("비밀번호와 비밀번호 확인에 입력된 값이\n일치하지 않습니다.");
           return false;
         }
-        return true;
 
-        if (approveResult !== "y") {
-          event.preventDefault()
-          alert("이메일 인증 여부를 확인해주세요.")
+        const emailInput = document.getElementById("input_email").value.trim();
+
+        // 이메일이 존재하고, approveResult가 'y'가 아닐 경우 경고창 표시
+        if (emailInput && approveResult !== 'y') {
+          event.preventDefault();
+          alert("이메일 인증을 완료해야 합니다.");
+          return false; // 이메일 인증이 완료되지 않았으므로 폼 제출을 막음
         }
+
+        // 모든 조건이 만족되었을 경우 폼 제출 허용
         return true;
       }
 
