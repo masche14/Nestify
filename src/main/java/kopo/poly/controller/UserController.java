@@ -175,6 +175,7 @@ public class UserController {
         log.info("이메일 전송");
         String email = CmmUtil.nvl(requestData.get("email"));
         log.info("email : {}", email);
+        session.setAttribute("checkUserEmail", email);
 
         UserInfoDTO pDTO = new UserInfoDTO();
         pDTO.setUserEmail(EncryptUtil.encAES128CBC(email));
@@ -183,6 +184,7 @@ public class UserController {
 
         UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserEmailExists(pDTO)).orElseGet(UserInfoDTO::new);
         log.info("이메일 전송 완료");
+
 
         session.setAttribute("emailResultDTO", rDTO);
         UserInfoDTO testDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
@@ -501,13 +503,29 @@ public class UserController {
     @PostMapping("/myPage")
     public String processMyPage(HttpServletRequest request, HttpSession session, Model model) {
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
+        String checkUserEmail= (String) session.getAttribute("checkUserEmail");
+
+        String errorMsg;
+
         if (emailResultDTO!=null){
+
+            log.info("checkEmail : "+checkUserEmail);
+
             if(emailResultDTO.getExistsYn().equals("Y")){
-                String errorMsg = "이미 존재하는 이메일입니다.";
+                errorMsg = "이미 존재하는 이메일입니다.";
+                log.info(errorMsg);
                 session.setAttribute("errorMsg", errorMsg);
                 session.removeAttribute("emailResultDTO");
                 return "redirect:/User/myPage";
+            } else if (!request.getParameter("email").equals(checkUserEmail)){
+                errorMsg = "이메일을 새로 입력하였습니다.\t이메일 인증을 다시 진행해주세요.";
+                log.info(errorMsg);
+                session.setAttribute("errorMsg", errorMsg);
+                return "redirect:/User/myPage";
             }
+
+
+
         }
 
         UserInfoDTO pDTO;
