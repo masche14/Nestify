@@ -517,14 +517,15 @@ public class UserController {
                 session.setAttribute("errorMsg", errorMsg);
                 session.removeAttribute("emailResultDTO");
                 return "redirect:/User/myPage";
-            } else if (!request.getParameter("email").equals(checkUserEmail)){
-                errorMsg = "이메일을 새로 입력하였습니다.\t이메일 인증을 다시 진행해주세요.";
-                log.info(errorMsg);
-                session.setAttribute("errorMsg", errorMsg);
-                return "redirect:/User/myPage";
+            } else if (checkUserEmail!=null){
+                if (!request.getParameter("email").equals(checkUserEmail)) {
+                    errorMsg = "이메일을 새로 입력하였습니다.\t이메일 인증을 다시 진행해주세요.";
+                    log.info(errorMsg);
+                    session.removeAttribute("checkUserEmail");
+                    session.setAttribute("errorMsg", errorMsg);
+                    return "redirect:/User/myPage";
+                }
             }
-
-
 
         }
 
