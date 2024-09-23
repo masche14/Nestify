@@ -57,6 +57,18 @@
             return false;
           }
         }
+
+        console.log(check_nick);
+
+        console.log(document.getElementById("input_nickname").value);
+
+        if (document.getElementById("input_nickname").value !== ""){
+          if (document.getElementById("input_nickname").value !== check_nick.trim()){
+            event.preventDefault();
+            alert("닉네임 중복확인을 다시 진행해주세요.")
+            return false;
+          }
+        }
         // 중복 확인이 완료되었으면 폼을 제출
         const pwd = document.getElementById("input_pwd").value;
         const pwd2 = document.getElementById("chk_pwd").value;
