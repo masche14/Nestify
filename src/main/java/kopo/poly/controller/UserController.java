@@ -505,6 +505,7 @@ public class UserController {
         log.info(msg);
 
         if (res == 1) {
+            session.setAttribute("pwdVerifyResult", "y");
             return "redirect:/User/myPage";
         } else {
             session.setAttribute("msg", msg);
@@ -514,6 +515,12 @@ public class UserController {
 
     @GetMapping("/myPage")
     public String showMyPage(HttpSession session, Model model) {
+        String pwdVerifyResult = (String) session.getAttribute("pwdVerifyResult");
+
+        if (pwdVerifyResult==null) {
+            return "redirect:/User/index";
+        }
+        session.removeAttribute("pwdVerifyResult");
         return "User/myPage";
     }
 
