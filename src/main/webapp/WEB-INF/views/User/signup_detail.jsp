@@ -43,6 +43,24 @@
                     alert("아이디와 닉네임 중복 여부를 확인해주세요.");
                     return false;
                 }
+
+                console.log(check_id);
+                console.log(check_nick);
+
+                console.log(document.getElementById("input_id").value);
+
+                if (document.getElementById("input_id").value !== check_id.trim()){
+                    event.preventDefault();
+                    alert("아이디 중복확인을 다시 진행해주세요.")
+                    return false;
+                }
+
+                if (document.getElementById("input_nickname").value !== check_nick.trim()){
+                    event.preventDefault();
+                    alert("닉네임 중복확인을 다시 진행해주세요.");
+                    return false;
+                }
+
                 // 중복 확인이 완료되었으면 폼을 제출
                 const pwd = document.getElementById("input_pwd").value;
                 const pwd2 = document.getElementById("chk_pwd").value;

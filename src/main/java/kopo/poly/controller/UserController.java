@@ -142,8 +142,12 @@ public class UserController {
             }
         } else {
             if ("input_nickname".equals(type)) {
+                response.put("checkNick", value);
+                log.info("체크 닉 : {}", (String) session.getAttribute("check_nick"));
                 response.put("message", "사용 가능한 닉네임입니다.");
             } else if ("input_id".equals(type)) {
+                response.put("checkId", value);
+                log.info("체크 아이디 : {}", (String) session.getAttribute("check_id"));
                 response.put("message", "사용 가능한 아이디입니다.");
             }
         }
@@ -200,6 +204,17 @@ public class UserController {
         log.info(email);
         session.setAttribute("email", email);
         log.info(source);
+
+        String checkUserEmail = (String) session.getAttribute("checkUserEmail");
+        String errorMsg;
+
+        if (!email.equals(checkUserEmail)) {
+            errorMsg = "이메일을 새로 입력하였습니다. 이메일 인증을 다시 진행해주세요.";
+            session.setAttribute("errorMsg", errorMsg);
+            return "redirect:email_verification";
+        }
+
+        session.removeAttribute("checkUserEmail");
 
         switch (source) {
             case "signup":
@@ -294,6 +309,8 @@ public class UserController {
         session.setAttribute("signinResultDTO", dto);
 
         if (res==1){
+            session.removeAttribute("check_id");
+            session.removeAttribute("check_nick");
             return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
         }
         else {

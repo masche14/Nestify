@@ -1,6 +1,8 @@
 // 중복 확인 상태를 저장할 변수 (전역으로 선언)
 var idChecked = false;
 var nicknameChecked = false;
+var check_id = "";
+var check_nick = "";
 
 // 중복 확인 함수
 function checkDuplicate(type) {
@@ -50,8 +52,10 @@ function checkDuplicate(type) {
                 messageElement.style.color = 'green';
                 // 중복 확인이 성공하면 확인 상태를 true로 설정
                 if (type === 'input_id') {
+                    check_id = data.checkId;
                     idChecked = true;
                 } else if (type === 'input_nickname') {
+                    check_nick=data.checkNick;
                     nicknameChecked = true;
                 }
             }
