@@ -536,7 +536,7 @@ public class UserController {
                 return "redirect:/User/myPage";
             } else if (checkUserEmail!=null){
                 if (!request.getParameter("email").equals(checkUserEmail)) {
-                    errorMsg = "이메일을 새로 입력하였습니다.\t이메일 인증을 다시 진행해주세요.";
+                    errorMsg = "이메일을 새로 입력하였습니다. 이메일 인증을 다시 진행해주세요.";
                     log.info(errorMsg);
                     session.removeAttribute("checkUserEmail");
                     session.setAttribute("errorMsg", errorMsg);
