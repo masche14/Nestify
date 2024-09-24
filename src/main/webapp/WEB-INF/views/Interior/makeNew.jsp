@@ -20,7 +20,7 @@
         .image-box {
             width: 300px;
             height: 300px;
-            border: 1.5px groove #aaa;
+            border: 1.5px groove #c5ccd2;
             display: flex;
             align-items: center;
             justify-content: center;
