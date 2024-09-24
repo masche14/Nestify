@@ -23,7 +23,7 @@
 
     <select id="getMailList" resultType="MailDTO">
         SELECT SEQ, TITLE, CONTENTS, TO_MAIL, FROM_MAIL,
-               TO_CHAR(SEND_DT, 'YYYY-MM-DD HH:mm') AS SEND_DT
+               TO_CHAR(SEND_DT, 'YYYY-MM-DD HH:MI:SS') AS SEND_DT
         FROM MAIL
         ORDER BY SEND_DT DESC
     </select>
