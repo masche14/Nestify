@@ -145,15 +145,6 @@
     </div>
     <div class="form_wrap">
       <form method="post" action="myPage" id="signupForm">
-        <%--      <div class="form_box">--%>
-        <%--        <div class="radio_box">--%>
-        <%--          <span class="margin_left_4px">성별</span>--%>
-        <%--          <input type="radio" id="male" name="gender" value="남성" required>--%>
-        <%--          <label class="margin_lef_zero" for="male">남성</label>--%>
-        <%--          <input type="radio" id="female" name="gender" value="여성">--%>
-        <%--          <label class="margin_lef_zero" for="female">여성</label>--%>
-        <%--        </div>--%>
-        <%--      </div>--%>
         <div class="form_box">
           <label class="label_bold" for="input_nickname">닉네임 변경 / CHG_NICKNAME</label>
           <div class="input_box">
