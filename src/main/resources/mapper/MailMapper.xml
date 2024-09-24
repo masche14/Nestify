@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- JAVA와 연결할 Mapper 파일 설정 -->
+<mapper namespace="kopo.poly.mapper.IMailMapper">
+    <insert id="insertMail" parameterType="MailDTO">
+        INSERT INTO MAIL
+        (SEQ,
+         TITLE,
+         CONTENTS,
+         TO_MAIL,
+         FROM_MAIL,
+         SEND_DT
+        )
+        VALUES (
+                (SELECT NVL(MAX(A.SEQ),0)+1 FROM MAIL A),
+                #{title},
+                #{contents},
+                #{toMail},
+                #{fromMail},
+                NOW()
+               )
+    </insert>
+
+    <select id="getMailList" resultType="MailDTO">
+        SELECT SEQ, TITLE, CONTENTS, TO_MAIL, FROM_MAIL,
+               TO_CHAR(SEND_DT, 'YYYY-MM-DD HH:mm') AS SEND_DT
+        FROM MAIL
+        ORDER BY SEND_DT DESC
+    </select>
+</mapper>

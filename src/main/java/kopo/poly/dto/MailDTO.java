@@ -9,8 +9,10 @@ import lombok.ToString;
 @ToString
 public class MailDTO {
 //
+    String seq;
     String toMail;
     String title;
     String contents;
-
+    String fromMail;
+    String sendDT;
 }

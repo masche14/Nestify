@@ -2,6 +2,7 @@ package kopo.poly.service.impl;
 
 import jakarta.mail.internet.MimeMessage;
 import kopo.poly.dto.MailDTO;
+import kopo.poly.mapper.IMailMapper;
 import kopo.poly.service.IMailService;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +12,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class MailService implements IMailService {
 
+    private final IMailMapper mailMapper;
     private final JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
@@ -54,9 +58,20 @@ public class MailService implements IMailService {
             messageHelper.setText(contents);       // 메일 내용
 
             mailSender.send(message);              // 메일 발송
+
         } catch (Exception e) {                    // 모든 에러 다 잡기
             res = 0;                               // 메일 발송이 실패했기 때문에 0으로 변경
             log.info("[ERROR] doSendMail : {}", e);
+        } finally {
+            log.info("insertMail Start");
+            pDTO.setFromMail(fromMail);
+            try{
+                mailMapper.insertMail(pDTO);
+            } catch (Exception e){
+                log.info("[ERROR] insertMail : {}", e);
+            } finally {
+                log.info("insertMail End");
+            }
         }
 
         // 로그 찍기 (추후 찍은 로그를 통해 이 함수 호출이 끝났는지 파악하기 용이하다.)
@@ -64,5 +79,12 @@ public class MailService implements IMailService {
 
         return res;
 
+    }
+
+    @Override
+    public List<MailDTO> getMailList() throws Exception {
+        log.info("{}.getMailList Start", this.getClass().getName());
+
+        return mailMapper.getMailList();
     }
 }

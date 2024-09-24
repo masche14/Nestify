@@ -1,6 +1,7 @@
 package kopo.poly.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kopo.poly.dto.MailDTO;
 import kopo.poly.dto.MsgDTO;
 import kopo.poly.service.impl.MailService;
@@ -8,10 +9,15 @@ import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequestMapping(value = "/mail")
@@ -73,6 +79,13 @@ public class MailController {
 
     }
 
-
+    @GetMapping(value = "/list")
+    public String showMailList(HttpSession session, ModelMap model) throws Exception{
+        log.info("{}.mailList Start", this.getClass().getName());
+        List<MailDTO> rList = Optional.ofNullable(mailService.getMailList()).orElseGet(ArrayList::new);
+        model.addAttribute("rList", rList);
+        log.info("{}.mailList End", this.getClass().getName());
+        return "/mail/list";
+    }
 
 }
