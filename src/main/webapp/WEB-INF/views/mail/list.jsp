@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/table.css"/>
 </head>
 <body>
-<h2>공지사항</h2>
+<h2>안응민</h2>
 <hr/>
 <br/>
 <div class="divTable minimalistBlack">
