@@ -26,7 +26,7 @@
             justify-content: center;
             cursor: pointer;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             border-radius: 10px;
         }
 
@@ -127,7 +127,7 @@
     <div class="menu">
         <a href="/User/index">홈</a>
         <a href="#">인테리어</a>
-        <a href="signin">로그인</a>
+        <a href="/User/signin">로그인</a>
         <a href="#" id="myPageNav" >마이페이지</a>
         <a href="logout" id="logoutNav">로그아웃</a>
     </div>
