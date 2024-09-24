@@ -115,6 +115,13 @@ div > form {
     margin-bottom: 0.3125rem; /* 5px -> 0.3125rem */
 }
 
+.form-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .input_box {
     display: flex;
     justify-content: space-evenly;
