@@ -89,7 +89,7 @@
         <input type="file" id="fileInput" name="image" class="file-input" accept="image/*">
 
         <div class="form-container">
-            <input type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
+            <input class="full" type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
             <button class="btn_generate" type="submit" id="submit">전송</button>
         </div>
     </form>
