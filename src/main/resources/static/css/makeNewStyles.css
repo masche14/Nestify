@@ -84,3 +84,6 @@
     width: auto;
 }
 
+.image-box p {
+    font-size: larger;
+}
