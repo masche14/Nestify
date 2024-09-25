@@ -1,5 +1,5 @@
 .image-box {
-    width: 400px;
+    width: 500px;
     height: 400px;
     border: 2px groove #c5ccd2;
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     border-radius: 10px;
 }
 
@@ -76,5 +76,11 @@
 }
 
 .head-line {
-    font-size: 1.7rem; /* xx-large 기본값: 약 2rem */
+    font-size: 2rem; /* xx-large 기본값: 약 2rem */
 }
+
+.form-center {
+    height: auto;
+    width: auto;
+}
+
