@@ -22,12 +22,6 @@ import java.io.InputStream;
 @RequestMapping(value = "/Interior")
 public class InteriorController {
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate(); // 세션 무효화
-        return "redirect:/User/index";
-    }
-
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
         String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));

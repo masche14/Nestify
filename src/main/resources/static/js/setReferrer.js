@@ -4,15 +4,3 @@ function setReferrer() {
 
     window.location.href = "signin";
 }
-
-// function goToReferrer() {
-//     document.getElementById("signinForm").submit()
-//
-//     const referrerUrl = sessionStorage.getItem('referrerUrl');
-//     if (referrerUrl) {
-//         window.location.href = referrerUrl;
-//     }
-//     // else {
-//     //     window.location.href = "/K_PaaS/index.html";
-//     // }
-// }

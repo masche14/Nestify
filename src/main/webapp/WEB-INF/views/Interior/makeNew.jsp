@@ -70,7 +70,7 @@
         <a href="#">인테리어</a>
         <a href="/User/signin" id="loginNav">로그인</a>
         <a href="#" id="myPageNav" >마이페이지</a>
-        <a href="logout" id="logoutNav">로그아웃</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
