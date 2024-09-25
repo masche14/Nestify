@@ -38,6 +38,7 @@
       } else {
         document.getElementById("myPageNav").style.display = "none";
         document.getElementById("logoutNav").style.display = "none";
+
       }
 
       if (errorMsg && errorMsg.trim() !== "null"){
