@@ -78,46 +78,48 @@
 </head>
 <body>
 <header></header>
+<div class="black">
 
-<!-- 네비게이션 바 -->
-<div class="navbar">
-    <!-- 좌측 로고 -->
-    <img src="/nestifyLogo.png" alt="Logo" class="logo">
+    <!-- 네비게이션 바 -->
+    <div class="navbar">
+        <!-- 좌측 로고 -->
+        <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-    <!-- 우측 메뉴 -->
-    <div class="menu">
-        <a href="index">홈</a>
-        <a href="#">인테리어</a>
-        <a href="signin" id="loginNav">로그인</a>
-        <a href="#" id="myPageNav" >마이페이지</a>
-        <a href="logout" id="logoutNav">로그아웃</a>
+        <!-- 우측 메뉴 -->
+        <div class="menu">
+            <a href="index">홈</a>
+            <a href="#">인테리어</a>
+            <a href="signin" id="loginNav">로그인</a>
+            <a href="#" id="myPageNav" >마이페이지</a>
+            <a href="logout" id="logoutNav">로그아웃</a>
+        </div>
     </div>
-</div>
-<div class="content">
-    <div class="container">
-        <form method="post" action="reset_pwd" id="resetPwdForm">
-            <div class="form_box">
-                <label class="label_bold" for="input_id">아이디 / ID</label>
-                <div class="input_box">
-                    <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
+    <div class="content">
+        <div class="container">
+            <form method="post" action="reset_pwd" id="resetPwdForm">
+                <div class="form_box">
+                    <label class="label_bold" for="input_id">아이디 / ID</label>
+                    <div class="input_box">
+                        <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
+                    </div>
                 </div>
-            </div>
-            <div class="form_box">
-                <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
-                <div class="input_box">
-                    <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                <div class="form_box">
+                    <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
+                    <div class="input_box">
+                        <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                    </div>
                 </div>
-            </div>
-            <div class="form_box">
-                <label class="label_bold" for="chk_pwd">비밀번호 확인 / PASSWORD CHECK</label>
-                <div class="input_box">
-                    <input type="password" class="input_info" id="chk_pwd" name="pwd2" placeholder="비밀번호를 확인하세요." required>
+                <div class="form_box">
+                    <label class="label_bold" for="chk_pwd">비밀번호 확인 / PASSWORD CHECK</label>
+                    <div class="input_box">
+                        <input type="password" class="input_info" id="chk_pwd" name="pwd2" placeholder="비밀번호를 확인하세요." required>
+                    </div>
                 </div>
-            </div>
-            <div class="button_login_wrap">
-                <button type="submit" class="btn_reset_pwd" id="goToLogin">비밀번호 재설정</button>
-            </div>
-        </form>
+                <div class="button_login_wrap">
+                    <button type="submit" class="btn_reset_pwd" id="goToLogin">비밀번호 재설정</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

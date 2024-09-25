@@ -61,50 +61,54 @@
 </head>
 <body>
 <header></header>
-<!-- 네비게이션 바 -->
-<div class="navbar">
-    <!-- 좌측 로고 -->
-    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-    <!-- 우측 메뉴 -->
-    <div class="menu">
-        <a href="index">홈</a>
-        <a href="#">인테리어</a>
-        <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
-        <a href="#" id="myPageNav" >마이페이지</a>
-        <a href="logout" id="logoutNav">로그아웃</a>
+<div class="black">
+
+    <!-- 네비게이션 바 -->
+    <div class="navbar">
+        <!-- 좌측 로고 -->
+        <img src="/nestifyLogo.png" alt="Logo" class="logo">
+
+        <!-- 우측 메뉴 -->
+        <div class="menu">
+            <a href="index">홈</a>
+            <a href="#">인테리어</a>
+            <a href="javascript:void(0);" onclick="setReferrer()">로그인</a>
+            <a href="#" id="myPageNav" >마이페이지</a>
+            <a href="logout" id="logoutNav">로그아웃</a>
+        </div>
     </div>
-</div>
-<div class="content">
-    <div class="container">
-        <form method="post" action="signin" id="signinForm">
-            <div class="form_box">
-                <label class="label_bold" for="input_id">아이디 / ID</label>
-                <div class="input_box">
-                    <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
+    <div class="content">
+        <div class="container">
+            <form method="post" action="signin" id="signinForm">
+                <div class="form_box">
+                    <label class="label_bold" for="input_id">아이디 / ID</label>
+                    <div class="input_box">
+                        <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
+                    </div>
                 </div>
-            </div>
-            <div class="form_box">
-                <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
-                <div class="input_box">
-                    <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                <div class="form_box">
+                    <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
+                    <div class="input_box">
+                        <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                    </div>
                 </div>
-            </div>
-            <div class="form_box">
-                <input type="checkbox" class="auto_login_chk" id="auto_login" name="auto_login">
-                <label class="margin_lef_zero" for="auto_login">자동 로그인</label>
-            </div>
-            <div class="button_login_wrap">
-                <button type="submit" class="btn_login">로그인</button>
-            </div>
-            <div class="forgot_login">
-                <a href="email_verification" onclick="setSourceAndSubmit('signup')">회원가입</a>
-                <span> / </span>
-                <a href="email_verification" onclick="setSourceAndSubmit('find_id')">아이디 찾기</a>
-                <span> / </span>
-                <a href="email_verification" onclick="setSourceAndSubmit('reset_pwd')">비밀번호 재설정</a>
-            </div>
-        </form>
+                <div class="form_box">
+                    <input type="checkbox" class="auto_login_chk" id="auto_login" name="auto_login">
+                    <label class="margin_lef_zero" for="auto_login">자동 로그인</label>
+                </div>
+                <div class="button_login_wrap">
+                    <button type="submit" class="btn_login">로그인</button>
+                </div>
+                <div class="forgot_login">
+                    <a href="email_verification" onclick="setSourceAndSubmit('signup')">회원가입</a>
+                    <span> / </span>
+                    <a href="email_verification" onclick="setSourceAndSubmit('find_id')">아이디 찾기</a>
+                    <span> / </span>
+                    <a href="email_verification" onclick="setSourceAndSubmit('reset_pwd')">비밀번호 재설정</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <footer></footer>

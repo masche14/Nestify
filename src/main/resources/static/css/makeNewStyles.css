@@ -55,7 +55,7 @@
 /* 전송 버튼 스타일 */
 .form-container button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.5);
     color: white;
     border: none;
     cursor: pointer;
@@ -82,6 +82,7 @@
 
 .head-line {
     font-size: 2rem; /* xx-large 기본값: 약 2rem */
+    color : lavenderblush;
 }
 
 .form-center {

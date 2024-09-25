@@ -60,44 +60,47 @@
 </head>
 <body>
 <header></header>
+<div class="black">
 
-<!-- 네비게이션 바 -->
-<div class="navbar">
-    <!-- 좌측 로고 -->
-    <img src="/nestifyLogo.png" alt="Logo" class="logo">
+    <!-- 네비게이션 바 -->
+    <div class="navbar">
+        <!-- 좌측 로고 -->
+        <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-    <!-- 우측 메뉴 -->
-    <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="#">인테리어</a>
-        <a href="/User/signin" id="loginNav">로그인</a>
-        <a href="#" id="myPageNav" >마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <!-- 우측 메뉴 -->
+        <div class="menu">
+            <a href="/User/index">홈</a>
+            <a href="#">인테리어</a>
+            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+            <a href="/User/pwd_verification" id="myPageNav" >마이페이지</a>
+            <a href="/User/logout" id="logoutNav">로그아웃</a>
+        </div>
+    </div>
+
+
+    <div class="content set-min-width">
+        <div class="top">
+            <span class="head-line">방의 사진을 첨부하고</span>
+            <span class="head-line">원하는 인테리어 스타일을 입력하세요.</span>
+        </div>
+        <form action="upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
+            <div class="image-box" id="imageBox">
+                <p>이미지를 첨부하려면 클릭하세요</p>
+                <img id="previewImage" alt="Image Preview">
+            </div>
+
+            <!-- 파일 입력 필드에 별도의 스타일 적용 -->
+            <input type="file" id="fileInput" name="image" class="file-input" accept="image/*">
+
+            <div class="form-container">
+                <input class="full" type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
+                <button class="btn_generate" type="submit" id="submit">전송</button>
+            </div>
+        </form>
+        <div class="bottom"></div>
     </div>
 </div>
-
-<div class="content set-min-width">
-    <div class="top">
-        <span class="head-line">방의 사진을 첨부하고</span>
-        <span class="head-line">원하는 인테리어 스타일을 입력하세요.</span>
-    </div>
-    <form action="upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
-        <div class="image-box" id="imageBox">
-            <p>이미지를 첨부하려면 클릭하세요</p>
-            <img id="previewImage" alt="Image Preview">
-        </div>
-
-        <!-- 파일 입력 필드에 별도의 스타일 적용 -->
-        <input type="file" id="fileInput" name="image" class="file-input" accept="image/*">
-
-        <div class="form-container">
-            <input class="full" type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
-            <button class="btn_generate" type="submit" id="submit">전송</button>
-        </div>
-    </form>
-    <div class="bottom"></div>
-</div>
-
 <footer></footer>
+
 </body>
 </html>

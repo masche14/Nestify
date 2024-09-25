@@ -44,33 +44,35 @@
 </head>
 <body>
 <header></header>
+<div class="black">
 
-<!-- 네비게이션 바 -->
-<div class="navbar">
-    <!-- 좌측 로고 -->
-    <img src="/nestifyLogo.png" alt="Logo" class="logo">
+    <!-- 네비게이션 바 -->
+    <div class="navbar">
+        <!-- 좌측 로고 -->
+        <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-    <!-- 우측 메뉴 -->
-    <div class="menu">
-        <a href="index">홈</a>
-        <a href="#">인테리어</a>
-        <a href="signin" id="loginNav">로그인</a>
-        <a href="pwd_verification" id="myPageNav" >마이페이지</a>
-        <a href="logout" id="logoutNav">로그아웃</a>
+        <!-- 우측 메뉴 -->
+        <div class="menu">
+            <a href="index">홈</a>
+            <a href="#">인테리어</a>
+            <a href="signin" id="loginNav">로그인</a>
+            <a href="pwd_verification" id="myPageNav" >마이페이지</a>
+            <a href="logout" id="logoutNav">로그아웃</a>
+        </div>
     </div>
-</div>
 
-<div class="content">
-    <div class="container">
-        <form method="post" action="pwd_verification" id="pwdVerifyForm">
-            <div class="form_box">
-                <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
-                <div class="input_box">
-                    <input type="password" class="send_code input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
-                    <button type="submit" id="send_code" class="side_btn">인증하기</button>
+    <div class="content">
+        <div class="container">
+            <form method="post" action="pwd_verification" id="pwdVerifyForm">
+                <div class="form_box">
+                    <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
+                    <div class="input_box">
+                        <input type="password" class="send_code input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                        <button type="submit" id="send_code" class="side_btn">인증하기</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <footer></footer>
