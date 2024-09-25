@@ -33,6 +33,13 @@ public class UserController {
 
     private final IUserInfoService userInfoService;
 
+    @PostMapping("/setReferrer")
+    public String setReferrer(HttpSession session, HttpServletRequest request, Model model) {
+        log.info("referrer : {}", request.getHeader("referer"));
+        session.setAttribute("referrer", request.getHeader("referer"));
+        return "redirect:/User/signin";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 무효화
@@ -61,10 +68,14 @@ public class UserController {
 
     // 로그인 처리 (POST 요청)
     @PostMapping("/signin")
-    public String processSignin(@RequestParam String id, @RequestParam String pwd, Model model, HttpSession session) {
+    public String processSignin(@RequestParam String id, @RequestParam String pwd, Model model, HttpSession session, HttpServletRequest request) {
         // 로그인 처리 로직
         // 사용자 인증, 세션 설정 등
         log.info("{}.loginPoc Start", this.getClass().getName());
+        String referrer = (String) session.getAttribute("referrer");
+        String ref = referrer.replace("http://localhost:11000", "");
+
+        log.info("ref : {}", ref);
 
         int res = 0;
         String msg = "";
@@ -97,7 +108,12 @@ public class UserController {
         }
 
         if (res == 1) {
-            return "redirect:/User/index";
+            switch (ref){
+                case "/Interior/makeNew":
+                    return "redirect:/Interior/makeNew";
+                default:
+                    return "redirect:/User/index";
+            }
         } else {
             session.setAttribute("msg", msg);
             return "redirect:/User/signin";

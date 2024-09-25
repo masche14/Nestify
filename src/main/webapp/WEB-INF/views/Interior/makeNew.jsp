@@ -14,6 +14,7 @@
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
     <link rel="stylesheet" href="/css/makeNewStyles.css">
+    <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/attachImage.js" defer></script>
     <script>
@@ -23,7 +24,8 @@
 
             if (SS_USER_ID && SS_USER_ID.trim()==="null"){
                 alert("로그인 후 이용해주세요.");
-                window.location.href="/User/signin";
+                setReferrer();
+                // window.location.href="/User/signin";
             }
 
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {

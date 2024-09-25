@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/css/userStyles.css">
   <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
   <script src="/js/getExists.js" defer></script>
+  <script src="/js/setReferrer.js" defer></script>
   <script src="/js/checkDuplicate.js" defer></script>
 <%--  <%--%>
 <%--    String SS_USER_NAME = (String) session.getAttribute("SS_USER_NAME");--%>
