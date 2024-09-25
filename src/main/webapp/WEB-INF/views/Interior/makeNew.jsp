@@ -60,7 +60,7 @@
 
         <div class="form-container">
             <input type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
-            <button type="submit">전송</button>
+            <button class="btn_generate" type="submit">전송</button>
         </div>
     </form>
 <%--    <div class="bottom"></div>--%>

@@ -23,7 +23,7 @@
 }
 
 .content {
-    width: 30% !important;
+    width: 28% !important;
 }
 
 /* 프롬프트와 전송 버튼을 감싸는 박스 스타일 */
@@ -40,7 +40,8 @@
 /* 프롬프트 입력 필드 스타일 */
 .form-container input[type="text"] {
     padding: 10px;
-    font-size: 16px;
+    height: 45px;
+    font-size: 18px;
     flex: 1;
     border: 0;
     border-radius: 8px;
@@ -56,9 +57,12 @@
     font-size: 16px;
 }
 
-.form-container button:hover {
-    background-color: #0056b3;
-}
 .no-bottom-margin {
     margin-bottom: 0 !important;
+}
+
+.btn_generate {
+    height: 100%;
+    border-radius: 8px;
+    padding: 0;
 }
