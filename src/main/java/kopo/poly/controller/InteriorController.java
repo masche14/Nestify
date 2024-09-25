@@ -38,6 +38,7 @@ public class InteriorController {
     public String procUpload(HttpSession session, HttpServletRequest request) throws Exception {
         log.info("시작");
 
+        String prompt = request.getParameter("prompt");
         InputStream fileContent = request.getPart("image").getInputStream();  // "image"는 파일 input 필드의 name과 일치해야 함
         String fileName = request.getPart("image").getSubmittedFileName();
 
@@ -51,7 +52,7 @@ public class InteriorController {
                 IOUtils.copy(fileContent, out);  // Apache Commons IO 라이브러리를 사용하여 파일 복사
             }
 
-            log.info("프롬프트 내용 : {}", request.getParameter("prompt"));
+            log.info("프롬프트 내용 : {}", prompt);
 
             // 세션에 파일 이름 저장
             session.setAttribute("uploadedImage", fileName);

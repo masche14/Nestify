@@ -27,6 +27,27 @@
                 document.getElementById("myPageNav").style.display = "none";
                 document.getElementById("logoutNav").style.display = "none";
             }
+
+            function validateForm(event) {
+                const image = document.getElementById("fileInput").value;
+                const prompt = document.getElementById("promptInput").value;
+
+                if (!image) {
+                    event.preventDefault();
+                    alert("이미지를 첨부해주세요.")
+                    return false;
+                }
+
+                if(!prompt.trim()) {
+                    event.preventDefault();
+                    alert("원하는 인테리어 스타일을 입력해주세요.");
+                    return false;
+                }
+
+                return true;
+            }
+
+            document.getElementById("submit").addEventListener("click", validateForm)
         });
     </script>
 </head>
@@ -64,7 +85,7 @@
 
         <div class="form-container">
             <input type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
-            <button class="btn_generate" type="submit">전송</button>
+            <button class="btn_generate" type="submit" id="submit">전송</button>
         </div>
     </form>
     <div class="bottom"></div>
