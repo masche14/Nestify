@@ -21,6 +21,11 @@
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
             console.log(SS_USER_ID);
 
+            if (SS_USER_ID && SS_USER_ID.trim()==="null"){
+                alert("로그인 후 이용해주세요.");
+                window.location.href="/User/signin";
+            }
+
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
                 document.getElementById("loginNav").style.display = "none";
             } else {
