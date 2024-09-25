@@ -69,7 +69,7 @@
     </div>
 </div>
 
-<div class="content">
+<div class="content set-min-width">
     <div class="top">
         <span class="head-line">방의 사진을 첨부하고</span>
         <span class="head-line">원하는 인테리어 스타일을 입력하세요.</span>

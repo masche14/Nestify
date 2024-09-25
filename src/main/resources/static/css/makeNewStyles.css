@@ -91,3 +91,7 @@
 .image-box p {
     font-size: larger;
 }
+
+.set-min-width {
+    min-width: 500px;
+}
