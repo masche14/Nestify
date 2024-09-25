@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/userStyles.css">
     <script src="/js/getExists.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <script src="/js/attachImage.js" defer></script>
     <style>
         /* 이미지 박스 스타일 */
         .image-box {
@@ -89,29 +90,6 @@
                 document.getElementById("myPageNav").style.display = "none";
                 document.getElementById("logoutNav").style.display = "none";
             }
-
-            const imageBox = document.getElementById('imageBox');
-            const fileInput = document.getElementById('fileInput');
-            const previewImage = document.getElementById('previewImage');
-
-            // 이미지 박스를 클릭하면 파일 입력창을 연다
-            imageBox.addEventListener('click', () => {
-                fileInput.click();
-            });
-
-            // 파일이 선택되면 이미지 미리보기를 업데이트
-            fileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewImage.src = e.target.result;
-                        previewImage.style.display = 'block';
-                        imageBox.querySelector('p').style.display = 'none';
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
         });
     </script>
 </head>
