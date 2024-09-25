@@ -7,7 +7,7 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border-radius: 10px;
 }
 
@@ -65,4 +65,16 @@
     height: 100%;
     border-radius: 8px;
     padding: 0;
+}
+
+.top, .bottom {
+    height: 7.5rem; /* 120px -> 7.5rem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.head-line {
+    font-size: 1.7rem; /* xx-large 기본값: 약 2rem */
 }
