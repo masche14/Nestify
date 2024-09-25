@@ -16,70 +16,7 @@
     <script src="/js/getExists.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/attachImage.js" defer></script>
-    <style>
-        /* 이미지 박스 스타일 */
-        .image-box {
-            width: 300px;
-            height: 300px;
-            border: 1.5px groove #c5ccd2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-
-        .image-box img {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-        }
-
-        /* 파일 입력 스타일 */
-        .file-input {
-            display: none;
-        }
-
-        /* 프롬프트와 전송 버튼을 감싸는 박스 스타일 */
-        .form-container {
-            width: 100%;
-            padding: 5px;
-            background-color: #007bfb; /* 배경색 적용 */
-            display: flex;
-            /*gap: 5px;*/
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 10px;
-        }
-
-        /* 프롬프트 입력 필드 스타일 */
-        .form-container input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            flex: 1;
-            border: 0;
-            border-radius: 8px;
-        }
-
-        /* 전송 버튼 스타일 */
-        .form-container button {
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
-        .no-bottom-margin {
-            margin-bottom: 0 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/makeNew.css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"

@@ -1,0 +1,64 @@
+.image-box {
+    width: 400px;
+    height: 400px;
+    border: 2px groove #c5ccd2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    display: none;
+}
+
+/* 파일 입력 스타일 */
+.file-input {
+    display: none;
+}
+
+.content {
+    width: 30% !important;
+}
+
+/* 프롬프트와 전송 버튼을 감싸는 박스 스타일 */
+.form-container {
+    width: 100%;
+    padding: 5px;
+    background-color: #007bfb; /* 배경색 적용 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+/* 프롬프트 입력 필드 스타일 */
+.form-container input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    flex: 1;
+    border: 0;
+    border-radius: 8px;
+}
+
+/* 전송 버튼 스타일 */
+.form-container button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+.no-bottom-margin {
+    margin-bottom: 0 !important;
+}
