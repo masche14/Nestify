@@ -51,10 +51,12 @@ public class InteriorController {
                 IOUtils.copy(fileContent, out);  // Apache Commons IO 라이브러리를 사용하여 파일 복사
             }
 
+            log.info("프롬프트 내용 : {}", request.getParameter("prompt"));
+
             // 세션에 파일 이름 저장
             session.setAttribute("uploadedImage", fileName);
 
-            log.info(session.getAttribute("uploadedImage").toString());
+            log.info("사진 명 : {}", session.getAttribute("uploadedImage").toString());
 
             // 성공 후 리다이렉트
             return "redirect:/Interior/makeNew";
