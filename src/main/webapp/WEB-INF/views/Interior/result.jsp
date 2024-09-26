@@ -105,7 +105,7 @@
                 </div>
             </div>
             <div class="form_wrap">
-                <form method="post" action="myPage" id="signupForm">
+                <form method="post" action="myPage" id="signupForm" class="no-bottom-margin">
                     <div class="form_box">
                         <label class="label_bold" for="input_nickname">닉네임 변경 / CHG_NICKNAME</label>
                         <div class="input_box">

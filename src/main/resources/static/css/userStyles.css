@@ -333,8 +333,9 @@ a {
 .img-container {
     height: 100%;
     padding: 0.3125rem; /* 5px -> 0.3125rem */
-    /*background-size: cover;*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: center;*/
-    /*border-radius: 0.625rem;*/
+    background-image: url("/myPageImg.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 0.625rem;
 }
