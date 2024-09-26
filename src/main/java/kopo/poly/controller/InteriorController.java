@@ -39,7 +39,7 @@ public class InteriorController {
 
         if (fileContent != null) {
             // 파일을 저장할 경로 설정
-            String uploadDir = "src/main/resources/static/responseImg"; // 서버에서 파일을 저장할 실제 경로
+            String uploadDir = "src/main/resources/static/inputImg"; // 서버에서 파일을 저장할 실제 경로
 
             // 파일 저장
             File dest = new File(uploadDir + File.separator + fileName);
@@ -58,5 +58,10 @@ public class InteriorController {
             return "redirect:/Interior/makeNew";
         }
         return "redirect:/User/index";
+    }
+
+    @GetMapping("/result")
+    public  String showResult(HttpSession session){
+        return "/Interior/result";
     }
 }
