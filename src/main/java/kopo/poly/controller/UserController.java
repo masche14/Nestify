@@ -227,7 +227,7 @@ public class UserController {
         if (!email.equals(checkUserEmail)) {
             errorMsg = "이메일을 새로 입력하였습니다. 이메일 인증을 다시 진행해주세요.";
             session.setAttribute("errorMsg", errorMsg);
-            return "redirect:email_verification";
+            return "redirect:/User/email_verification";
         }
 
         session.removeAttribute("checkUserEmail");
@@ -536,7 +536,7 @@ public class UserController {
         if (pwdVerifyResult==null) {
             return "redirect:/User/index";
         }
-        session.removeAttribute("pwdVerifyResult");
+
         return "User/myPage";
     }
 
@@ -556,6 +556,7 @@ public class UserController {
                 log.info(errorMsg);
                 session.setAttribute("errorMsg", errorMsg);
                 session.removeAttribute("emailResultDTO");
+                log.info("test1");
                 return "redirect:/User/myPage";
             } else if (checkUserEmail!=null){
                 if (!request.getParameter("email").equals(checkUserEmail)) {
@@ -563,11 +564,12 @@ public class UserController {
                     log.info(errorMsg);
                     session.removeAttribute("checkUserEmail");
                     session.setAttribute("errorMsg", errorMsg);
+                    log.info("test2");
                     return "redirect:/User/myPage";
                 }
             }
-
         }
+        session.removeAttribute("pwdVerifyResult");
 
         UserInfoDTO pDTO;
 
@@ -621,6 +623,7 @@ public class UserController {
                 msg="업데이트를 성공했습니다.";
                 session.setAttribute("userId", userId);
                 session.removeAttribute("checkUserEmail");
+
             } else {
                 msg="오류로 인해 업데이트를 실패하였습니다.";
             }
@@ -634,7 +637,7 @@ public class UserController {
         }
         session.setAttribute("signinResultDTO", dto);
 
-        return "User/index";
+        return "/User/index";
     }
 
 }

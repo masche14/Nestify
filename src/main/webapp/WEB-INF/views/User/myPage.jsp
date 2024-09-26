@@ -1,5 +1,6 @@
 <%@ page import="kopo.poly.dto.UserInfoDTO" %>
-<%@ page import="kopo.poly.util.EncryptUtil" %><%--
+<%@ page import="kopo.poly.util.EncryptUtil" %>
+<%@ page import="kopo.poly.util.CmmUtil" %><%--
   Created by IntelliJ IDEA.
   User: data21
   Date: 2024-09-11
@@ -89,6 +90,14 @@
           alert("이메일 인증을 완료해야 합니다.");
           return false; // 이메일 인증이 완료되지 않았으므로 폼 제출을 막음
         }
+
+        <%--const checkUserEmail = "<%= CmmUtil.nvl((String) session.getAttribute("checkUserEmail")) %>";--%>
+
+        <%--if (checkUserEmail.trim() && document.getElementById("input_email").value !== checkUserEmail.trim()) {--%>
+        <%--  event.preventDefault();--%>
+        <%--  alert("이메일을 새로 입력하였습니다. 다시 인증해주세요.");--%>
+        <%--  return false;--%>
+        <%--}--%>
 
         // 모든 조건이 만족되었을 경우 폼 제출 허용
         return true;
