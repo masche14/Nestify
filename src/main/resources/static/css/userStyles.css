@@ -167,12 +167,16 @@ label {
     font-weight: 400;
 }
 
+button {
+    color: white;
+}
+
 /* 버튼 스타일 */
 .btn_login, .btn_reset_pwd, .btn_next, .btn_signup {
     width: 100%;
     flex: 0 0 auto;
     padding: 0 0.625rem; /* 10px -> 0.625rem */
-    background-color: #F1E398;
+    background-color: #4697ff;
     border: 0;
     border-radius: 0.5rem; /* 8px -> 0.5rem */
     font-weight: 550;
@@ -184,6 +188,7 @@ label {
     height: 3.125rem; /* 50px -> 3.125rem */
     white-space: nowrap;
     margin-top: 0.625rem; /* 10px -> 0.625rem */
+    font-size: large;
 }
 
 .side_btn {
@@ -193,7 +198,7 @@ label {
     align-items: center;
     justify-content: center;
     margin-top: 0.3125rem; /* 5px -> 0.3125rem */
-    background-color: #F1E398;
+    background-color: #519cf8;
     box-sizing: border-box;
     border-radius: 0.5rem; /* 8px -> 0.5rem */
     border: 0;
@@ -206,7 +211,7 @@ label {
 .two_button {
     width: 45%;
     height: 3.125rem; /* 50px -> 3.125rem */
-    background-color: #F1E398;
+    background-color: #4697ff;
     display: flex;
     align-items: center;
     justify-content: center;
