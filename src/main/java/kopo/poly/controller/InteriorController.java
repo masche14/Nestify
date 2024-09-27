@@ -10,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 @Slf4j
@@ -59,6 +62,37 @@ public class InteriorController {
         }
         return "redirect:/User/index";
     }
+
+//    @PostMapping("/upload")
+//    public String procUpload(HttpSession session, @RequestParam("image") MultipartFile image, @RequestParam("prompt") String prompt) throws Exception {
+//        log.info("{} 시작", this.getClass().getName());
+//
+//        // 파일이 비어있는지 확인
+//        if (!image.isEmpty()) {
+//            // 파일을 저장할 경로 설정
+//            String uploadDir = "src/main/resources/static/inputImg"; // 서버에서 파일을 저장할 실제 경로
+//            String fileName = image.getOriginalFilename(); // 파일 이름 가져오기
+//
+//            // 파일 저장
+//            File dest = new File(uploadDir + File.separator + fileName);
+//            try {
+//                image.transferTo(dest);  // MultipartFile의 transferTo 메서드를 사용하여 파일 저장
+//            } catch (IOException e) {
+//                log.error("파일 저장 중 오류 발생: ", e);
+//                return "redirect:/User/index";  // 오류 시 인덱스 페이지로 리다이렉트
+//            }
+//
+//            log.info("프롬프트 내용 : {}", prompt);
+//
+//            // 세션에 파일 이름 저장
+//            session.setAttribute("uploadedImage", fileName);
+//            log.info("사진 명 : {}", session.getAttribute("uploadedImage").toString());
+//
+//            // 성공 후 리다이렉트
+//            return "redirect:/Interior/makeNew";
+//        }
+//        return "redirect:/User/index";  // 파일이 없을 시 리다이렉트
+//    }
 
     @GetMapping("/result")
     public  String showResult(HttpSession session){
