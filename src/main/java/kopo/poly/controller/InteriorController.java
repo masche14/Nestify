@@ -25,7 +25,7 @@ public class InteriorController {
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
         String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
-        log.info(SS_USER_ID);
+
         return "/Interior/makeNew";
     }
 
