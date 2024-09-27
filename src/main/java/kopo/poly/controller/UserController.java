@@ -91,6 +91,8 @@ public class UserController {
             if (!CmmUtil.nvl(rDTO.getUserId()).isEmpty()) {
                 res = 1;
 
+                session.removeAttribute("emailResultDTO");
+
                 msg = "로그인에 성공하였습니다.";
                 session.setAttribute("SS_USER_ID", id);
                 session.setAttribute("SS_USER_NAME", rDTO.getUserName());
