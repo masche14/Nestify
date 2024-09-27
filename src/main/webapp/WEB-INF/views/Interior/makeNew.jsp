@@ -81,7 +81,7 @@
     <div class="content set-min-width content-width">
         <div class="top">
             <span class="head-line">방의 사진을 첨부하고</span>
-            <span class="head-line">원하는 인테리어 스타일을 입력하세요.</span>
+            <span class="head-line">원하는 인테리어 스타일을 입력하세요</span>
         </div>
         <form action="upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
             <div class="image-box" id="imageBox">

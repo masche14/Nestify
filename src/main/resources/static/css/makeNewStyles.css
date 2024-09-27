@@ -81,8 +81,9 @@
 }
 
 .head-line {
-    font-size: 2rem;
-    color: lavenderblush;
+    font-size: 1.9rem;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .form-center {
