@@ -356,12 +356,12 @@ public class UserController {
     @PostMapping("/reset_pwd")
     public String processResetPwd(HttpServletRequest request, HttpSession session, Model model) {
         String id = request.getParameter("id");
-        log.info(id);
+        log.info("입력한 아이디 : {}",id);
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
         String checkId = emailResultDTO.getUserId();
-        log.info(checkId);
+        log.info("해당 이메일로 가입된 아이디 : {}", checkId);
 
         UserInfoDTO pDTO;
 
@@ -420,6 +420,7 @@ public class UserController {
             return "redirect:/User/signin";
 
         } else{
+            log.info("불일치");
             msg = "해당 이메일로 가입된 아이디가 아닙니다. 아이디를 다시 확인하세요.";
             session.setAttribute("deferentId", msg);
             return "redirect:/User/reset_pwd";
