@@ -31,10 +31,10 @@ public class InteriorController {
 
     @PostMapping("/upload")
     public String procUpload(HttpSession session, HttpServletRequest request) throws Exception {
-        log.info("시작");
+        log.info("{} 시작", this.getClass().getName());
 
         String prompt = request.getParameter("prompt");
-        InputStream fileContent = request.getPart("image").getInputStream();  // "image"는 파일 input 필드의 name과 일치해야 함
+        InputStream fileContent = request.getPart("image").getInputStream();
         String fileName = request.getPart("image").getSubmittedFileName();
 
         if (fileContent != null) {
