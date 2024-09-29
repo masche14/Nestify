@@ -17,6 +17,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +68,7 @@ public class InteriorController {
             String fileName = image.getOriginalFilename();
             File dest = new File(uploadDir + File.separator + fileName);
 
-            log.info(fileName);
+            log.info("사용자 첨부 이미지 : {}", fileName);
 
             try {
                 image.transferTo(dest);
@@ -118,6 +122,46 @@ public class InteriorController {
         // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
         // 예: 서버의 디렉토리에 이미지 저장
         log.info(imageUrl);
+
+        String uploadDir = "C:/KPaaS/src/main/resources/static/generatedImages"; // 원하는 디렉토리 경로
+
+        // URL로부터 InputStream 가져오기
+        URL url = new URL(imageUrl);
+        InputStream inputStream = null;
+        FileOutputStream outputStream = null;
+
+        try {
+            inputStream = url.openStream(); // 이미지 데이터를 가져옴
+
+            // 이미지 파일명을 지정할 때 원본 URL에서 파일명 추출 가능
+            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+
+            // 저장할 경로와 파일 이름 설정
+            Path outputPath = Paths.get(uploadDir + File.separator + fileName);
+
+            // 디렉토리 생성 (존재하지 않으면)
+            Files.createDirectories(outputPath.getParent());
+
+            // OutputStream을 사용해 이미지 파일로 저장
+            outputStream = new FileOutputStream(outputPath.toFile());
+
+            // 버퍼를 사용해 이미지 데이터를 파일로 저장
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            log.info("이미지 저장 완료: " + outputPath.toString());
+
+        } catch (IOException e) {
+            log.error("이미지 저장 중 오류 발생: ", e);
+            throw e;
+        } finally {
+            // InputStream과 OutputStream 닫기
+            if (inputStream != null) inputStream.close();
+            if (outputStream != null) outputStream.close();
+        }
     }
 
     @GetMapping("/result")
