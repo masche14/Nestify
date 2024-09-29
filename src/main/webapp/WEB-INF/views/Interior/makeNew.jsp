@@ -36,8 +36,6 @@
             }
 
             function validateForm(event) {
-                document.getElementById("prompt_container").style.display="none";
-                document.getElementById("select_container").style.display="flex";
 
                 const image = document.getElementById("fileInput").value;
                 const prompt = document.getElementById("promptInput").value;
@@ -54,6 +52,9 @@
                     return false;
                 }
 
+                document.getElementById("prompt_container").style.display="none";
+                document.getElementById("select_container").style.display="flex";
+
                 return true;
             }
 
@@ -66,6 +67,7 @@
             });
 
             document.getElementById("goNext").addEventListener("click", function (){
+                document.getElementById("promptInput").value="";
                 window.location.href="/Interior/result";
             })
         });
