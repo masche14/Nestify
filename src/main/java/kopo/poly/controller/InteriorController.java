@@ -57,6 +57,7 @@ public class InteriorController {
 
         // 카운트가 0일 때만 서버에 이미지 저장
         if (count == 0 && !image.isEmpty()) {
+            // 서비스 클래스로 분리 후 코드 간소화 예정
             String uploadDir = "C:/KPaaS/src/main/resources/static/inputImg"; // 파일 저장 경로
             File dir = new File(uploadDir);
 
