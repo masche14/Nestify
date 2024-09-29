@@ -50,7 +50,7 @@ public class InteriorController {
             @RequestParam("image") MultipartFile image,
             @RequestParam("prompt") String prompt
     ) throws Exception {
-        log.info("{} 시작", this.getClass().getName());
+        log.info("{}.procUpload 시작", this.getClass().getName());
 
         Integer count = (Integer) session.getAttribute("imageCount");
         if (count == null) {
@@ -109,6 +109,8 @@ public class InteriorController {
 
     @PostMapping("/saveGeneratedImage")
     public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {
+        log.info("{}.saveGeneratedImage 시작", this.getClass().getName());
+
         session.removeAttribute("imageCount");
 
         String imageUrl = data.get("imageUrl");
@@ -117,6 +119,9 @@ public class InteriorController {
         try {
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
+
+            log.info("{}.saveGeneratedImage 완료", this.getClass().getName());
+
             return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to save image", HttpStatus.INTERNAL_SERVER_ERROR);
