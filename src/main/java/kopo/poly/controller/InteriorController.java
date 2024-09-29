@@ -74,7 +74,7 @@ public class InteriorController {
             String fileName = image.getOriginalFilename();
             File dest = new File(inputImgDir + File.separator + fileName);
 
-            log.info("사용자 첨부 이미지 : {}", fileName);
+            log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
 
             try {
                 image.transferTo(dest);
