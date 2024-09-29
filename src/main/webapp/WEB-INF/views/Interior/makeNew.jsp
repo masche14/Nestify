@@ -15,17 +15,16 @@
     <link rel="stylesheet" href="/css/userStyles.css">
     <link rel="stylesheet" href="/css/makeNewStyles.css">
     <script src="/js/setReferrer.js" defer></script>
-    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
     <script src="/js/attachImage.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>";
             console.log(SS_USER_ID);
 
-            if (SS_USER_ID && SS_USER_ID.trim()==="null"){
+            if (!SS_USER_ID || SS_USER_ID.trim() === "null") {
                 alert("로그인 후 이용해주세요.");
                 setReferrer();
-                // window.location.href="/User/signin";
             }
 
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
@@ -35,41 +34,103 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
-            function validateForm(event) {
+            // 전송 버튼 클릭 시
+            document.getElementById("submit").addEventListener("click", async function(event) {
+                event.preventDefault();
 
-                const image = document.getElementById("fileInput").value;
-                const prompt = document.getElementById("promptInput").value;
+                const fileInput = document.getElementById("fileInput");
+                const promptInput = document.getElementById("promptInput");
+                const file = fileInput.files[0];
+                const prompt = promptInput.value;
 
-                if (!image) {
-                    event.preventDefault();
-                    alert("이미지를 첨부해주세요.")
-                    return false;
+                if (!file) {
+                    alert("이미지를 첨부해주세요.");
+                    return;
                 }
 
-                if(!prompt.trim()) {
-                    event.preventDefault();
+                if (!prompt.trim()) {
                     alert("원하는 인테리어 스타일을 입력해주세요.");
-                    return false;
+                    return;
                 }
 
-                document.getElementById("prompt_container").style.display="none";
-                document.getElementById("select_container").style.display="flex";
+                // FormData를 사용하여 이미지와 프롬프트를 전송
+                const formData = new FormData();
+                formData.append("image", file);
+                formData.append("prompt", prompt);
 
-                return true;
-            }
+                try {
+                    // 서버로 이미지와 프롬프트 전송
+                    const response = await fetch('/Interior/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
 
-            document.getElementById("submit").addEventListener("click", validateForm);
+                    if (response.ok) {
+                        const result = await response.json();
+                        const generatedImageUrl = result.generatedImageUrl; // API에서 생성된 이미지 URL
 
-            document.getElementById("remake").addEventListener("click", function () {
-                document.getElementById("promptInput").value="";
-                document.getElementById("prompt_container").style.display="flex";
-                document.getElementById("select_container").style.display="none";
+                        // 미리보기 이미지로 표시
+                        document.getElementById("previewImage").src = generatedImageUrl;
+                        document.getElementById("previewImage").style.display = 'block';
+
+                        // 프롬프트 입력 폼 숨기고, 선택 컨테이너 표시
+                        document.getElementById("prompt_container").style.display = "none";
+                        document.getElementById("select_container").style.display = "flex";
+                    } else {
+                        alert("이미지 생성 요청에 실패했습니다.");
+                    }
+                } catch (error) {
+                    console.error("에러 발생: ", error);
+                    alert("요청 처리 중 문제가 발생했습니다.");
+                }
             });
 
-            document.getElementById("goNext").addEventListener("click", function (){
-                document.getElementById("promptInput").value="";
-                window.location.href="/Interior/result";
-            })
+            // 재생성 버튼 클릭 시
+            document.getElementById("remake").addEventListener("click", function () {
+                // 프롬프트 입력 창 초기화
+                document.getElementById("promptInput").value = "";
+
+                // 다시 입력 폼을 보이고 선택 컨테이너 숨김
+                document.getElementById("prompt_container").style.display = "flex";
+                document.getElementById("select_container").style.display = "none";
+
+                // 이미지 미리보기는 유지
+                const previewImage = document.getElementById("previewImage");
+                if (previewImage.src) {
+                    previewImage.style.display = 'block'; // 이미지 미리보기를 다시 보여줌
+                } else {
+                    previewImage.style.display = 'none'; // 이미지가 없으면 숨김
+                }
+            });
+
+            // 다음 버튼 클릭 시
+            document.getElementById("goNext").addEventListener("click", async function () {
+                // 세션에 저장된 API로 생성된 이미지 URL 가져오기
+                const generatedImageUrl = document.getElementById("previewImage").src;
+
+                // 서버에 API로 생성된 이미지 저장 요청
+                try {
+                    const response = await fetch('/Interior/saveGeneratedImage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            imageUrl: generatedImageUrl // API에서 생성된 이미지 URL을 서버로 전송
+                        })
+                    });
+
+                    if (response.ok) {
+                        // 이미지 저장이 완료되면 결과 페이지로 이동
+                        window.location.href = "/Interior/result";
+                    } else {
+                        alert("이미지를 저장하는 데 실패했습니다.");
+                    }
+                } catch (error) {
+                    console.error("에러 발생: ", error);
+                    alert("이미지 저장 요청 중 문제가 발생했습니다.");
+                }
+            });
         });
     </script>
 </head>
@@ -87,21 +148,20 @@
             <a href="/User/index">홈</a>
             <a href="#">인테리어</a>
             <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/pwd_verification" id="myPageNav" >마이페이지</a>
+            <a href="/User/pwd_verification" id="myPageNav">마이페이지</a>
             <a href="/User/logout" id="logoutNav">로그아웃</a>
         </div>
     </div>
-
 
     <div class="content set-min-width content-width">
         <div class="top">
             <span class="head-line">방의 사진을 첨부하고</span>
             <span class="head-line">원하는 인테리어 스타일을 입력하세요</span>
         </div>
-        <form action="upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
+        <form id="interiorForm" action="/Interior/upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
             <div class="image-box" id="imageBox">
                 <p>이미지를 첨부하려면 클릭하세요</p>
-                <img id="previewImage" alt="Image Preview">
+                <img id="previewImage" alt="Image Preview" style="display: none;">
             </div>
 
             <!-- 파일 입력 필드에 별도의 스타일 적용 -->
@@ -109,10 +169,10 @@
 
             <div class="form-container" id="prompt_container">
                 <input class="full" type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
-                <button class="btn_generate" type="button" id="submit">전송</button>
+                <button class="btn_generate" type="submit" id="submit">전송</button>
             </div>
         </form>
-        <div class="extra_top_margin input_box select" id="select_container">
+        <div class="extra_top_margin input_box select" id="select_container" style="display: none;">
             <button type="button" class="two_button" id="remake">재생성</button>
             <button type="button" class="two_button" id="goNext">다음</button>
         </div>

@@ -6,11 +6,10 @@ import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
@@ -18,12 +17,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping(value = "/Interior")
 public class InteriorController {
+
+    private final HttpSession httpSession;
 
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
@@ -33,66 +36,87 @@ public class InteriorController {
     }
 
     @PostMapping("/upload")
-    public String procUpload(HttpSession session, HttpServletRequest request) throws Exception {
+    public ResponseEntity<Map<String, String>> procUpload(
+            HttpSession session,
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("prompt") String prompt
+    ) throws Exception {
         log.info("{} 시작", this.getClass().getName());
 
-        String prompt = request.getParameter("prompt");
-        InputStream fileContent = request.getPart("image").getInputStream();
-        String fileName = request.getPart("image").getSubmittedFileName();
+        Integer count = (Integer) session.getAttribute("imageCount");
+        if (count == null) {
+            count = 0;
+            session.setAttribute("imageCount", count);
+        }
 
-        if (fileContent != null) {
-            // 파일을 저장할 경로 설정
-            String uploadDir = "src/main/resources/static/inputImg"; // 서버에서 파일을 저장할 실제 경로
+        log.info(String.valueOf(count));
 
-            // 파일 저장
+        // 카운트가 0일 때만 서버에 이미지 저장
+        if (count == 0 && !image.isEmpty()) {
+            String uploadDir = "C:/KPaaS/src/main/resources/static/inputImg"; // 파일 저장 경로
+            File dir = new File(uploadDir);
+
+            // 디렉토리가 존재하지 않으면 생성
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            String fileName = image.getOriginalFilename();
             File dest = new File(uploadDir + File.separator + fileName);
-            try (FileOutputStream out = new FileOutputStream(dest)) {
-                IOUtils.copy(fileContent, out);  // Apache Commons IO 라이브러리를 사용하여 파일 복사
+
+            log.info(fileName);
+
+            try {
+                image.transferTo(dest);
+            } catch (IOException e) {
+                log.error("파일 저장 중 오류 발생: ", e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
             }
 
             log.info("프롬프트 내용 : {}", prompt);
-
-            // 세션에 파일 이름 저장
             session.setAttribute("uploadedImage", fileName);
-
-            log.info("사진 명 : {}", session.getAttribute("uploadedImage").toString());
-
-            // 성공 후 리다이렉트
-            return "redirect:/Interior/makeNew";
         }
-        return "redirect:/User/index";
+
+        // API 호출로 생성된 이미지를 세션에 임시 저장
+        String generatedImageUrl = callImageGenerationApi(image, prompt); // API에서 생성된 이미지 URL
+
+        // 세션에 API로 생성된 이미지 저장
+        session.setAttribute("generatedImageUrl", generatedImageUrl);
+        session.setAttribute("imageCount", ++count); // 카운트 증가
+
+        // JSON 형식으로 응답을 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("generatedImageUrl", generatedImageUrl);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @PostMapping("/upload")
-//    public String procUpload(HttpSession session, @RequestParam("image") MultipartFile image, @RequestParam("prompt") String prompt) throws Exception {
-//        log.info("{} 시작", this.getClass().getName());
-//
-//        // 파일이 비어있는지 확인
-//        if (!image.isEmpty()) {
-//            // 파일을 저장할 경로 설정
-//            String uploadDir = "src/main/resources/static/inputImg"; // 서버에서 파일을 저장할 실제 경로
-//            String fileName = image.getOriginalFilename(); // 파일 이름 가져오기
-//
-//            // 파일 저장
-//            File dest = new File(uploadDir + File.separator + fileName);
-//            try {
-//                image.transferTo(dest);  // MultipartFile의 transferTo 메서드를 사용하여 파일 저장
-//            } catch (IOException e) {
-//                log.error("파일 저장 중 오류 발생: ", e);
-//                return "redirect:/User/index";  // 오류 시 인덱스 페이지로 리다이렉트
-//            }
-//
-//            log.info("프롬프트 내용 : {}", prompt);
-//
-//            // 세션에 파일 이름 저장
-//            session.setAttribute("uploadedImage", fileName);
-//            log.info("사진 명 : {}", session.getAttribute("uploadedImage").toString());
-//
-//            // 성공 후 리다이렉트
-//            return "redirect:/Interior/makeNew";
-//        }
-//        return "redirect:/User/index";  // 파일이 없을 시 리다이렉트
-//    }
+    // API로 이미지와 프롬프트를 전송하여 이미지 생성 URL을 반환하는 메서드 (예시) -> 서비스 클래스로 분리예정
+    private String callImageGenerationApi(MultipartFile file, String prompt) {
+        // 실제 API 호출 로직 (여기서는 예시로 하드코딩된 URL 반환)
+        return "/myPageImg.webp";
+    }
+
+    @PostMapping("/saveGeneratedImage")
+    public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {
+        session.removeAttribute("imageCount");
+
+        String imageUrl = data.get("imageUrl");
+
+        // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
+        try {
+            // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
+            saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
+            return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to save image", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 이미지 저장 메서드 (예시) -> 서비스 클래스로 분리예정
+    private void saveImageToServer(String imageUrl) throws IOException {
+        // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
+        // 예: 서버의 디렉토리에 이미지 저장
+    }
 
     @GetMapping("/result")
     public  String showResult(HttpSession session){
