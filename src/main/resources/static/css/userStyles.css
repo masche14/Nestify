@@ -211,6 +211,7 @@ button {
     border: 0;
     white-space: nowrap;
     font-weight: 550;
+    font-size: medium;
     cursor: pointer;
 }
 
