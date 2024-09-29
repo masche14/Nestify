@@ -6,6 +6,7 @@ import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,11 @@ import java.util.Map;
 @RequestMapping(value = "/Interior")
 public class InteriorController {
 
-    private final HttpSession httpSession;
+    @Value("${inputImgDir}")
+    private String inputImgDir;
+
+    @Value("${generatedImgDir}")
+    private String generatedImgDir;
 
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
@@ -58,8 +63,8 @@ public class InteriorController {
         // 카운트가 0일 때만 서버에 이미지 저장
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
-            String uploadDir = "C:/KPaaS/src/main/resources/static/inputImg"; // 파일 저장 경로
-            File dir = new File(uploadDir);
+
+            File dir = new File(inputImgDir);
 
             // 디렉토리가 존재하지 않으면 생성
             if (!dir.exists()) {
@@ -67,7 +72,7 @@ public class InteriorController {
             }
 
             String fileName = image.getOriginalFilename();
-            File dest = new File(uploadDir + File.separator + fileName);
+            File dest = new File(inputImgDir + File.separator + fileName);
 
             log.info("사용자 첨부 이미지 : {}", fileName);
 
@@ -124,7 +129,7 @@ public class InteriorController {
         // 예: 서버의 디렉토리에 이미지 저장
         log.info(imageUrl);
 
-        String uploadDir = "C:/KPaaS/src/main/resources/static/generatedImages"; // 원하는 디렉토리 경로
+        File dir = new File(generatedImgDir);
 
         // URL로부터 InputStream 가져오기
         URL url = new URL(imageUrl);
@@ -138,7 +143,7 @@ public class InteriorController {
             String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 
             // 저장할 경로와 파일 이름 설정
-            Path outputPath = Paths.get(uploadDir + File.separator + fileName);
+            Path outputPath = Paths.get(generatedImgDir + File.separator + fileName);
 
             // 디렉토리 생성 (존재하지 않으면)
             Files.createDirectories(outputPath.getParent());
