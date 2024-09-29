@@ -73,9 +73,10 @@ public class InteriorController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
             }
 
-            log.info("프롬프트 내용 : {}", prompt);
             session.setAttribute("uploadedImage", fileName);
         }
+
+        log.info("프롬프트 내용 : {}", prompt);
 
         // API 호출로 생성된 이미지를 세션에 임시 저장
         String generatedImageUrl = callImageGenerationApi(image, prompt); // API에서 생성된 이미지 URL

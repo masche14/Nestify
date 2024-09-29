@@ -105,6 +105,8 @@
 
             // 다음 버튼 클릭 시
             document.getElementById("goNext").addEventListener("click", async function () {
+                document.getElementById("promptInput").value = "";
+
                 // 세션에 저장된 API로 생성된 이미지 URL 가져오기
                 const generatedImageUrl = document.getElementById("previewImage").src;
 
