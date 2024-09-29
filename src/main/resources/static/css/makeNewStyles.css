@@ -98,3 +98,10 @@
 .set-min-width {
     min-width: 31.25rem; /* 500px -> 31.25rem */
 }
+
+.select {
+    width: 100% !important;
+    justify-content: space-between !important;
+    display: none;
+}
+

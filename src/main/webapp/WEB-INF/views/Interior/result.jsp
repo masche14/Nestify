@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>신규 인테리어</title>
+    <title>신규 인테리어 분석</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
@@ -105,7 +105,7 @@
                 </div>
             </div>
             <div class="form_wrap">
-                <form method="post" action="myPage" id="signupForm" class="no-bottom-margin">
+                <form method="post" action="myPage" id="signupForm">
                     <div class="form_box">
                         <label class="label_bold" for="input_nickname">닉네임 변경 / CHG_NICKNAME</label>
                         <div class="input_box">
@@ -150,6 +150,5 @@
 </div>
 
 <footer></footer>
-
 </body>
 </html>

@@ -36,6 +36,9 @@
             }
 
             function validateForm(event) {
+                document.getElementById("prompt_container").style.display="none";
+                document.getElementById("select_container").style.display="flex";
+
                 const image = document.getElementById("fileInput").value;
                 const prompt = document.getElementById("promptInput").value;
 
@@ -54,7 +57,17 @@
                 return true;
             }
 
-            document.getElementById("submit").addEventListener("click", validateForm)
+            document.getElementById("submit").addEventListener("click", validateForm);
+
+            document.getElementById("remake").addEventListener("click", function () {
+                document.getElementById("promptInput").value="";
+                document.getElementById("prompt_container").style.display="flex";
+                document.getElementById("select_container").style.display="none";
+            });
+
+            document.getElementById("goNext").addEventListener("click", function (){
+                window.location.href="/Interior/result";
+            })
         });
     </script>
 </head>
@@ -92,11 +105,15 @@
             <!-- 파일 입력 필드에 별도의 스타일 적용 -->
             <input type="file" id="fileInput" name="image" class="file-input" accept="image/*">
 
-            <div class="form-container">
+            <div class="form-container" id="prompt_container">
                 <input class="full" type="text" id="promptInput" name="prompt" placeholder="프롬프트를 입력하세요">
-                <button class="btn_generate" type="submit" id="submit">전송</button>
+                <button class="btn_generate" type="button" id="submit">전송</button>
             </div>
         </form>
+        <div class="extra_top_margin input_box select" id="select_container">
+            <button type="button" class="two_button" id="remake">재생성</button>
+            <button type="button" class="two_button" id="goNext">다음</button>
+        </div>
         <div class="bottom"></div>
     </div>
 </div>
