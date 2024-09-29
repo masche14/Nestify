@@ -117,6 +117,7 @@ public class InteriorController {
     private void saveImageToServer(String imageUrl) throws IOException {
         // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
         // 예: 서버의 디렉토리에 이미지 저장
+        log.info(imageUrl);
     }
 
     @GetMapping("/result")
