@@ -478,6 +478,20 @@ public class UserController {
         return "User/index"; // /WEB-INF/views/index.jsp
     }
 
+    @GetMapping("/delOrUpdate")
+    public String showDelOrUpdate(HttpSession session) {
+        return "/User/delOrUpdate";
+    }
+
+    @PostMapping("/delOrUpdate")
+    public String procDelOrUpdate(HttpSession session, HttpServletRequest request) {
+        log.info("{}.procDelOrUpdate Start", this.getClass().getName());
+        String selection = request.getParameter("selection");
+        log.info(selection);
+        session.setAttribute("selection", selection);
+        return "redirect:/User/pwd_verification";
+    }
+
     @GetMapping("/pwd_verification")
     public String showPwdVerificationPage(HttpSession session){
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
@@ -498,6 +512,7 @@ public class UserController {
         UserInfoDTO pDTO;
         
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+        String selection = (String) session.getAttribute("selection");
         
         String pwd = request.getParameter("pwd");
         try {
@@ -525,7 +540,14 @@ public class UserController {
 
         if (res == 1) {
             session.setAttribute("pwdVerifyResult", "y");
-            return "redirect:/User/myPage";
+            switch (selection){
+                case "update":
+                    return "redirect:/User/myPage";
+                case "delete":
+                    return "redirect:/User/delInfo";
+                default:
+                    return "redirect:/User/pwd_verification";
+            }
         } else {
             session.setAttribute("msg", msg);
             return "redirect:/User/pwd_verification";
