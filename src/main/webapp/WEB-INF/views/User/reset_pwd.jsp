@@ -97,7 +97,7 @@
 
     <div class="content">
         <div class="container">
-            <form method="post" action="reset_pwd" id="resetPwdForm">
+            <form method="post" action="/User/reset_pwd" id="resetPwdForm">
                 <div class="form_box">
                     <label class="label_bold" for="input_id">아이디 / ID</label>
                     <div class="input_box">

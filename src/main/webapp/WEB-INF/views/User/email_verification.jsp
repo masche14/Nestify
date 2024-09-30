@@ -62,7 +62,7 @@
 
     <div class="content">
         <div class="container">
-            <form method="post" action="email_verification" id="emailVerificationForm">
+            <form method="post" action="/User/email_verification" id="emailVerificationForm">
                 <input type="hidden" id="sourceField" name="source">
                 <div class="form_box">
                     <label class="label_bold" for="input_email">이메일 / E-MAIL</label>

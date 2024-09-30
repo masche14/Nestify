@@ -63,7 +63,7 @@
 
     <div class="content">
         <div class="container">
-            <form method="post" action="pwd_verification" id="pwdVerifyForm">
+            <form method="post" action="/User/pwd_verification" id="pwdVerifyForm">
                 <div class="form_box">
                     <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
                     <div class="input_box">

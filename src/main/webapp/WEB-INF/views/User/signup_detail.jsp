@@ -91,7 +91,7 @@
 %>
 
 <!-- 리다이렉트 폼 -->
-<form id="redirectForm" action="find_id" method="get" style="display: none;"></form>
+<form id="redirectForm" action="/User/find_id" method="get" style="display: none;"></form>
 <div class="black">
 
     <!-- 네비게이션 바 -->

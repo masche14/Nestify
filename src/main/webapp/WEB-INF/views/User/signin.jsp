@@ -81,7 +81,7 @@
 
     <div class="content">
         <div class="container">
-            <form method="post" action="signin" id="signinForm">
+            <form method="post" action="/User/signin" id="signinForm">
                 <div class="form_box">
                     <label class="label_bold" for="input_id">아이디 / ID</label>
                     <div class="input_box">
