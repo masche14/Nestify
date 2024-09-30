@@ -4,19 +4,25 @@
 <mapper namespace="kopo.poly.mapper.IInteriorMapper">
     <insert id="insertRecord" parameterType="GRecordDTO">
         INSERT INTO G_RECORD
-        (GENERATE_SEQ,
-         USER_ID,
-         INPUT_IMG,
-         GENERATED_IMG,
+        (USER_ID,
+         GENERATE_SEQ,
+         ROOT_PATH,
+         INPUT_IMG_DIR,
+         INPUT_IMG_NAME,
+         GENERATED_IMG_DIR,
+         GENERATED_IMG_NAME,
          REG_ID,
          REG_DT,
          CHG_ID,
          CHG_DT)
         VALUES (
-                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A WHERE USER_ID = #{userId}),
                 #{userId},
-                #{inputImg},
-                #{generatedImg},
+                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A WHERE USER_ID = #{userId}),
+                #{rootPath},
+                #{inputImgDir},
+                #{inputImgName},
+                #{generatedImgDir},
+                #{generatedImgName},
                 #{regId},
                 NOW(),
                 #{chgId},

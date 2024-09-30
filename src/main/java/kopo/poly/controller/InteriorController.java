@@ -31,6 +31,9 @@ import java.util.Map;
 public class InteriorController {
     private final IInteriorService interiorService;
 
+    @Value("${rootPath}")
+    private String rootPath;
+
     @Value("${inputImgDir}")
     private String inputImgDir;
 
@@ -64,7 +67,7 @@ public class InteriorController {
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
 
-            File dir = new File(inputImgDir);
+            File dir = new File(rootPath+File.separator+inputImgDir);
 
             // 디렉토리가 존재하지 않으면 생성
             if (!dir.exists()) {
@@ -72,7 +75,7 @@ public class InteriorController {
             }
 
             String fileName = image.getOriginalFilename();
-            File dest = new File(inputImgDir + File.separator + fileName);
+            File dest = new File(rootPath+File.separator+inputImgDir + File.separator + fileName);
 
             log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
 
@@ -83,8 +86,7 @@ public class InteriorController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
             }
 
-            session.setAttribute("inputImgPath", dest.getAbsolutePath());
-            session.setAttribute("uploadedImage", fileName);
+            session.setAttribute("inputImgName", fileName);
         }
 
         log.info("프롬프트 내용 : {}", prompt);
@@ -122,29 +124,33 @@ public class InteriorController {
         // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
-            saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
+            saveImageToServer(imageUrl, session); // 실제 저장 로직은 구현 필요
 
             log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
-            String inputImgPath = (String) session.getAttribute("inputImgPath");
-            String inputImg = inputImgPath.split("static")[1];
-            String generatedImgPath = saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
-            String generatedImg = generatedImgPath.split("static")[1];
+            String inputImgName = (String) session.getAttribute("inputImgName");
+            String generatedImgName = (String) session.getAttribute("generatedImgName");
             String regId = (String) session.getAttribute("SS_USER_ID");
             String chgId = (String) session.getAttribute("SS_USER_ID");
 
             log.info("userId : {}", userId);
-            log.info("inputImg : {}", inputImg);
-            log.info("generatedImg : {}", generatedImg);
+            log.info("rootPath : {}", rootPath);
+            log.info("inputImgDir : {}", inputImgDir);
+            log.info("inputImgName : {}", inputImgName);
+            log.info("generatedImgDir : {}", generatedImgDir);
+            log.info("generatedImgName : {}", generatedImgName);
             log.info("regId : {}", regId);
             log.info("chgId : {}", chgId);
 
             pDTO = new GRecordDTO();
 
             pDTO.setUserId(userId);
-            pDTO.setInputImg(inputImg);
-            pDTO.setGeneratedImg(generatedImg);
+            pDTO.setRootPath(rootPath);
+            pDTO.setInputImgDir(inputImgDir);
+            pDTO.setInputImgName(inputImgName);
+            pDTO.setGeneratedImgDir(generatedImgDir);
+            pDTO.setGeneratedImgName(generatedImgName);
             pDTO.setRegId(regId);
             pDTO.setChgId(chgId);
 
@@ -165,12 +171,12 @@ public class InteriorController {
     }
 
     // 이미지 저장 메서드 (예시) -> 서비스 클래스로 분리예정
-    private String saveImageToServer(String imageUrl) throws IOException {
+    private String saveImageToServer(String imageUrl, HttpSession session) throws IOException {
         // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
         // 예: 서버의 디렉토리에 이미지 저장
         log.info(imageUrl);
 
-        File dir = new File(generatedImgDir);
+        File dir = new File(rootPath+File.separator+generatedImgDir);
 
         // URL로부터 InputStream 가져오기
         URL url = new URL(imageUrl);
@@ -185,7 +191,7 @@ public class InteriorController {
             String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 
             // 저장할 경로와 파일 이름 설정
-            outputPath = Paths.get(generatedImgDir + File.separator + fileName);
+            outputPath = Paths.get(rootPath+File.separator+generatedImgDir + File.separator + fileName);
 
             // 디렉토리 생성 (존재하지 않으면)
             Files.createDirectories(outputPath.getParent());
@@ -201,6 +207,7 @@ public class InteriorController {
             }
 
             log.info("이미지 저장 완료: " + outputPath.toString());
+            session.setAttribute("generatedImgName", fileName);
 
         } catch (IOException e) {
             log.error("이미지 저장 중 오류 발생: ", e);

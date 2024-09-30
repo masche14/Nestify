@@ -6,10 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GRecordDTO {
-    private int generateSeq;
     private String userId;
-    private String inputImg;
-    private String generatedImg;
+    private int generateSeq;
+    private String rootPath;
+    private String inputImgDir;
+    private String inputImgName;
+    private String generatedImgDir;
+    private String generatedImgName;
     private String regId;
     private String regDt;
     private String chgId;
