@@ -2,6 +2,8 @@ package kopo.poly.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kopo.poly.dto.GRecordDTO;
+import kopo.poly.service.IInteriorService;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +32,10 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/Interior")
 public class InteriorController {
+    private final IInteriorService interiorService;
 
     @Value("${inputImgDir}")
     private String inputImgDir;
-
-    @Value("${generatedImgDir}")
-    private String generatedImgDir;
 
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
@@ -78,6 +78,7 @@ public class InteriorController {
 
             try {
                 image.transferTo(dest);
+                session.setAttribute("inputImgPath", dest.getAbsolutePath());
             } catch (IOException e) {
                 log.error("파일 저장 중 오류 발생: ", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
@@ -111,67 +112,47 @@ public class InteriorController {
     public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {
         log.info("{}.saveGeneratedImage 시작", this.getClass().getName());
 
+        int res = 0;
+
         session.removeAttribute("imageCount");
 
         String imageUrl = data.get("imageUrl");
 
         // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
+            log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
-            saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
+            String userId = (String) session.getAttribute("SS_USER_ID");
+            String inputImgPath = (String) session.getAttribute("inputImgPath");
+            String inputImg = inputImgPath.split("static")[1];
+            String generatedImgPath = interiorService.saveImageToServer(imageUrl); // 실제 저장 로직은 구현 필요
+            String generatedImg = generatedImgPath.split("static")[1];
 
-            log.info("{}.saveGeneratedImage 완료", this.getClass().getName());
+            log.info("userId : {}", userId);
+            log.info("inputImg : {}", inputImg);
+            log.info("generatedImg : {}", generatedImg);
 
-            return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Failed to save image", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+            GRecordDTO pDTO = new GRecordDTO();
 
-    // 이미지 저장 메서드 (예시) -> 서비스 클래스로 분리예정
-    private void saveImageToServer(String imageUrl) throws IOException {
-        // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
-        // 예: 서버의 디렉토리에 이미지 저장
-        log.info(imageUrl);
+            pDTO.setUserId(userId);
+            pDTO.setInputImg(inputImg);
+            pDTO.setGeneratedImg(generatedImg);
 
-        File dir = new File(generatedImgDir);
+            res = interiorService.insertRecord(pDTO);
 
-        // URL로부터 InputStream 가져오기
-        URL url = new URL(imageUrl);
-        InputStream inputStream = null;
-        FileOutputStream outputStream = null;
+            log.info("레코드 저장 결과(res) : {}", res);
 
-        try {
-            inputStream = url.openStream(); // 이미지 데이터를 가져옴
-
-            // 이미지 파일명을 지정할 때 원본 URL에서 파일명 추출 가능
-            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-
-            // 저장할 경로와 파일 이름 설정
-            Path outputPath = Paths.get(generatedImgDir + File.separator + fileName);
-
-            // 디렉토리 생성 (존재하지 않으면)
-            Files.createDirectories(outputPath.getParent());
-
-            // OutputStream을 사용해 이미지 파일로 저장
-            outputStream = new FileOutputStream(outputPath.toFile());
-
-            // 버퍼를 사용해 이미지 데이터를 파일로 저장
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
+            if (res==1) {
+                log.info("성공적으로 저장하였습니다.");
+                return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
+            } else {
+                log.info("오류로 인해 실패하였습니다.");
+                return new ResponseEntity<>("Image saved successfully", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            log.info("이미지 저장 완료: " + outputPath.toString());
-
-        } catch (IOException e) {
-            log.error("이미지 저장 중 오류 발생: ", e);
-            throw e;
-        } finally {
-            // InputStream과 OutputStream 닫기
-            if (inputStream != null) inputStream.close();
-            if (outputStream != null) outputStream.close();
+        } catch (Exception e) {
+            log.info(e.toString());
+            return new ResponseEntity<>("Failed to save image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
