@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,6 +49,30 @@ public class InteriorService implements IInteriorService {
         log.info("{}.insertRecord End", this.getClass().getName());
 
         return res;
+    }
+
+    @Override
+    public String saveUploadedFile(MultipartFile image) throws IOException {
+        File dir = new File(inputImgDir);
+
+        // 디렉토리가 존재하지 않으면 생성
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        String fileName = image.getOriginalFilename();
+        File dest = new File(inputImgDir + File.separator + fileName);
+
+        log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
+
+        try {
+            image.transferTo(dest);
+        } catch (IOException e) {
+            log.error("파일 저장 중 오류 발생: ", e);
+            throw e;
+        }
+
+        return dest.getAbsolutePath();
     }
 
     @Override

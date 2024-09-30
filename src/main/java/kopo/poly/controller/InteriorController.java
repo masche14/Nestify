@@ -63,28 +63,9 @@ public class InteriorController {
         // 카운트가 0일 때만 서버에 이미지 저장
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
-
-            File dir = new File(inputImgDir);
-
-            // 디렉토리가 존재하지 않으면 생성
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String fileName = image.getOriginalFilename();
-            File dest = new File(inputImgDir + File.separator + fileName);
-
-            log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
-
-            try {
-                image.transferTo(dest);
-                session.setAttribute("inputImgPath", dest.getAbsolutePath());
-            } catch (IOException e) {
-                log.error("파일 저장 중 오류 발생: ", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
-            }
-
-            session.setAttribute("uploadedImage", fileName);
+            String inputImgPath = interiorService.saveUploadedFile(image);
+            session.setAttribute("inputImgPath", inputImgPath);
+            session.setAttribute("uploadedImg", image.getOriginalFilename());
         }
 
         log.info("프롬프트 내용 : {}", prompt);
