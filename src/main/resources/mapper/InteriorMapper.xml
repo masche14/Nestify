@@ -8,13 +8,18 @@
          USER_ID,
          INPUT_IMG,
          GENERATED_IMG,
-         REG_DT)
+         REG_ID,
+         REG_DT,
+         CHG_ID,
+         CHG_DT)
         VALUES (
-                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A),
+                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A WHERE USER_ID = #{userId}),
                 #{userId},
                 #{inputImg},
                 #{generatedImg},
-                NOW()
-               )
+                #{regId},
+                NOW(),
+                #{chgId},
+               NOW())
     </insert>
 </mapper>

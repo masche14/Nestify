@@ -10,6 +10,8 @@ public class GRecordDTO {
     private String userId;
     private String inputImg;
     private String generatedImg;
+    private String regId;
     private String regDt;
-
+    private String chgId;
+    private String chgDt;
 }
