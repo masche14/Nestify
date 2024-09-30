@@ -554,6 +554,57 @@ public class UserController {
         }
     }
 
+    @GetMapping("/delInfo")
+    public String showDelInfo(HttpSession session){
+        String pwdVerifyResult = (String) session.getAttribute("pwdVerifyResult");
+
+        if (pwdVerifyResult==null) {
+            return "redirect:/User/index";
+        }
+
+        return "/User/delInfo";
+    }
+
+    @PostMapping("/delInfo")
+    public String procDelInfo(HttpSession session, HttpServletRequest request){
+        String userId = (String) session.getAttribute("SS_USER_ID");
+        log.info(userId);
+
+        String delOrNot = request.getParameter("delOrNot");
+        log.info(delOrNot);
+
+        int res = 0;
+        UserInfoDTO pDTO;
+
+
+        switch (delOrNot) {
+            case "cancel":
+                log.info("삭제 취소");
+                return "redirect:/User/index";
+            case "confirm":
+                log.info("삭제 진행");
+
+                try {
+                    pDTO = new UserInfoDTO();
+
+                    pDTO.setUserId(userId);
+
+                    res = userInfoService.deleteUserInfo(pDTO);
+
+                    if (res == 1) {
+                        log.info("삭제 완료했습니다.");
+                        return "redirect:/User/logout";
+                    }
+                } catch (Exception e) {
+                    log.info("삭제에 실패했습니다.");
+                }
+                return "redirect:/User/delInfo";
+            default:
+                log.info("예외");
+                return "redirect:/User/delInfo";
+        }
+    }
+
     @GetMapping("/myPage")
     public String showMyPage(HttpSession session, Model model) {
         String pwdVerifyResult = (String) session.getAttribute("pwdVerifyResult");

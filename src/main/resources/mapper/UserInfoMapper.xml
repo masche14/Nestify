@@ -79,6 +79,11 @@
         WHERE USER_ID = #{userId}
     </update>
 
+    <delete id="deleteUserInfo" parameterType="UserInfoDTO">
+        DELETE FROM USER_INFO
+        WHERE USER_ID = #{userId}
+    </delete>
+
 
 
 </mapper>

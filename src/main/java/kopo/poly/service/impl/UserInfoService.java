@@ -128,4 +128,23 @@ public class UserInfoService implements IUserInfoService {
 
         return res;
     }
+
+    @Transactional
+    @Override
+    public int deleteUserInfo(UserInfoDTO pDTO) throws Exception {
+        log.info("{}.deleteUserInfo Start", this.getClass().getName());
+
+        int res;
+
+        int success = userInfoMapper.deleteUserInfo(pDTO);
+
+        if (success > 0) {
+            res = 1;
+        } else {
+            res = 0;
+        }
+
+        log.info("{}.deleteUserInfo End", this.getClass().getName());
+        return res;
+    }
 }

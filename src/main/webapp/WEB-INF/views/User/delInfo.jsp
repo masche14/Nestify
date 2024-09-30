@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: zskfn
-  Date: 2024-09-20
-  Time: 오후 7:18
+  User: data21
+  Date: 2024-09-11
+  Time: 오후 4:31
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,15 +10,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>비밀번호 인증</title>
+    <title>아이디 찾기 결과</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/userStyles.css">
-    <script src="/js/getExists.js" defer></script>
+    <script src="/js/setSource.js" defer></script>
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script>
-        // DOM이 완전히 로드된 후에 실행되도록 설정
+        // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
 
@@ -28,20 +28,11 @@
                 document.getElementById("myPageNav").style.display = "none";
                 document.getElementById("logoutNav").style.display = "none";
             }
-
-            const error = "<%= (String) session.getAttribute("msg") %>";
-
-            console.log(error);
-
-            if (error && error.trim() !== "null") {
-                alert(error);
-                <% session.removeAttribute("msg"); %>
-            }
         });
 
-        function goDelOrUpdate(selection) {
-            document.getElementById('selection').value=selection;
-            document.getElementById('delOrUpdate').submit();
+        function doOrNot(selection){
+            document.getElementById('delOrNot').value=selection;
+            document.getElementById('delInfo').submit();
         }
     </script>
 </head>
@@ -64,20 +55,30 @@
         </div>
     </div>
 
-    <div class="content_wrapper">
-        <div class="content select_menu full_height">
-            <form class="space_even" action="/User/delOrUpdate" method="post" id="delOrUpdate">
-                <input type="hidden" id="selection" name="selection">
-                <button type="button" class="container add_height_25" id="goUpdate" onclick="goDelOrUpdate('update')">
-                    <div>회원정보 수정</div>
-                </button>
-                <button type="button" class="container add_height_25" id="goDelete" onclick="goDelOrUpdate('delete')">
-                    <div>회원 탈퇴</div>
-                </button>
+    <div class="content">
+        <div class="container">
+            <form method="post" action="/User/delInfo" id="delInfo">
+                <div class="form_box">
+                    <div class="noti">
+                        <div class="show_info" id="user_info">
+                            <span>정말 탈퇴하시겠습니까?</span>
+                        </div>
+                        <div class="extra_top_margin input_box">
+                            <input type="hidden" name="delOrNot" id="delOrNot">
+                            <button type="button" class="two_button" id="goBack" onclick="doOrNot('cancel')">
+                                <div>취소</div>
+                            </button>
+                            <button type="button" class="two_button" id="goToDelete" onclick="doOrNot('confirm')">
+                                <div>회원탈퇴</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
 <footer></footer>
 </body>
 </html>
