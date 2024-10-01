@@ -43,11 +43,13 @@
             const agreeButton = document.getElementById("agreeButton");
             const termsCheckbox = document.getElementById("confirm_terms");
             const termsLabel = document.querySelector("label[for='confirm_terms']");
+            let isAgreed = false;  // 동의 여부를 저장할 변수
 
             // 라벨 클릭 시 모달 열기
             termsLabel.addEventListener('click', function (event) {
                 event.preventDefault();  // 기본 동작 막기
                 modal.style.display = "block";
+                isAgreed = true;
             });
 
             // 모달 닫기 버튼 클릭 시 모달 닫기
@@ -65,6 +67,13 @@
             window.addEventListener('click', function (event) {
                 if (event.target === modal) {
                     modal.style.display = "none";
+                }
+            });
+
+            termsCheckbox.addEventListener('click', function (event) {
+                if (!isAgreed) {
+                    event.preventDefault();  // 기본 체크/해제 동작 막기
+                    alert("이용약관을 먼저 확인하고 동의해야 합니다.");
                 }
             });
 
