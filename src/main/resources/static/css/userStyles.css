@@ -396,7 +396,8 @@ a {
 .modal-content {
     width: 21%;
     min-width: 21.375rem;
-    height: 40%;
+    height: 25%;
+    min-height: 16.375rem;
     background-color: #fff;
     padding: 10px 20px 20px 20px;
     border: 1px solid #888;
@@ -441,7 +442,7 @@ a {
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 25px;
     font-weight: bold;
 }
 

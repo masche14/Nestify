@@ -135,9 +135,9 @@
     <div class="modal-content">
         <div class="close-area">
             <span class="close">&times;</span>
+            <p style="text-align: center; font-weight: bolder; font-size: larger">이용약관</p>
         </div>
         <div class="terms-content">
-            <p style="text-align: center; font-weight: bolder; font-size: larger">이용약관</p>
             <p>회원가입을 위해 아래와 같이 개인정보를 수집하고 있습니다.</p>
             <p>
                 - 수집 항목: 이름, 이메일 주소, 성별
