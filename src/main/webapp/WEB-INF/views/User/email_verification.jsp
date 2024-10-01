@@ -43,46 +43,44 @@
 </head>
 <body>
 <header></header>
-<div class="black">
 
-    <!-- 네비게이션 바 -->
-    <div class="navbar">
-        <!-- 좌측 로고 -->
-        <img src="/nestifyLogo.png" alt="Logo" class="logo">
+<!-- 네비게이션 바 -->
+<div class="navbar">
+    <!-- 좌측 로고 -->
+    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-        <!-- 우측 메뉴 -->
-        <div class="menu">
-            <a href="/User/index">홈</a>
-            <a href="#">인테리어</a>
-            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-            <a href="/User/logout" id="logoutNav">로그아웃</a>
-        </div>
+    <!-- 우측 메뉴 -->
+    <div class="menu">
+        <a href="/User/index">홈</a>
+        <a href="#">인테리어</a>
+        <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
+</div>
 
-    <div class="content">
-        <div class="container">
-            <form method="post" action="/User/email_verification" id="emailVerificationForm">
-                <input type="hidden" id="sourceField" name="source">
-                <div class="form_box">
-                    <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
-                    <div class="input_box">
-                        <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." required>
-                        <button type="button" id="send_code" class="side_btn" onclick="getEmailExists('input_email')">코드전송</button>
-                    </div>
+<div class="content">
+    <div class="container">
+        <form method="post" action="/User/email_verification" id="emailVerificationForm">
+            <input type="hidden" id="sourceField" name="source">
+            <div class="form_box">
+                <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
+                <div class="input_box">
+                    <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." required>
+                    <button type="button" id="send_code" class="side_btn" onclick="getEmailExists('input_email')">코드전송</button>
                 </div>
-                <div class="form_box">
-                    <label class="label_bold" for="email_confirm">인증코드 입력</label>
-                    <div class="input_box">
-                        <input type="text" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력." required>
-                        <button type="button" id="check_code" class="side_btn" onclick="approveCode()">인증확인</button>
-                    </div>
+            </div>
+            <div class="form_box">
+                <label class="label_bold" for="email_confirm">인증코드 입력</label>
+                <div class="input_box">
+                    <input type="text" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력." required>
+                    <button type="button" id="check_code" class="side_btn" onclick="approveCode()">인증확인</button>
                 </div>
-                <div class="button_login_wrap">
-                    <button type="submit" class="btn_next" id="nextButton">다음</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="button_login_wrap">
+                <button type="submit" class="btn_next" id="nextButton">다음</button>
+            </div>
+        </form>
     </div>
 </div>
 

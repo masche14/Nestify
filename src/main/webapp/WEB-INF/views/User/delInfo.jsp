@@ -38,44 +38,42 @@
 </head>
 <body>
 <header></header>
-<div class="black">
 
-    <!-- 네비게이션 바 -->
-    <div class="navbar">
-        <!-- 좌측 로고 -->
-        <img src="/nestifyLogo.png" alt="Logo" class="logo">
+<!-- 네비게이션 바 -->
+<div class="navbar">
+    <!-- 좌측 로고 -->
+    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-        <!-- 우측 메뉴 -->
-        <div class="menu">
-            <a href="/User/index">홈</a>
-            <a href="#">인테리어</a>
-            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-            <a href="/User/logout" id="logoutNav">로그아웃</a>
-        </div>
+    <!-- 우측 메뉴 -->
+    <div class="menu">
+        <a href="/User/index">홈</a>
+        <a href="#">인테리어</a>
+        <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
+</div>
 
-    <div class="content">
-        <div class="container">
-            <form method="post" action="/User/delInfo" id="delInfo">
-                <div class="form_box">
-                    <div class="noti">
-                        <div class="show_info" id="user_info">
-                            <span>정말 탈퇴하시겠습니까?</span>
-                        </div>
-                        <div class="extra_top_margin input_box">
-                            <input type="hidden" name="delOrNot" id="delOrNot">
-                            <button type="button" class="two_button" id="goBack" onclick="doOrNot('cancel')">
-                                <div>취소</div>
-                            </button>
-                            <button type="button" class="two_button" id="goToDelete" onclick="doOrNot('confirm')">
-                                <div>회원탈퇴</div>
-                            </button>
-                        </div>
+<div class="content">
+    <div class="container">
+        <form method="post" action="/User/delInfo" id="delInfo">
+            <div class="form_box">
+                <div class="noti">
+                    <div class="show_info" id="user_info">
+                        <span>정말 탈퇴하시겠습니까?</span>
+                    </div>
+                    <div class="extra_top_margin input_box">
+                        <input type="hidden" name="delOrNot" id="delOrNot">
+                        <button type="button" class="two_button" id="goBack" onclick="doOrNot('cancel')">
+                            <div>취소</div>
+                        </button>
+                        <button type="button" class="two_button" id="goToDelete" onclick="doOrNot('confirm')">
+                            <div>회원탈퇴</div>
+                        </button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 

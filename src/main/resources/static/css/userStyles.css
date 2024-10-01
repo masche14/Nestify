@@ -9,6 +9,7 @@ html {
 }
 
 body {
+    background-color: rgba(0, 0, 0, 0.5);
     margin: 3.75rem 0 0 0;
     width: 100%;
     height: 100%;
@@ -394,14 +395,16 @@ a {
 
 .modal-content {
     width: 21%;
+    min-width: 21.375rem;
     height: 40%;
     background-color: #fff;
-    padding: 20px;
+    padding: 10px 20px 20px 20px;
     border: 1px solid #888;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap : 1px;
+    border-radius: 0.5rem;
+
 }
 
 .terms-content {
@@ -409,7 +412,7 @@ a {
     justify-content: space-between;
     flex-direction: column;
     width: 100%;
-    height: 60%;
+    height: 80%;
 }
 
 .terms-content>p {

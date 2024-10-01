@@ -47,37 +47,36 @@
 </head>
 <body>
 <header></header>
-<div class="black">
 
-    <!-- 네비게이션 바 -->
-    <div class="navbar">
-        <!-- 좌측 로고 -->
-        <img src="/nestifyLogo.png" alt="Logo" class="logo">
+<!-- 네비게이션 바 -->
+<div class="navbar">
+    <!-- 좌측 로고 -->
+    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-        <!-- 우측 메뉴 -->
-        <div class="menu">
-            <a href="/User/index">홈</a>
-            <a href="#">인테리어</a>
-            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-            <a href="/User/logout" id="logoutNav">로그아웃</a>
-        </div>
-    </div>
-
-    <div class="content_wrapper">
-        <div class="content select_menu full_height">
-            <form class="space_even" action="/User/delOrUpdate" method="post" id="delOrUpdate">
-                <input type="hidden" id="selection" name="selection">
-                <button type="button" class="container add_height_25" id="goUpdate" onclick="goDelOrUpdate('update')">
-                    <div>회원정보 수정</div>
-                </button>
-                <button type="button" class="container add_height_25" id="goDelete" onclick="goDelOrUpdate('delete')">
-                    <div>회원 탈퇴</div>
-                </button>
-            </form>
-        </div>
+    <!-- 우측 메뉴 -->
+    <div class="menu">
+        <a href="/User/index">홈</a>
+        <a href="#">인테리어</a>
+        <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
+
+<div class="content_wrapper">
+    <div class="content select_menu full_height">
+        <form class="space_even" action="/User/delOrUpdate" method="post" id="delOrUpdate">
+            <input type="hidden" id="selection" name="selection">
+            <button type="button" class="container add_height_25" id="goUpdate" onclick="goDelOrUpdate('update')">
+                <div>회원정보 수정</div>
+            </button>
+            <button type="button" class="container add_height_25" id="goDelete" onclick="goDelOrUpdate('delete')">
+                <div>회원 탈퇴</div>
+            </button>
+        </form>
+    </div>
+</div>
+
 <footer></footer>
 </body>
 </html>

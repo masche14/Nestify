@@ -62,56 +62,54 @@
 <body>
 <header></header>
 
-<div class="black">
+<!-- 네비게이션 바 -->
+<div class="navbar">
+    <!-- 좌측 로고 -->
+    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-    <!-- 네비게이션 바 -->
-    <div class="navbar">
-        <!-- 좌측 로고 -->
-        <img src="/nestifyLogo.png" alt="Logo" class="logo">
-
-        <!-- 우측 메뉴 -->
-        <div class="menu">
-            <a href="/User/index">홈</a>
-            <a href="#">인테리어</a>
-            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-            <a href="/User/logout" id="logoutNav">로그아웃</a>
-        </div>
-    </div>
-
-    <div class="content">
-        <div class="container">
-            <form method="post" action="/User/signin" id="signinForm">
-                <div class="form_box">
-                    <label class="label_bold" for="input_id">아이디 / ID</label>
-                    <div class="input_box">
-                        <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
-                    </div>
-                </div>
-                <div class="form_box">
-                    <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
-                    <div class="input_box">
-                        <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
-                    </div>
-                </div>
-                <div class="form_box">
-                    <input type="checkbox" class="auto_login_chk" id="auto_login" name="auto_login">
-                    <label class="margin_lef_zero" for="auto_login">자동 로그인</label>
-                </div>
-                <div class="button_login_wrap">
-                    <button type="submit" class="btn_login">로그인</button>
-                </div>
-                <div class="forgot_login">
-                    <a href="email_verification" onclick="setSourceAndSubmit('signup')">회원가입</a>
-                    <span> / </span>
-                    <a href="email_verification" onclick="setSourceAndSubmit('find_id')">아이디 찾기</a>
-                    <span> / </span>
-                    <a href="email_verification" onclick="setSourceAndSubmit('reset_pwd')">비밀번호 재설정</a>
-                </div>
-            </form>
-        </div>
+    <!-- 우측 메뉴 -->
+    <div class="menu">
+        <a href="/User/index">홈</a>
+        <a href="#">인테리어</a>
+        <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
+
+<div class="content">
+    <div class="container">
+        <form method="post" action="/User/signin" id="signinForm">
+            <div class="form_box">
+                <label class="label_bold" for="input_id">아이디 / ID</label>
+                <div class="input_box">
+                    <input type="text" class="input_info" id="input_id" name="id" placeholder="아이디를 입력하세요." required>
+                </div>
+            </div>
+            <div class="form_box">
+                <label class="label_bold" for="input_pwd">비밀번호 / PASSWORD</label>
+                <div class="input_box">
+                    <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." required>
+                </div>
+            </div>
+            <div class="form_box">
+                <input type="checkbox" class="auto_login_chk" id="auto_login" name="auto_login">
+                <label class="margin_lef_zero" for="auto_login">자동 로그인</label>
+            </div>
+            <div class="button_login_wrap">
+                <button type="submit" class="btn_login">로그인</button>
+            </div>
+            <div class="forgot_login">
+                <a href="email_verification" onclick="setSourceAndSubmit('signup')">회원가입</a>
+                <span> / </span>
+                <a href="email_verification" onclick="setSourceAndSubmit('find_id')">아이디 찾기</a>
+                <span> / </span>
+                <a href="email_verification" onclick="setSourceAndSubmit('reset_pwd')">비밀번호 재설정</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <footer></footer>
 </body>
 </html>

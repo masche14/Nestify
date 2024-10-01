@@ -259,8 +259,6 @@ public class UserController {
             return "redirect:index";
         }
 
-        log.info("test : {}",emailResultDTO.getExistsYn());
-
         if (emailResultDTO.getExistsYn().equals("Y")) {
             String alert = "해당 이메일로 가입된 계정이 이미 존재합니다.";
             session.setAttribute("error", alert);

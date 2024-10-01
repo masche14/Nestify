@@ -47,45 +47,43 @@
 </head>
 <body>
 <header></header>
-<div class="black">
 
-    <!-- 네비게이션 바 -->
-    <div class="navbar">
-        <!-- 좌측 로고 -->
-        <img src="/nestifyLogo.png" alt="Logo" class="logo">
+<!-- 네비게이션 바 -->
+<div class="navbar">
+    <!-- 좌측 로고 -->
+    <img src="/nestifyLogo.png" alt="Logo" class="logo">
 
-        <!-- 우측 메뉴 -->
-        <div class="menu">
-            <a href="/User/index">홈</a>
-            <a href="#">인테리어</a>
-            <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-            <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-            <a href="/User/logout" id="logoutNav">로그아웃</a>
-        </div>
+    <!-- 우측 메뉴 -->
+    <div class="menu">
+        <a href="/User/index">홈</a>
+        <a href="#">인테리어</a>
+        <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
+        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/User/logout" id="logoutNav">로그아웃</a>
     </div>
+</div>
 
-    <div class="content">
-        <div class="container">
-            <form method="post" action="/User/find_id" id="findIdForm">
-                <div class="form_box">
-                    <div class="noti">
-                        <div class="show_info" id="user_info">
-                            <span id="nameDisplay"></span>
-                            <span>님의 아이디는</span>
-                        </div>
-                        <div class="show_info" id="id_info">
-                            <span id="idDisplay"></span>
-                            <span>입니다.</span>
-                        </div>
-                        <div class="extra_top_margin input_box">
-                            <input type="hidden" name="findIdSource" id="findIdSource">
-                            <button type="button" class="two_button" id="goToLogin" onclick="setSource('signin')">로그인 페이지</button>
-                            <button type="button" class="two_button" id="goToResetPwd" onclick="setSource('reset_pwd')">비밀번호 재설정</button>
-                        </div>
+<div class="content">
+    <div class="container">
+        <form method="post" action="/User/find_id" id="findIdForm">
+            <div class="form_box">
+                <div class="noti">
+                    <div class="show_info" id="user_info">
+                        <span id="nameDisplay"></span>
+                        <span>님의 아이디는</span>
+                    </div>
+                    <div class="show_info" id="id_info">
+                        <span id="idDisplay"></span>
+                        <span>입니다.</span>
+                    </div>
+                    <div class="extra_top_margin input_box">
+                        <input type="hidden" name="findIdSource" id="findIdSource">
+                        <button type="button" class="two_button" id="goToLogin" onclick="setSource('signin')">로그인 페이지</button>
+                        <button type="button" class="two_button" id="goToResetPwd" onclick="setSource('reset_pwd')">비밀번호 재설정</button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
