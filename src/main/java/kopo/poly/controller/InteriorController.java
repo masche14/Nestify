@@ -133,11 +133,13 @@ public class InteriorController {
             String generatedImgName = (String) session.getAttribute("generatedImgName");
             String regId = (String) session.getAttribute("SS_USER_ID");
             String chgId = (String) session.getAttribute("SS_USER_ID");
+            String newInputImgName = interiorService.fileNameEncode(userId);
 
             log.info("userId : {}", userId);
             log.info("rootPath : {}", rootPath);
             log.info("inputImgDir : {}", inputImgDir);
             log.info("inputImgName : {}", inputImgName);
+            log.info("newInputImgName : {}", newInputImgName);
             log.info("generatedImgDir : {}", generatedImgDir);
             log.info("generatedImgName : {}", generatedImgName);
             log.info("regId : {}", regId);
@@ -149,6 +151,7 @@ public class InteriorController {
             pDTO.setRootPath(rootPath);
             pDTO.setInputImgDir(inputImgDir);
             pDTO.setInputImgName(inputImgName);
+            pDTO.setNewInputImgName(newInputImgName);
             pDTO.setGeneratedImgDir(generatedImgDir);
             pDTO.setGeneratedImgName(generatedImgName);
             pDTO.setRegId(regId);

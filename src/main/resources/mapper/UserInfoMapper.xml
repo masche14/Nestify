@@ -74,6 +74,7 @@
             <if test="password != null and password != ''">
                 PASSWORD = #{password},
             </if>
+            CHG_ID = #{chgId},
             CHG_DT = NOW()
         </set>
         WHERE USER_ID = #{userId}

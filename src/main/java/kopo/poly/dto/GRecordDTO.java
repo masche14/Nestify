@@ -11,6 +11,7 @@ public class GRecordDTO {
     private String rootPath;
     private String inputImgDir;
     private String inputImgName;
+    private String newInputImgName;
     private String generatedImgDir;
     private String generatedImgName;
     private String regId;

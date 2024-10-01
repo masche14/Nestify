@@ -391,6 +391,8 @@ public class UserController {
 //                String userNickname = CmmUtil.nvl(request.getParameter("nickname"));
                 String userId = CmmUtil.nvl(request.getParameter("id"));
                 String password = CmmUtil.nvl(EncryptUtil.encHashSHA256(request.getParameter("pwd")));
+                String chgId;
+                chgId = userId;
 
 //                log.info("userName : {}", userName);
 //                log.info("gender : {}", gender);
@@ -407,6 +409,7 @@ public class UserController {
 //                pDTO.setUserNickname(userNickname);
                 pDTO.setUserId(userId);
                 pDTO.setPassword(password);
+                pDTO.setChgId(chgId);
 
                 res = userInfoService.updateUserInfo(pDTO);
 
@@ -687,6 +690,9 @@ public class UserController {
                 session.setAttribute("SS_USER_EMAIL", userEmail);
             }
 
+            String chgId ;
+            chgId = userId;
+
             log.info("userNickname : {}", userNickname);
             log.info("userId : {}", userId);
             log.info("password : {}", password);
@@ -698,6 +704,7 @@ public class UserController {
             pDTO.setUserNickname(userNickname);
             pDTO.setUserId(userId);
             pDTO.setPassword(password);
+            pDTO.setChgId(chgId);
 
             res = userInfoService.updateUserInfo(pDTO);
 
