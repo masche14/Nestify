@@ -37,6 +37,37 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
+            // 모달 요소와 버튼, 체크박스 참조
+            const modal = document.getElementById("termsModal");
+            const closeButton = document.getElementsByClassName("close")[0];
+            const agreeButton = document.getElementById("agreeButton");
+            const termsCheckbox = document.getElementById("confirm_terms");
+            const termsLabel = document.querySelector("label[for='confirm_terms']");
+
+            // 라벨 클릭 시 모달 열기
+            termsLabel.addEventListener('click', function (event) {
+                event.preventDefault();  // 기본 동작 막기
+                modal.style.display = "block";
+            });
+
+            // 모달 닫기 버튼 클릭 시 모달 닫기
+            closeButton.addEventListener('click', function () {
+                modal.style.display = "none";
+            });
+
+            // 동의 버튼 클릭 시 체크박스 체크하고 모달 닫기
+            agreeButton.addEventListener('click', function () {
+                termsCheckbox.checked = true;
+                modal.style.display = "none";
+            });
+
+            // 모달 외부 클릭 시 모달 닫기
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
             // 폼 제출 전 확인하는 함수
             function validateForm(event) {
                 if (!idChecked || !nicknameChecked) {
@@ -89,6 +120,26 @@
         session.removeAttribute("error");
     }
 %>
+
+<!-- 이용약관 모달 -->
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <div class="close-area">
+            <span class="close">&times;</span>
+        </div>
+        <div class="terms-content">
+            <p style="text-align: center; font-weight: bolder; font-size: larger">이용약관</p>
+            <p>회원가입을 위해 아래와 같이 개인정보를 수집하고 있습니다.</p>
+            <p>
+                - 수집 항목: 이름, 이메일 주소, 성별
+                <br>- 수집 목적: 회원 식별 및 서비스 제공
+                <br>- 보유 기간: 회원 탈퇴 시까지
+            </p>
+            <p>개인정보 수집 및 이용에 동의합니다.</p>
+        </div>
+        <button class="agree-btn" id="agreeButton">동의</button>
+    </div>
+</div>
 
 <!-- 리다이렉트 폼 -->
 <form id="redirectForm" action="/User/find_id" method="get" style="display: none;"></form>
