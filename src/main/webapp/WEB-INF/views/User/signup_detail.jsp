@@ -48,7 +48,7 @@
             // 라벨 클릭 시 모달 열기
             termsLabel.addEventListener('click', function (event) {
                 event.preventDefault();  // 기본 동작 막기
-                modal.style.display = "block";
+                modal.style.display = "flex";
                 isAgreed = true;
             });
 
