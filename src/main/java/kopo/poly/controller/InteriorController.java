@@ -111,7 +111,6 @@ public class InteriorController {
             }
         }
 
-
         File savedFile = null;
 
         // 저장된 파일을 다시 불러옴
