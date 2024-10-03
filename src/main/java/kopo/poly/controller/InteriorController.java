@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -128,7 +129,8 @@ public class InteriorController {
             }
         }
 
-        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId); // API에서 생성된 이미지 URL
+//        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId); // API에서 생성된 이미지 URL
+        String generatedImageUrl = "/myPageImg.webp";
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
         if (count > 0) {
@@ -269,5 +271,17 @@ public class InteriorController {
     @GetMapping("/result")
     public  String showResult(HttpSession session){
         return "/Interior/result";
+    }
+
+    @GetMapping("/records")
+    public String showRecords(HttpSession session) throws Exception{
+        String userId = (String) session.getAttribute("SS_USER_ID");
+        GRecordDTO pDTO = new GRecordDTO();
+        pDTO.setUserId(userId);
+
+        List<GRecordDTO> rList = interiorService.getRecords(pDTO);
+        session.setAttribute("rList", rList);
+
+        return "/Interior/records";
     }
 }
