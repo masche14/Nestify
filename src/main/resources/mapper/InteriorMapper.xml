@@ -30,4 +30,10 @@
                 #{chgId},
                NOW())
     </insert>
+
+    <select id="getRecords" parameterType="GRecordDTO" resultType="GRecordDTO">
+        SELECT ROOT_PATH, GENERATED_IMG_DIR, GENERATED_IMG_NAME
+        FROM G_RECORD
+        WHERE USER_ID = #{userId}
+    </select>
 </mapper>

@@ -32,9 +32,8 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,6 +53,7 @@ public class InteriorService implements IInteriorService {
     @Value("${OpenAi_Key}")
     private String openAiKey;
 
+    // G_RECORD 데이터베이스 추가
     @Transactional
     @Override
     public int insertRecord(GRecordDTO pDTO) throws Exception {
@@ -74,6 +74,16 @@ public class InteriorService implements IInteriorService {
         return res;
     }
 
+    // G_RECORD 유저 기록 조회
+    @Override
+    public List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception {
+        log.info("{}.getRecords Start", this.getClass().getName());
+        List<GRecordDTO> rList = interiorMapper.getRecords(pDTO);
+        log.info("{}.getRecords End", this.getClass().getName());
+        return rList;
+    }
+
+    // 이미지 이름 재생성
     @Override
     public String fileNameEncode(String userId){
         LocalDate localdate = LocalDate.now();
@@ -88,9 +98,12 @@ public class InteriorService implements IInteriorService {
         return userId+"_"+date+time;
     }
 
+    // API 이미지 생성 요청
     @Override
     public String generateImg(File savedFile, String prompt, String userId) throws Exception {
         log.info("이미지 생성 시작");
+
+        log.info("프롬프트 내용 : {}", prompt);
 
         if (!savedFile.exists()) {
             log.error("저장된 파일을 찾을 수 없습니다.");
@@ -154,8 +167,12 @@ public class InteriorService implements IInteriorService {
         );
         log.info("API 호출 완료");
 
+        log.info("API 응답 내용: {}", response.toString());
+        log.info("API 응답 본문(JSON): {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
+
         // 6. 응답 처리
         if (response.getStatusCode() == HttpStatus.OK) {
+
             JsonNode rootNode = objectMapper.readTree(response.getBody());
             JsonNode dataNode = rootNode.path("data");
 
