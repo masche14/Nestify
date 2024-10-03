@@ -290,6 +290,8 @@ public class InteriorController {
         String jsonRList = new Gson().toJson(rList);
         session.setAttribute("jsonRList", jsonRList);
 
+        log.info(jsonRList);
+
         session.setAttribute("rList", rList);
 
         return "/Interior/records";
