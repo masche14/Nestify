@@ -1,5 +1,6 @@
 package kopo.poly.controller;
 
+import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 import kopo.poly.dto.GRecordDTO;
 import kopo.poly.service.IInteriorService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -223,6 +225,8 @@ public class InteriorController {
         // 예: 서버의 디렉토리에 이미지 저장
         log.info(imageUrl);
 
+        String userId = (String) session.getAttribute("SS_USER_ID");
+
         File dir = new File(rootPath+File.separator+generatedImgDir);
 
         // URL로부터 InputStream 가져오기
@@ -235,7 +239,7 @@ public class InteriorController {
             inputStream = url.openStream(); // 이미지 데이터를 가져옴
 
             // 이미지 파일명을 지정할 때 원본 URL에서 파일명 추출 가능
-            String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+            String fileName = "ai_"+interiorService.fileNameEncode(userId) + ".png";
 
             // 저장할 경로와 파일 이름 설정
             outputPath = Paths.get(rootPath+File.separator+generatedImgDir + File.separator + fileName);
@@ -259,6 +263,8 @@ public class InteriorController {
         } catch (IOException e) {
             log.error("이미지 저장 중 오류 발생: ", e);
             throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             // InputStream과 OutputStream 닫기
             if (inputStream != null) inputStream.close();
@@ -274,12 +280,16 @@ public class InteriorController {
     }
 
     @GetMapping("/records")
-    public String showRecords(HttpSession session) throws Exception{
+    public String showRecords(HttpSession session, Model model) throws Exception{
         String userId = (String) session.getAttribute("SS_USER_ID");
         GRecordDTO pDTO = new GRecordDTO();
         pDTO.setUserId(userId);
 
         List<GRecordDTO> rList = interiorService.getRecords(pDTO);
+
+        String jsonRList = new Gson().toJson(rList);
+        session.setAttribute("jsonRList", jsonRList);
+
         session.setAttribute("rList", rList);
 
         return "/Interior/records";
