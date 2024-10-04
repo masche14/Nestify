@@ -45,6 +45,8 @@
                 const file = fileInput.files[0];
                 const prompt = promptInput.value;
 
+                const modal = document.getElementById("termsModal");
+
                 if (!file) {
                     alert("이미지를 첨부해주세요.");
                     return;
@@ -59,6 +61,8 @@
                 const formData = new FormData();
                 formData.append("image", file);
                 formData.append("prompt", prompt);
+
+                modal.style.display="flex";
 
                 try {
                     // 서버로 이미지와 프롬프트 전송
@@ -85,6 +89,8 @@
                     console.error("에러 발생: ", error);
                     alert("요청 처리 중 문제가 발생했습니다.");
                 }
+
+                modal.style.display="none";
             });
 
             // 재생성 버튼 클릭 시
@@ -140,6 +146,16 @@
 </head>
 <body>
 <header></header>
+
+<!-- 이미지 생성중 모달 -->
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <div class="generate-message">
+            <span>요청하신 인테리어 디자인을 생성 중입니다.</span>
+        </div>
+    </div>
+</div>
+
 <!-- 네비게이션 바 -->
 <div class="navbar">
     <!-- 좌측 로고 -->

@@ -138,6 +138,8 @@ public class InteriorService implements IInteriorService {
 
         log.info("파일 저장 경로: {}", convertedFile.getAbsolutePath());
 
+        // -------------------------------------------------------------
+
         // 2. 헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

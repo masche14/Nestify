@@ -87,19 +87,23 @@
     </div>
 </div>
 
-<div class="content" style="flex-direction: row; gap: 5px">
-<%--    <div class="top"></div>--%>
-    <button type="button" class="page-controll" id="goPrev">&lt;</button>
-    <div class="records-container" style="height: auto">
-        <div class="main">
-            <div id="imageBox">
-                <img class="image-records" id="previewImage" src="">
+<div class="content">
+    <div class="top"></div>
+    <div class="records-content">
+        <%--    <div class="top"></div>--%>
+        <button type="button" class="page-controll" id="goPrev">&lt;</button>
+        <div class="records-container" style="height: auto">
+            <div class="main">
+                <div id="imageBox">
+                    <img class="image-records" id="previewImage" src="">
+                </div>
             </div>
+            <div id="pageCounter" class="page-counter">1 / <%= maxNum %></div>
         </div>
-        <div id="pageCounter" class="page-counter">1 / <%= maxNum %></div>
+        <button type="button" class="page-controll" id="goNext">&gt;</button>
+        <%--    <div class="bottom"></div>--%>
     </div>
-    <button type="button" class="page-controll" id="goNext">&gt;</button>
-<%--    <div class="bottom"></div>--%>
+    <div class="bottom"></div>
 </div>
 
 <footer></footer>
