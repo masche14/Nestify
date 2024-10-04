@@ -115,6 +115,8 @@ public class UserController {
                     return "redirect:/Interior/makeNew";
                 case "/Interior/choose":
                     return "redirect:/Interior/choose";
+                case "/Interior/records":
+                    return "redirect:/Interior/records";
                 default:
                     return "redirect:/User/index";
             }
