@@ -113,6 +113,8 @@ public class UserController {
             switch (ref){
                 case "/Interior/makeNew":
                     return "redirect:/Interior/makeNew";
+                case "/Interior/choose":
+                    return "redirect:/Interior/choose";
                 default:
                     return "redirect:/User/index";
             }
