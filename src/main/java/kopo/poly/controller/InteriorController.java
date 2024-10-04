@@ -133,7 +133,8 @@ public class InteriorController {
 
         log.info("프롬프트 내용 : {}", prompt);
 
-//        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId); // API에서 생성된 이미지 URL
+        // API 요청
+//        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId);
         String generatedImageUrl = "/myPageImg.webp";
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
