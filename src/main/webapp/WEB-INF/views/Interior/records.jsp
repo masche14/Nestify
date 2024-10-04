@@ -38,13 +38,20 @@
             const maxNum = <%= maxNum %>;
             const rList = <%= jsonRList %>;  // 세션에서 가져온 jsonRList 사용
 
+            console.log(maxNum);
+
             // 이미지 업데이트 함수
             function updateImage() {
-                const imgDir = rList[num].generatedImgDir;
-                const imgName = rList[num].generatedImgName;
-                document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
-                // 페이지 카운터 업데이트
-                document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
+                if (maxNum>0) {
+                    const imgDir = rList[num].generatedImgDir;
+                    const imgName = rList[num].generatedImgName;
+                    document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
+                    // 페이지 카운터 업데이트
+                    document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
+                } else {
+                    document.getElementById('previewImage').style.display="none";
+                    document.getElementById('ifEmpty').style.display="flex";
+                }
             }
 
             // 이전 버튼 클릭 시
@@ -96,6 +103,9 @@
             <div class="main">
                 <div id="imageBox">
                     <img class="image-records" id="previewImage" src="">
+                    <div class="if-empty" id="ifEmpty">
+                        인테리어 디자인 생성 기록이 없습니다.
+                    </div>
                 </div>
             </div>
             <div id="pageCounter" class="page-counter"></div>
