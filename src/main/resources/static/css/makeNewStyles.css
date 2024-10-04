@@ -163,6 +163,8 @@
     display: none;
     justify-content: center;
     align-items: center;
-    font-size: x-large;
+    font-size: larger;
+    flex-direction: column;
+    gap : 5px;
 }
 

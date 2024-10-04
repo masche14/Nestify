@@ -74,6 +74,10 @@
 
             // 페이지 로드 시 첫 이미지 설정
             updateImage();
+
+            document.getElementById('ifEmpty').addEventListener("click", function (){
+                document.location.href="/Interior/makeNew";
+            })
         });
     </script>
 </head>
@@ -104,7 +108,8 @@
                 <div id="imageBox">
                     <img class="image-records" id="previewImage" src="">
                     <div class="if-empty" id="ifEmpty">
-                        인테리어 디자인 생성 기록이 없습니다.
+                        <span>인테리어 디자인 생성 기록이 없습니다.</span>
+                        <span>디자인을 생성하려면 클릭하세요.</span>
                     </div>
                 </div>
             </div>
