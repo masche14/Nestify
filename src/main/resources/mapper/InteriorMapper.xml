@@ -18,7 +18,7 @@
          CHG_DT)
         VALUES (
                 #{userId},
-                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A),
+                (SELECT NVL(MAX(A.GENERATE_SEQ),0)+1 FROM G_RECORD A WHERE USER_ID=#{userId}),
                 #{rootPath},
                 #{inputImgDir},
                 #{inputImgName},
