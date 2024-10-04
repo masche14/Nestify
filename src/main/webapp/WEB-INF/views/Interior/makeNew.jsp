@@ -19,6 +19,8 @@
     <script src="/js/attachImage.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            <% session.removeAttribute("imageCount"); %>
+
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>";
             console.log(SS_USER_ID);
 

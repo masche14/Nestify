@@ -131,6 +131,8 @@ public class InteriorController {
             }
         }
 
+        log.info("프롬프트 내용 : {}", prompt);
+
 //        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId); // API에서 생성된 이미지 URL
         String generatedImageUrl = "/myPageImg.webp";
         log.info("generatedImageUrl : {}",generatedImageUrl);
@@ -149,12 +151,6 @@ public class InteriorController {
         response.put("generatedImageUrl", generatedImageUrl);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    // API로 이미지와 프롬프트를 전송하여 이미지 생성 URL을 반환하는 메서드 (예시) -> 서비스 클래스로 분리예정
-//    private String callImageGenerationApi(MultipartFile file, String prompt) {
-//        // 실제 API 호출 로직 (여기서는 예시로 하드코딩된 URL 반환)
-//        return "/myPageImg.webp";
-//    }
 
     @PostMapping("/saveGeneratedImage")
     public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {

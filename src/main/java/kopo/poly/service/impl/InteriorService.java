@@ -103,8 +103,6 @@ public class InteriorService implements IInteriorService {
     public String generateImg(File savedFile, String prompt, String userId) throws Exception {
         log.info("이미지 생성 시작");
 
-        log.info("프롬프트 내용 : {}", prompt);
-
         if (!savedFile.exists()) {
             log.error("저장된 파일을 찾을 수 없습니다.");
             throw new IllegalArgumentException("업로드된 파일이 없습니다.");
@@ -151,7 +149,7 @@ public class InteriorService implements IInteriorService {
         body.add("image", new FileSystemResource(convertedFile));  // 변환된 PNG 파일 전송
         body.add("prompt", prompt);
         body.add("n", 1);
-        body.add("size", "1024x1024");
+        body.add("size", "512x512");
         log.info("바디 생성 완료");
 
         // 4. 요청 엔티티 생성

@@ -87,7 +87,7 @@
     </div>
 </div>
 
-<div class="content" style="flex-direction: row">
+<div class="content" style="flex-direction: row; gap: 5px">
 <%--    <div class="top"></div>--%>
     <button type="button" class="page-controll" id="goPrev">&lt;</button>
     <div class="records-container" style="height: auto">
