@@ -292,4 +292,9 @@ public class InteriorController {
 
         return "/Interior/records";
     }
+
+    @GetMapping("/choose")
+    public String showChoosePage(){
+        return "/Interior/choose";
+    }
 }

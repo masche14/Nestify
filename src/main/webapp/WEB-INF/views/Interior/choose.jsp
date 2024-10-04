@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>메인페이지</title>
+    <title>서비스선택</title>
     <link rel="stylesheet" href="/css/indexStyles.css">
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css' rel='stylesheet' type='text/css'>
@@ -18,14 +18,22 @@
     <script src="/js/setReferrer.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-           const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
+            <% session.removeAttribute("imageCount"); %>
 
-           if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
-               document.getElementById("loginNav").style.display = "none";
-           } else {
-               document.getElementById("myPageNav").style.display = "none";
-               document.getElementById("logoutNav").style.display = "none";
-           }
+            const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>";
+            console.log(SS_USER_ID);
+
+            if (!SS_USER_ID || SS_USER_ID.trim() === "null") {
+                alert("로그인 후 이용해주세요.");
+                setReferrer();
+            }
+
+            if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
+                document.getElementById("loginNav").style.display = "none";
+            } else {
+                document.getElementById("myPageNav").style.display = "none";
+                document.getElementById("logoutNav").style.display = "none";
+            }
         });
     </script>
 </head>
@@ -62,10 +70,6 @@
         <a href="/Interior/records" class="service-box">
             <div><span>이전 인테리어 확인하기</span></div>
             <div><span>이전 인테리어 확인하기</span></div>
-        </a>
-        <a href="#" class="service-box">
-            <div><span>상품 가격 비교하기</span></div>
-            <div><span>상품 가격 비교하기</span></div>
         </a>
     </div>
     <div class="bottom"></div>
