@@ -98,7 +98,7 @@
                     <img class="image-records" id="previewImage" src="">
                 </div>
             </div>
-            <div id="pageCounter" class="page-counter">1 / <%= maxNum %></div>
+            <div id="pageCounter" class="page-counter"></div>
         </div>
         <button type="button" class="page-controll" id="goNext">&gt;</button>
         <%--    <div class="bottom"></div>--%>
