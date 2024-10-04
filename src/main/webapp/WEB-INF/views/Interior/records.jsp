@@ -43,7 +43,8 @@
                 const imgDir = rList[num].generatedImgDir;
                 const imgName = rList[num].generatedImgName;
                 document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
-                console.log("현재 이미지 번호: " + num);
+                // 페이지 카운터 업데이트
+                document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
             }
 
             // 이전 버튼 클릭 시
@@ -86,18 +87,19 @@
     </div>
 </div>
 
-<div class="content">
-    <div class="top"></div>
-    <div class="container" style="width: 400px; height: 400px; border-radius: 0.5rem">
-        <div id="imageBox">
-            <img id="previewImage" src="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0.5rem">
+<div class="content" style="flex-direction: row">
+<%--    <div class="top"></div>--%>
+    <button type="button" class="page-controll" id="goPrev">&lt;</button>
+    <div class="records-container" style="height: auto">
+        <div class="main">
+            <div id="imageBox">
+                <img class="image-records" id="previewImage" src="">
+            </div>
         </div>
-        <div class="extra_top_margin input_box two_button_wrapper">
-            <button type="button" class="two_button" id="goPrev">이전</button>
-            <button type="button" class="two_button" id="goNext">다음</button>
-        </div>
+        <div id="pageCounter" class="page-counter">1 / <%= maxNum %></div>
     </div>
-    <div class="bottom"></div>
+    <button type="button" class="page-controll" id="goNext">&gt;</button>
+<%--    <div class="bottom"></div>--%>
 </div>
 
 <footer></footer>

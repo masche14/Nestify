@@ -59,7 +59,7 @@
             <div><span>새로운 인테리어 생성하기</span></div>
             <div><span>새로운 인테리어 생성하기</span></div>
         </a>
-        <a href="#" class="service-box">
+        <a href="/Interior/records" class="service-box">
             <div><span>이전 인테리어 확인하기</span></div>
             <div><span>이전 인테리어 확인하기</span></div>
         </a>
