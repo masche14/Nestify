@@ -36,14 +36,21 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
+            let count = 0;
+
             // 전송 버튼 클릭 시
             document.getElementById("submit").addEventListener("click", async function(event) {
                 event.preventDefault();
+
+                count++;
 
                 const fileInput = document.getElementById("fileInput");
                 const promptInput = document.getElementById("promptInput");
                 const file = fileInput.files[0];
                 const prompt = promptInput.value;
+                const imageUrl = document.getElementById("previewImage").src;
+
+                console.log("url : "+imageUrl);
 
                 const modal = document.getElementById("termsModal");
 
@@ -61,6 +68,7 @@
                 const formData = new FormData();
                 formData.append("image", file);
                 formData.append("prompt", prompt);
+                formData.append("imageUrl", imageUrl);
 
                 modal.style.display="flex";
 

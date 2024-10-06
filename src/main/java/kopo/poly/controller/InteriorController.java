@@ -54,7 +54,8 @@ public class InteriorController {
     public ResponseEntity<Map<String, String>> procUpload(
             HttpSession session,
             @RequestParam("image") MultipartFile image,
-            @RequestParam("prompt") String prompt
+            @RequestParam("prompt") String prompt,
+            @RequestParam("imageUrl") String imageUrl
     ) throws Exception {
         log.info("{}.procUpload 시작", this.getClass().getName());
 
@@ -68,26 +69,26 @@ public class InteriorController {
 
         log.info(String.valueOf(count));
 
-        String saveDir = "C:/uploads";
-        File saveDirectory = new File(saveDir);
-        if (!saveDirectory.exists()) {
-            saveDirectory.mkdirs();  // 디렉토리가 없으면 생성
-        }
+        String saveDir = null;
+        String outputPath = null;
+        String fileName = image.getOriginalFilename();
+        String newFileName = interiorService.fileNameEncode(userId)+".png";
+        String fileUrl = null;
 
-        String fileName = null;
         // 카운트가 0일 때만 서버에 이미지 저장
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
 
-            File dir = new File(rootPath+File.separator+inputImgDir);
+            saveDir = rootPath+File.separator+inputImgDir;
+
+            File saveDirectory = new File(saveDir);
 
             // 디렉토리가 존재하지 않으면 생성
-            if (!dir.exists()) {
-                dir.mkdirs();
+            if (!saveDirectory.exists()) {
+                saveDirectory.mkdirs();
             }
 
-            fileName = image.getOriginalFilename();
-            File dest = new File(rootPath+File.separator+inputImgDir + File.separator + fileName);
+            File dest = new File(saveDir + File.separator + newFileName);
 
             log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
 
@@ -99,37 +100,22 @@ public class InteriorController {
             }
 
             session.setAttribute("inputImgName", fileName);
+            session.setAttribute("newInputImgName", newFileName);
+            fileUrl = File.separator+inputImgDir + File.separator + newFileName;
+
         } else if (count>0) {
+            log.info("재생성 요청된 이미지 url : {}", imageUrl.toString());
 
-            fileName = image.getOriginalFilename();
-            File dest = new File(saveDirectory + File.separator + fileName);
+            String saveYn = "n";
 
-            log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
+            outputPath = saveImageToServer(imageUrl, session, saveYn);
 
-            try {
-                image.transferTo(dest);
-            } catch (IOException e) {
-                log.error("파일 저장 중 오류 발생: ", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
-            }
+            log.info("재생성 이미지 임시 저장 완료 : {}", outputPath);
+
+            fileUrl = outputPath.split(":")[1];
         }
 
-        File savedFile = null;
-
-        // 저장된 파일을 다시 불러옴
-        if (count == 0){
-            savedFile = new File(rootPath+File.separator+inputImgDir + File.separator + fileName);
-            if (!savedFile.exists()) {
-                log.error("저장된 파일을 찾을 수 없습니다.");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else if (count > 0){
-            savedFile = new File(saveDirectory + File.separator + fileName);
-            if (!savedFile.exists()) {
-                log.error("저장된 파일을 찾을 수 없습니다.");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
+        log.info("fileUrl : {}", fileUrl);
 
         log.info("프롬프트 내용 : {}", prompt);
 
@@ -139,6 +125,8 @@ public class InteriorController {
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
         if (count > 0) {
+            File savedFile = new File(outputPath);
+            log.info(savedFile.getAbsolutePath());
             savedFile.delete();
             log.info("임시파일 삭제 완료");
         }
@@ -164,10 +152,12 @@ public class InteriorController {
 
         String imageUrl = data.get("imageUrl");
 
+        String saveYn = "y";
+
         // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
-            saveImageToServer(imageUrl, session); // 실제 저장 로직은 구현 필요
+            saveImageToServer(imageUrl, session, saveYn); // 실제 저장 로직은 구현 필요
 
             log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
@@ -214,10 +204,11 @@ public class InteriorController {
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to save image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     // 이미지 저장 메서드 (예시) -> 서비스 클래스로 분리예정
-    private String saveImageToServer(String imageUrl, HttpSession session) throws IOException {
+    private String saveImageToServer(String imageUrl, HttpSession session, String saveYn) throws IOException {
         // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
         // 예: 서버의 디렉토리에 이미지 저장
         log.info(imageUrl);
@@ -238,8 +229,12 @@ public class InteriorController {
             // 이미지 파일명을 지정할 때 원본 URL에서 파일명 추출 가능
             String fileName = "ai_"+interiorService.fileNameEncode(userId) + ".png";
 
-            // 저장할 경로와 파일 이름 설정
-            outputPath = Paths.get(rootPath+File.separator+generatedImgDir + File.separator + fileName);
+            if (saveYn.equals("y")) {
+                // 저장할 경로와 파일 이름 설정
+                outputPath = Paths.get(dir + File.separator + fileName);
+            } else {
+                outputPath = Paths.get("C:/uploads" + File.separator + fileName);
+            }
 
             // 디렉토리 생성 (존재하지 않으면)
             Files.createDirectories(outputPath.getParent());
