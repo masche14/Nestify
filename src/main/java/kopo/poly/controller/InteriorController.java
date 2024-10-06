@@ -133,7 +133,7 @@ public class InteriorController {
         if (count > 0) {
             File savedFile = new File(outputPath);
             log.info(savedFile.getAbsolutePath());
-//            savedFile.delete();
+            savedFile.delete();
             log.info("임시파일 삭제 완료");
         }
 
