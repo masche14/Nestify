@@ -117,6 +117,12 @@ public class InteriorController {
 
         log.info("fileUrl : {}", fileUrl);
 
+        String sourceUrl = fileUrl.replace("\\","/");
+
+        String forApiUrl = "http://localhost:11000"+sourceUrl;
+
+        log.info("forApiUrl : {}", forApiUrl);
+
         log.info("프롬프트 내용 : {}", prompt);
 
         // API 요청
@@ -127,7 +133,7 @@ public class InteriorController {
         if (count > 0) {
             File savedFile = new File(outputPath);
             log.info(savedFile.getAbsolutePath());
-            savedFile.delete();
+//            savedFile.delete();
             log.info("임시파일 삭제 완료");
         }
 
