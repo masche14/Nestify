@@ -157,8 +157,9 @@ public class InteriorController {
 
         // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
-            // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
-            saveImageToServer(imageUrl, session, saveYn); // 실제 저장 로직은 구현 필요
+            // 서버에 이미지 저장 로직
+            saveImageToServer(imageUrl, session, saveYn);
+
             String folderPath = "C:/uploads/";
             File folder = new File(folderPath);
 

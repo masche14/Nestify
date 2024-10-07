@@ -136,7 +136,8 @@ public class InteriorService implements IInteriorService {
             payload.put("samples", "1");
             payload.put("temp", false);
             payload.put("safety_checker", false);
-            payload.put("strength", 0.7);
+            payload.put("strength", 0.5);
+            payload.put("instant_response", false);
             payload.put("base64", true);
             payload.put("seed", JSONObject.NULL);
             payload.put("webhook", JSONObject.NULL);
@@ -146,6 +147,7 @@ public class InteriorService implements IInteriorService {
 
             // HTTP POST 요청 설정
             HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
+            conn.setInstanceFollowRedirects(false);  // 리디렉션을 따르지 않음
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
@@ -190,35 +192,58 @@ public class InteriorService implements IInteriorService {
 
     @Override
     public String downloadBase64Image(String base64DataUrl, String outputPath) {
-        try {
-            // base64 인코딩된 데이터를 담고 있는 URL에서 데이터 가져오기
-            URL url = new URL(base64DataUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+        int retryCount = 3; // 최대 재시도 횟수
+        int delay = 5000;   // 5초 지연 (밀리초 단위)
 
-            // 링크로부터 데이터를 읽어오기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-            StringBuilder base64Data = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                base64Data.append(line.trim());
+        for (int i = 0; i < retryCount; i++) {
+            try {
+                // base64 인코딩된 데이터를 담고 있는 URL에서 데이터 가져오기
+                URL url = new URL(base64DataUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                log.info("인코딩 페이지 로드");
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // 링크로부터 데이터를 읽어오기
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                    StringBuilder base64Data = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        base64Data.append(line.trim());
+                    }
+                    log.info("데이터 읽어오기");
+
+                    log.info("이미지 변환 시작");
+                    // base64 문자열을 디코딩하여 이미지로 변환
+                    byte[] imageBytes = Base64.getDecoder().decode(base64Data.toString());
+                    log.info("이미지 변환 완료");
+
+                    // 파일로 저장
+                    try (FileOutputStream fos = new FileOutputStream(outputPath)) {
+                        fos.write(imageBytes);
+                        log.info("이미지 파일이 '" + outputPath + "'로 저장되었습니다.");
+                    }
+
+                    return outputPath.split(":")[1];
+                } else {
+                    log.error("HTTP 요청 실패: 응답 코드 " + responseCode);
+                }
+
+            } catch (Exception e) {
+                log.error("오류 발생: ", e);
             }
 
-            // base64 문자열을 디코딩하여 이미지로 변환
-            byte[] imageBytes = Base64.getDecoder().decode(base64Data.toString());
-
-            // 파일로 저장
-            try (FileOutputStream fos = new FileOutputStream(outputPath)) {
-                fos.write(imageBytes);
-                System.out.println("이미지 파일이 '" + outputPath + "'로 저장되었습니다.");
+            // 재시도 전에 일정 시간 대기
+            try {
+                log.info("재시도 대기 중: " + (i + 1) + "번째 시도");
+                Thread.sleep(delay); // 5초 대기
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt(); // 현재 스레드의 인터럽트를 복구
+                break;
             }
-
-            // 저장된 이미지 파일의 경로 반환
-            return outputPath.split(":")[1];
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+
+        return null;
     }
 }

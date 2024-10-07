@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="/css/makeNewStyles.css">
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
-    <script src="/js/attachImage.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
