@@ -8,6 +8,7 @@ import kopo.poly.mapper.IInteriorMapper;
 import kopo.poly.service.IInteriorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -21,10 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,6 +51,9 @@ public class InteriorService implements IInteriorService {
 
     @Value("${OpenAi_Key}")
     private String openAiKey;
+
+    @Value("${IMAGEN_KEY}")
+    private String imagenKey;
 
 
     // G_RECORD 데이터베이스 추가
@@ -109,95 +111,114 @@ public class InteriorService implements IInteriorService {
             throw new IllegalArgumentException("업로드된 파일이 없습니다.");
         }
 
-//        // 이미지 파일을 읽어 BufferedImage로 변환
-//        BufferedImage bufferedImage = ImageIO.read(savedFile);
-//
-//        // 이미지 포맷이 RGB이면 RGBA로 변환
-//        BufferedImage rgbaImage = new BufferedImage(
-//                bufferedImage.getWidth(),
-//                bufferedImage.getHeight(),
-//                BufferedImage.TYPE_INT_ARGB // RGBA 포맷으로 변환
-//        );
-//
-//        // 기존 이미지의 픽셀을 RGBA 이미지에 복사
-//        Graphics2D g2d = rgbaImage.createGraphics();
-//        g2d.drawImage(bufferedImage, 0, 0, null);
-//        g2d.dispose();
-//
-//        // PNG로 변환 후 저장
-//        String newFileName = fileNameEncode(userId) + ".png";
-//        log.info("새로운 파일명 : {}", newFileName);
-//
-//        String saveDir = "C:/uploads";
-//        File saveDirectory = new File(saveDir);
-//        if (!saveDirectory.exists()) {
-//            saveDirectory.mkdirs();  // 디렉토리가 없으면 생성
-//        }
-//
-//        File convertedFile = new File(saveDirectory, newFileName);
-//        ImageIO.write(rgbaImage, "png", convertedFile);
-//
-//        log.info("파일 저장 경로: {}", convertedFile.getAbsolutePath());
-//
-//        // -------------------------------------------------------------
-//
-//        // 2. 헤더 설정
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//        headers.set("Authorization", "Bearer " + openAiKey);
-//        log.info("헤더 설정 완료");
-//
-//        // 3. 파일과 프롬프트를 전송할 Multipart 요청 바디 구성
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.add("image", new FileSystemResource(convertedFile));  // 변환된 PNG 파일 전송
-//        body.add("prompt", prompt);
-//        body.add("n", 1);
-//        body.add("size", "512x512");
-//        log.info("바디 생성 완료");
-//
-//        // 4. 요청 엔티티 생성
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//        log.info("엔티티 생성 완료");
-//
-//        // 5. OpenAI API 호출
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                "https://api.openai.com/v1/images/edits",
-//                HttpMethod.POST,
-//                requestEntity,
-//                String.class
-//        );
-//        log.info("API 호출 완료");
-//
-//        log.info("API 응답 내용: {}", response.toString());
-//        log.info("API 응답 본문(JSON): {}", objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response.getBody()));
-//
-//        // 6. 응답 처리
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//
-//            JsonNode rootNode = objectMapper.readTree(response.getBody());
-//            JsonNode dataNode = rootNode.path("data");
-//
-//            if (dataNode.isArray() && dataNode.size() > 0) {
-//                String generatedImageUrl = dataNode.get(0).path("url").asText();
-//                convertedFile.delete();
-//                return generatedImageUrl;
-//            } else {
-//                throw new RuntimeException("이미지 URL을 찾을 수 없습니다.");
-//            }
-//        } else {
-//            throw new RuntimeException("API 요청 실패: " + response.getStatusCode());
-//        }
         // 파일 경로
         String imagePath = savedFile.getAbsolutePath();
+        String fileName = "ai_"+fileNameEncode(userId)+".png";
+        String outputPath = "C:/uploads/"+fileName;
 
-        // Base64 인코딩
-        byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-        String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+        try {
+            // 이미지 파일을 Base64로 인코딩
+            byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+            String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
 
-        // API URL
-        String apiUrl = "https://modelslab.com/api/v6/realtime/img2img";
+            // API URL
+            String apiUrl = "https://modelslab.com/api/v6/realtime/img2img";
 
+            log.info("요청 데이터 생성");
+            // 요청할 JSON 데이터 생성
+            JSONObject payload = new JSONObject();
+            payload.put("key", imagenKey);
+            payload.put("prompt", prompt);
+            payload.put("negative_prompt", "bad quality");
+            payload.put("init_image", encodedImage);
+            payload.put("width", "512");
+            payload.put("height", "512");
+            payload.put("samples", "1");
+            payload.put("temp", false);
+            payload.put("safety_checker", false);
+            payload.put("strength", 0.7);
+            payload.put("base64", true);
+            payload.put("seed", JSONObject.NULL);
+            payload.put("webhook", JSONObject.NULL);
+            payload.put("track_id", JSONObject.NULL);
 
-        return  null;
+            log.info("요청데이터 생성 완료");
+
+            // HTTP POST 요청 설정
+            HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            log.info("요청 전송");
+            // JSON 데이터 전송
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = payload.toString().getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            // 응답 받기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+            log.info("응답 도착");
+            // JSON 응답 처리
+            JSONObject responseJson = new JSONObject(response.toString());
+            if ("success".equals(responseJson.getString("status"))) {
+                // Base64 데이터가 있는 링크를 가져오기
+                String base64DataUrl = responseJson.getJSONArray("output").getString(0);
+
+                // base64 데이터 다운로드 및 이미지로 변환 후 저장
+                String savedImagePath = downloadBase64Image(base64DataUrl, outputPath);
+
+                // 이미지 파일 경로를 URL로 변환하여 반환
+                return "http://localhost:11000"+savedImagePath;
+            } else {
+                System.out.println("API 요청 실패: " + responseJson.getString("message"));
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String downloadBase64Image(String base64DataUrl, String outputPath) {
+        try {
+            // base64 인코딩된 데이터를 담고 있는 URL에서 데이터 가져오기
+            URL url = new URL(base64DataUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // 링크로부터 데이터를 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder base64Data = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                base64Data.append(line.trim());
+            }
+
+            // base64 문자열을 디코딩하여 이미지로 변환
+            byte[] imageBytes = Base64.getDecoder().decode(base64Data.toString());
+
+            // 파일로 저장
+            try (FileOutputStream fos = new FileOutputStream(outputPath)) {
+                fos.write(imageBytes);
+                System.out.println("이미지 파일이 '" + outputPath + "'로 저장되었습니다.");
+            }
+
+            // 저장된 이미지 파일의 경로 반환
+            return outputPath.split(":")[1];
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

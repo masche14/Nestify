@@ -129,15 +129,8 @@ public class InteriorController {
         File savedFile = new File(outputPath);
 
         // API 요청
-//        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId);
-        String generatedImageUrl = "/myPageImg.webp";
+        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId);
         log.info("generatedImageUrl : {}",generatedImageUrl);
-
-//        if (count > 0) {
-//            log.info(savedFile.getAbsolutePath());
-//            savedFile.delete();
-//            log.info("임시파일 삭제 완료");
-//        }
 
         // 세션에 API로 생성된 이미지 저장
         session.setAttribute("generatedImageUrl", generatedImageUrl);
@@ -166,6 +159,28 @@ public class InteriorController {
         try {
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             saveImageToServer(imageUrl, session, saveYn); // 실제 저장 로직은 구현 필요
+            String folderPath = "C:/uploads/";
+            File folder = new File(folderPath);
+
+            // 폴더가 존재하고 디렉토리인지 확인
+            if (folder.exists() && folder.isDirectory()) {
+                File[] files = folder.listFiles(); // 폴더 내 파일 목록 가져오기
+
+                if (files != null) {
+                    for (File file : files) {
+                        if (file.isFile()) {
+                            // 파일 삭제
+                            if (file.delete()) {
+                                System.out.println(file.getName() + " 파일이 삭제되었습니다.");
+                            } else {
+                                System.out.println(file.getName() + " 파일을 삭제할 수 없습니다.");
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println("해당 폴더가 존재하지 않거나 디렉토리가 아닙니다.");
+            }
 
             log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
