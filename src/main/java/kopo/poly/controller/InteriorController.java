@@ -89,8 +89,8 @@ public class InteriorController {
             }
 
             File dest = new File(saveDir + File.separator + newFileName);
-
-            log.info("사용자 첨부 이미지 저장 : {}", dest.getAbsolutePath());
+            outputPath=dest.getAbsolutePath();
+            log.info("사용자 첨부 이미지 저장 : {}", outputPath);
 
             try {
                 image.transferTo(dest);
@@ -105,6 +105,7 @@ public class InteriorController {
 
         } else if (count>0) {
             log.info("재생성 요청된 이미지 url : {}", imageUrl.toString());
+            log.info("파일명 : {}", imageUrl.substring(imageUrl.lastIndexOf("/")+1));
 
             String saveYn = "n";
 
@@ -125,17 +126,18 @@ public class InteriorController {
 
         log.info("프롬프트 내용 : {}", prompt);
 
+        File savedFile = new File(outputPath);
+
         // API 요청
 //        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId);
         String generatedImageUrl = "/myPageImg.webp";
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
-        if (count > 0) {
-            File savedFile = new File(outputPath);
-            log.info(savedFile.getAbsolutePath());
-            savedFile.delete();
-            log.info("임시파일 삭제 완료");
-        }
+//        if (count > 0) {
+//            log.info(savedFile.getAbsolutePath());
+//            savedFile.delete();
+//            log.info("임시파일 삭제 완료");
+//        }
 
         // 세션에 API로 생성된 이미지 저장
         session.setAttribute("generatedImageUrl", generatedImageUrl);
