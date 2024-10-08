@@ -126,6 +126,23 @@ a {
     text-decoration: none;
     color: inherit;
     flex-direction: column;
+    background-image: url("/service.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.service-box > div {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.625rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service-box > div > span {
+    color : white;
 }
 
 .service-box:nth-child(1) {
@@ -133,8 +150,8 @@ a {
     order: 1;
 }
 
-.service-box:nth-child(1):hover {
-    background-color: rgb(255, 255, 255);
+.service-box:nth-child(1) > div:hover {
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .service-box:nth-child(2) {
@@ -142,8 +159,8 @@ a {
     order: 1;
 }
 
-.service-box:nth-child(2):hover {
-    background-color: rgb(255, 255, 255);
+.service-box:nth-child(2)>div:hover {
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .service-box:nth-child(3) {
@@ -151,8 +168,8 @@ a {
     order: 1;
 }
 
-.service-box:nth-child(3):hover {
-    background-color: rgb(255, 255, 255);
+.service-box:nth-child(3)>div:hover {
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .black {
