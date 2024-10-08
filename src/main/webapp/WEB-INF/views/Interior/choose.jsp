@@ -64,12 +64,10 @@
     </div>
     <div class="container no-margin">
         <a href="/Interior/makeNew" class="service-box">
-            <div><span>새로운 인테리어 생성하기</span></div>
-            <div><span>새로운 인테리어 생성하기</span></div>
+            <div><span style="font-size: larger">새로운 인테리어 생성하기</span></div>
         </a>
         <a href="/Interior/records" class="service-box">
-            <div><span>이전 인테리어 확인하기</span></div>
-            <div><span>이전 인테리어 확인하기</span></div>
+            <div><span style="font-size: larger">이전 인테리어 확인하기</span></div>
         </a>
     </div>
     <div class="bottom"></div>
