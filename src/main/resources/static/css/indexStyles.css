@@ -127,48 +127,28 @@ a {
     color: inherit;
     flex-direction: column;
     background-image: url("/service.png");
-    background-size: cover;
     background-position: center;
+    background-size: cover;
 }
 
 .service-box > div {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 0.625rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.service-box > div > span {
-    color : white;
-}
-
-.service-box:nth-child(1) {
-    background-color: rgba(255, 255, 255, 0.7);
-    order: 1;
-}
-
-.service-box:nth-child(1) > div:hover {
+.service-box>div:nth-child(1):hover {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.service-box:nth-child(2) {
-    background-color: rgba(255, 255, 255, 0.7);
-    order: 1;
-}
-
-.service-box:nth-child(2)>div:hover {
+.service-box>div:nth-child(2):hover {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.service-box:nth-child(3) {
-    background-color: rgba(255, 255, 255, 0.7);
-    order: 1;
-}
-
-.service-box:nth-child(3)>div:hover {
+.service-box>div:nth-child(3):hover {
     background-color: rgba(255, 255, 255, 0);
 }
 
