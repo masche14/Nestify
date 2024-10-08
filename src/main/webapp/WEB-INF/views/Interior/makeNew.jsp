@@ -92,6 +92,8 @@
                         // 프롬프트 입력 폼 숨기고, 선택 컨테이너 표시
                         document.getElementById("prompt_container").style.display = "none";
                         document.getElementById("select_container").style.display = "flex";
+
+                        fileInput.disabled = true;
                     } else {
                         alert("이미지 생성 요청에 실패했습니다.");
                     }

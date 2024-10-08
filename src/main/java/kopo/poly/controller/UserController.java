@@ -575,6 +575,8 @@ public class UserController {
             return "redirect:/User/index";
         }
 
+        session.removeAttribute("pwdVerifyResult");
+
         return "/User/delInfo";
     }
 

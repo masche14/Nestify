@@ -79,7 +79,7 @@ public class InteriorController {
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
 
-            saveDir = rootPath+File.separator+inputImgDir;
+            saveDir = "C:/uploads";
 
             File saveDirectory = new File(saveDir);
 
@@ -90,6 +90,8 @@ public class InteriorController {
 
             File dest = new File(saveDir + File.separator + newFileName);
             outputPath=dest.getAbsolutePath();
+            session.setAttribute("userInputImgPath", outputPath);
+            session.setAttribute("userInputImg", newFileName);
             log.info("사용자 첨부 이미지 저장 : {}", outputPath);
 
             try {
@@ -146,6 +148,19 @@ public class InteriorController {
     public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {
         log.info("{}.saveGeneratedImage 시작", this.getClass().getName());
 
+        String userInputImgPath = (String) session.getAttribute("userInputImgPath");
+        String userInputImg = (String) session.getAttribute("userInputImg");
+
+        File fromImg = new File(userInputImgPath);
+        File toImg = new File(rootPath+File.separator+inputImgDir+File.separator+userInputImg);
+
+        if (fromImg.renameTo(toImg)) {
+            log.info("사용자 이미지 저장 완료");
+
+        } else {
+            log.info("사용자 이미지 저장 실패");
+        }
+
         int res = 0;
         GRecordDTO pDTO;
 
@@ -186,7 +201,7 @@ public class InteriorController {
             log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
-            String inputImgName = (String) session.getAttribute("inputImgName");
+            String inputImgName = userInputImg;
             String generatedImgName = (String) session.getAttribute("generatedImgName");
             String regId = (String) session.getAttribute("SS_USER_ID");
             String chgId = (String) session.getAttribute("SS_USER_ID");
