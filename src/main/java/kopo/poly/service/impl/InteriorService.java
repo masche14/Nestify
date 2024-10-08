@@ -169,10 +169,12 @@ public class InteriorService implements IInteriorService {
 
             log.info("응답 도착");
             // JSON 응답 처리
-            JSONObject responseJson = new JSONObject(response.toString());
-            if ("success".equals(responseJson.getString("status"))) {
+            Map<String, Object> responseJson = new ObjectMapper().readValue(response.toString(), LinkedHashMap.class);
+            if ("success".equals(responseJson.get("status"))) {
                 // Base64 데이터가 있는 링크를 가져오기
-                String base64DataUrl = responseJson.getJSONArray("output").getString(0);
+                String base64DataUrl = responseJson.get("output").toString().split("\\[")[1].split("]")[0];
+
+                log.info("base64DataUrl : {}", base64DataUrl);
 
                 // base64 데이터 다운로드 및 이미지로 변환 후 저장
                 String savedImagePath = downloadBase64Image(base64DataUrl, outputPath);
@@ -180,7 +182,7 @@ public class InteriorService implements IInteriorService {
                 // 이미지 파일 경로를 URL로 변환하여 반환
                 return "http://localhost:11000"+savedImagePath;
             } else {
-                System.out.println("API 요청 실패: " + responseJson.getString("message"));
+                System.out.println("API 요청 실패: " + responseJson.get("message"));
                 return null;
             }
 
