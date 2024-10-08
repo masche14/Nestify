@@ -46,7 +46,12 @@ public class InteriorController {
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
         String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
-
+        session.removeAttribute("imageCount");
+        try {
+            interiorService.delTempFolder();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
         return "/Interior/makeNew";
     }
 
@@ -207,12 +212,16 @@ public class InteriorController {
             pDTO.setRegId(regId);
             pDTO.setChgId(chgId);
 
+            String generatedImgUrl = "http://localhost:11000/"+generatedImgDir+"/"+generatedImgName;
+            log.info("generatedImgUrl : {}", generatedImgUrl);
+
             res = interiorService.insertRecord(pDTO);
 
             log.info("레코드 저장 결과(res) : {}", res);
 
             if (res==1) {
                 log.info("성공적으로 저장하였습니다.");
+                session.setAttribute("generatedImgUrl", generatedImgUrl);
                 return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
             } else {
                 log.info("오류로 인해 실패하였습니다.");

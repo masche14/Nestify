@@ -24,7 +24,6 @@
             if (SS_USER_ID && SS_USER_ID.trim()==="null"){
                 alert("로그인 후 이용해주세요.");
                 setReferrer();
-                // window.location.href="/User/signin";
             }
 
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
@@ -34,26 +33,15 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
-            function validateForm(event) {
-                const image = document.getElementById("fileInput").value;
-                const prompt = document.getElementById("promptInput").value;
+            const generatedImgUrl = "<%=(String) session.getAttribute("generatedImgUrl") %>";
+            console.log("generatedUrl : "+generatedImgUrl);
+            document.getElementById('generatedImg').src = generatedImgUrl;
 
-                if (!image) {
-                    event.preventDefault();
-                    alert("이미지를 첨부해주세요.")
-                    return false;
-                }
+            // function validateForm(event) {
+            //     return true;
+            // }
 
-                if(!prompt.trim()) {
-                    event.preventDefault();
-                    alert("원하는 인테리어 스타일을 입력해주세요.");
-                    return false;
-                }
-
-                return true;
-            }
-
-            document.getElementById("submit").addEventListener("click", validateForm)
+            // document.getElementById("submit").addEventListener("click", validateForm)
         });
     </script>
 </head>
@@ -80,27 +68,7 @@
     <div class="container myPage">
         <div class="info_wrap">
             <div class="img_wrap">
-                <div class="img_box"></div>
-            </div>
-            <div class="info_box_container">
-                <div class="info_box">
-                    <div><span>이름</span></div>
-                    <div>
-                        <span id="nameDisplay"></span>
-                    </div>
-                </div>
-                <div class="info_box">
-                    <div><span>닉네임</span></div>
-                    <div>
-                        <span id="nicknameDisplay"></span>
-                    </div>
-                </div>
-                <div class="info_box">
-                    <div><span>이메일</span></div>
-                    <div>
-                        <span id="emailDisplay"></span>
-                    </div>
-                </div>
+                <img src="" id="generatedImg" alt="generatedimage" class="image-records"></img>
             </div>
         </div>
         <div class="form_wrap">
