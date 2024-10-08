@@ -126,30 +126,36 @@ a {
     text-decoration: none;
     color: inherit;
     flex-direction: column;
-    background-image: url("/service.png");
-    background-position: center;
-    background-size: cover;
+    /*background-image: url("/service.png");*/
+    /*background-position: center;*/
+    /*background-size: cover;*/
 }
 
-.service-box > div {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.15);
+.service-box:nth-child(1) {
+    background-color: rgba(255, 255, 255, 0.7);
+    order: 1;
 }
 
-.service-box>div:nth-child(1):hover {
-    background-color: rgba(255, 255, 255, 0);
+.service-box:nth-child(1):hover {
+    background-color: rgb(255, 255, 255);
 }
 
-.service-box>div:nth-child(2):hover {
-    background-color: rgba(255, 255, 255, 0);
+.service-box:nth-child(2) {
+    background-color: rgba(255, 255, 255, 0.7);
+    order: 1;
 }
 
-.service-box>div:nth-child(3):hover {
-    background-color: rgba(255, 255, 255, 0);
+.service-box:nth-child(2):hover {
+    background-color: rgb(255, 255, 255);
+}
+
+.service-box:nth-child(3) {
+    background-color: rgba(255, 255, 255, 0.7);
+    order: 1;
+}
+
+.service-box:nth-child(3):hover {
+    background-color: rgb(255, 255, 255);
 }
 
 .black {
