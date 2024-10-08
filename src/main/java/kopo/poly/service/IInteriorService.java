@@ -16,6 +16,8 @@ public interface IInteriorService {
 
     String downloadBase64Image(String base64DataUrl, String outputPath);
 
+    void delTempFolder() throws Exception;
+
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 
 }

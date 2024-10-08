@@ -1,7 +1,5 @@
 package kopo.poly.service.impl;
 
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kopo.poly.dto.GRecordDTO;
 import kopo.poly.mapper.IInteriorMapper;
@@ -10,23 +8,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -172,7 +161,8 @@ public class InteriorService implements IInteriorService {
             Map<String, Object> responseJson = new ObjectMapper().readValue(response.toString(), LinkedHashMap.class);
             if ("success".equals(responseJson.get("status"))) {
                 // Base64 데이터가 있는 링크를 가져오기
-                String base64DataUrl = responseJson.get("output").toString().split("\\[")[1].split("]")[0];
+                List<String> output = (List<String>) responseJson.get("output");
+                String base64DataUrl = output.get(0);
 
                 log.info("base64DataUrl : {}", base64DataUrl);
 
@@ -247,5 +237,30 @@ public class InteriorService implements IInteriorService {
         }
 
         return null;
+    }
+
+    public void delTempFolder() throws Exception {
+        String folderPath = "C:/uploads/";
+        File folder = new File(folderPath);
+
+        // 폴더가 존재하고 디렉토리인지 확인
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles(); // 폴더 내 파일 목록 가져오기
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        // 파일 삭제
+                        if (file.delete()) {
+                            System.out.println(file.getName() + " 파일이 삭제되었습니다.");
+                        } else {
+                            System.out.println(file.getName() + " 파일을 삭제할 수 없습니다.");
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("해당 폴더가 존재하지 않거나 디렉토리가 아닙니다.");
+        }
     }
 }

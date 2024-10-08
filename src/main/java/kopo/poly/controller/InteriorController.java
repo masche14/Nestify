@@ -103,7 +103,6 @@ public class InteriorController {
 
             session.setAttribute("inputImgName", fileName);
             session.setAttribute("newInputImgName", newFileName);
-            fileUrl = File.separator+inputImgDir + File.separator + newFileName;
 
         } else if (count>0) {
             log.info("재생성 요청된 이미지 url : {}", imageUrl.toString());
@@ -114,9 +113,9 @@ public class InteriorController {
             outputPath = saveImageToServer(imageUrl, session, saveYn);
 
             log.info("재생성 이미지 임시 저장 완료 : {}", outputPath);
-
-            fileUrl = outputPath.split(":")[1];
         }
+
+        fileUrl = outputPath.split(":")[1];
 
         log.info("fileUrl : {}", fileUrl);
 
@@ -175,30 +174,9 @@ public class InteriorController {
             // 서버에 이미지 저장 로직
             saveImageToServer(imageUrl, session, saveYn);
 
-            String folderPath = "C:/uploads/";
-            File folder = new File(folderPath);
+            // 임시파일 저장 폴더 비우기
+            interiorService.delTempFolder();
 
-            // 폴더가 존재하고 디렉토리인지 확인
-            if (folder.exists() && folder.isDirectory()) {
-                File[] files = folder.listFiles(); // 폴더 내 파일 목록 가져오기
-
-                if (files != null) {
-                    for (File file : files) {
-                        if (file.isFile()) {
-                            // 파일 삭제
-                            if (file.delete()) {
-                                System.out.println(file.getName() + " 파일이 삭제되었습니다.");
-                            } else {
-                                System.out.println(file.getName() + " 파일을 삭제할 수 없습니다.");
-                            }
-                        }
-                    }
-                }
-            } else {
-                System.out.println("해당 폴더가 존재하지 않거나 디렉토리가 아닙니다.");
-            }
-
-            log.info("디버그 1");
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
             String inputImgName = userInputImg;
