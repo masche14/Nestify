@@ -35,5 +35,6 @@
         SELECT GENERATE_SEQ, ROOT_PATH, GENERATED_IMG_DIR, GENERATED_IMG_NAME, REG_DT
         FROM G_RECORD
         WHERE USER_ID = #{userId}
+        ORDER BY REG_DT DESC
     </select>
 </mapper>
