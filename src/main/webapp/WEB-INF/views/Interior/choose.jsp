@@ -34,6 +34,22 @@
                 document.getElementById("myPageNav").style.display = "none";
                 document.getElementById("logoutNav").style.display = "none";
             }
+
+            document.querySelectorAll('.service').forEach(box => {
+                box.addEventListener('mouseover', (event) => {
+                    document.querySelectorAll('.service').forEach(otherBox => {
+                        if (otherBox !== event.target) {
+                            otherBox.classList.add('highlight');
+                        }
+                    });
+                });
+
+                box.addEventListener('mouseout', () => {
+                    document.querySelectorAll('.service').forEach(otherBox => {
+                        otherBox.classList.remove('highlight');
+                    });
+                });
+            });
         });
     </script>
 </head>
@@ -64,10 +80,10 @@
     </div>
     <div class="container no-margin">
         <a href="/Interior/makeNew" class="service-box">
-            <div><span style="font-size: larger">새로운 인테리어 생성하기</span></div>
+            <div class="service">새로운 인테리어 생성하기</div>
         </a>
         <a href="/Interior/records" class="service-box">
-            <div><span style="font-size: larger">이전 인테리어 확인하기</span></div>
+            <div class="service">이전 인테리어 확인하기</div>
         </a>
     </div>
     <div class="bottom"></div>
