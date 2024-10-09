@@ -158,6 +158,14 @@ public class InteriorController {
         File fromImg = new File(userInputImgPath);
         File toImg = new File(rootPath+File.separator+inputImgDir+File.separator+userInputImg);
 
+        Path inputPath = Paths.get(rootPath+File.separator+inputImgDir+File.separator+userInputImg);
+
+        try {
+            Files.createDirectories(inputPath.getParent());
+        } catch (Exception e) {
+            log.info("e");
+        }
+
         if (fromImg.renameTo(toImg)) {
             log.info("사용자 이미지 저장 완료");
 
