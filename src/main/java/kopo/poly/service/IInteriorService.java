@@ -1,5 +1,6 @@
 package kopo.poly.service;
 
+import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,6 @@ public interface IInteriorService {
 
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 
-    Map<String, Object> runImgAnalysisPython(String imagePath);
+    List<DetailDTO> runImgAnalysisPython(String imagePath);
 
 }

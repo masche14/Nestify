@@ -1,6 +1,8 @@
 package kopo.poly.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
 import kopo.poly.mapper.IInteriorMapper;
 import kopo.poly.service.IInteriorService;
@@ -265,29 +267,41 @@ public class InteriorService implements IInteriorService {
     }
 
     @Override
-    public Map<String, Object> runImgAnalysisPython(String imagePath) {
+    public List<DetailDTO> runImgAnalysisPython(String imagePath) {
         try {
-            // 파이썬 실행 명령어
+            // Python 실행 시 환경 변수 설정
             ProcessBuilder pb = new ProcessBuilder("python", "src/main/resources/python/image_analysis.py", imagePath);
+
+            // UTF-8 인코딩 강제 설정
+            Map<String, String> env = pb.environment();
+            env.put("PYTHONIOENCODING", "UTF-8");
+
             Process process = pb.start();
 
-            // 프로세스의 출력 읽기
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            // UTF-8 인코딩으로 Python 응답 읽기
             StringBuilder result = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
             }
 
             process.waitFor();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> resultMap = objectMapper.readValue(result.toString(), Map.class);
 
-            return resultMap;
+            // 로그로 JSON 데이터를 출력하여 확인
+            log.info("Python 응답: " + result.toString());
+
+            // JSON 문자열에 작은 따옴표가 포함되어 있는 경우 처리
+            String resultString = result.toString().replace("'", "\"");
+
+            // JSON 데이터를 처리
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(resultString, new TypeReference<List<DetailDTO>>() {});
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList(); // 오류 시 빈 리스트 반환
         }
     }
 }

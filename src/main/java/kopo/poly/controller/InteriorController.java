@@ -2,6 +2,7 @@ package kopo.poly.controller;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
+import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
 import kopo.poly.service.IInteriorService;
 import kopo.poly.util.CmmUtil;
@@ -231,8 +232,12 @@ public class InteriorController {
 
             if (res==1) {
                 log.info("성공적으로 저장하였습니다.");
-                session.setAttribute("generatedImgUrl", generatedImgUrl);
                 log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
+                List<DetailDTO> resp = interiorService.runImgAnalysisPython(imagePath);
+                for (DetailDTO detailDTO : resp) {
+                    log.info("category : {}",detailDTO.getCategory());
+                }
+                session.setAttribute("generatedImgUrl", generatedImgUrl);
 
                 return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
             } else {
