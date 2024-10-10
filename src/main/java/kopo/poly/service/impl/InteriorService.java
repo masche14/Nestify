@@ -268,6 +268,8 @@ public class InteriorService implements IInteriorService {
 
     @Override
     public List<DetailDTO> runImgAnalysisPython(String imagePath) {
+        log.info("이미지 분석 시작");
+
         try {
             // Python 실행 시 환경 변수 설정
             ProcessBuilder pb = new ProcessBuilder("python", "src/main/resources/python/image_analysis.py", imagePath);
@@ -303,5 +305,33 @@ public class InteriorService implements IInteriorService {
             e.printStackTrace();
             return Collections.emptyList(); // 오류 시 빈 리스트 반환
         }
+    }
+
+    @Override
+    public GRecordDTO getGenerateSeq(GRecordDTO pDTO) throws Exception {
+        log.info("{}.getGenerateSeq Start", this.getClass().getName());
+        GRecordDTO rDTO = interiorMapper.getGenerateSeq(pDTO);
+        log.info("getGenerateSeq : {}", String.valueOf(rDTO.getGenerateSeq()));
+        log.info("{}.getGenerateSeq End", this.getClass().getName());
+        return rDTO;
+    }
+
+    @Override
+    public int insertDetail(DetailDTO detailDTO) throws Exception {
+        log.info("{}.insertDetail Start", this.getClass().getName());
+
+        int res;
+
+        int success = interiorMapper.insertDetail(detailDTO);
+
+        if (success>0) {
+            res = 1;
+        } else {
+            res = 0;
+        }
+
+        log.info("{}.insertDetail End", this.getClass().getName());
+
+        return res;
     }
 }

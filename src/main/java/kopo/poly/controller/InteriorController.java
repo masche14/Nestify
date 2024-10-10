@@ -232,10 +232,30 @@ public class InteriorController {
 
             if (res==1) {
                 log.info("성공적으로 저장하였습니다.");
+
+                int result;
+
+                // generatedSeq 추출
+                GRecordDTO rDTO = interiorService.getGenerateSeq(pDTO);
+                int generateSeq = rDTO.getGenerateSeq();
+
                 log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
                 List<DetailDTO> resp = interiorService.runImgAnalysisPython(imagePath);
                 for (DetailDTO detailDTO : resp) {
-                    log.info("category : {}",detailDTO.getCategory());
+                    detailDTO.setUserId(userId);
+                    detailDTO.setGenerateSeq(generateSeq);
+                    detailDTO.setRegId(regId);
+                    detailDTO.setChgId(chgId);
+                    log.info("userId : {} / generateSeq : {} / category : {} / productName : {} / color : {} / features : {}", detailDTO.getUserId(), detailDTO.getGenerateSeq(), detailDTO.getCategory(), detailDTO.getProductName(), detailDTO.getColor(), detailDTO.getFeatures());
+
+                    // 디테일 테이블에 데이터 입력
+                    result = interiorService.insertDetail(detailDTO);
+                    if (result==1) {
+                        log.info("데이터를 성공적으로 저장하였습니다.");
+                    }
+                    else {
+                        log.info("데이터 저장에 실패하였습니다.");
+                    }
                 }
                 session.setAttribute("generatedImgUrl", generatedImgUrl);
 

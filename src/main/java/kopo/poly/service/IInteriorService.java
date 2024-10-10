@@ -24,4 +24,8 @@ public interface IInteriorService {
 
     List<DetailDTO> runImgAnalysisPython(String imagePath);
 
+    GRecordDTO getGenerateSeq(GRecordDTO pDTO) throws Exception;
+
+    int insertDetail(DetailDTO detailDTO) throws Exception;
+
 }

@@ -125,6 +125,9 @@
             document.getElementById("goNext").addEventListener("click", async function () {
                 document.getElementById("promptInput").value = "";
 
+                const analyzeModal = document.getElementById('analyzeModal');
+                analyzeModal.style.display="flex";
+
                 // 세션에 저장된 API로 생성된 이미지 URL 가져오기
                 const generatedImageUrl = document.getElementById("previewImage").src;
 
@@ -141,12 +144,15 @@
                     });
 
                     if (response.ok) {
+                        analyzeModal.style.display="none";
                         // 이미지 저장이 완료되면 결과 페이지로 이동
                         window.location.href = "/Interior/result";
                     } else {
+                        analyzeModal.style.display="none";
                         alert("이미지를 저장하는 데 실패했습니다.");
                     }
                 } catch (error) {
+                    analyzeModal.style.display="none";
                     console.error("에러 발생: ", error);
                     alert("이미지 저장 요청 중 문제가 발생했습니다.");
                 }
@@ -162,6 +168,14 @@
     <div class="modal-content">
         <div class="generate-message">
             <span>요청하신 인테리어 디자인을 생성 중입니다.</span>
+        </div>
+    </div>
+</div>
+
+<div id="analyzeModal" class="modal">
+    <div class="modal-content">
+        <div class="generate-message">
+            <span>이미지에서 인테리어 요소를 분석 중입니다.</span>
         </div>
     </div>
 </div>
