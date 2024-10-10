@@ -263,4 +263,28 @@ public class InteriorService implements IInteriorService {
             System.out.println("해당 폴더가 존재하지 않거나 디렉토리가 아닙니다.");
         }
     }
+
+    @Override
+    public String runImgAnalysisPython(String imagePath) {
+        try {
+            // 파이썬 실행 명령어
+            ProcessBuilder pb = new ProcessBuilder("python", "src/main/resources/python/image_analysis.py", imagePath);
+            Process process = pb.start();
+
+            // 프로세스의 출력 읽기
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+
+            process.waitFor();
+            return result.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Python 스크립트 실행 중 오류 발생";
+        }
+    }
 }

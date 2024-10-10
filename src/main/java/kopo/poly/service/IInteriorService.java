@@ -20,4 +20,6 @@ public interface IInteriorService {
 
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 
+    String runImgAnalysisPython(String imagePath);
+
 }

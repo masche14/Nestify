@@ -223,6 +223,8 @@ public class InteriorController {
             String generatedImgUrl = "http://localhost:11000/"+generatedImgDir+"/"+generatedImgName;
             log.info("generatedImgUrl : {}", generatedImgUrl);
 
+            String imagePath = rootPath+"/"+generatedImgDir+"/"+generatedImgName;
+
             res = interiorService.insertRecord(pDTO);
 
             log.info("레코드 저장 결과(res) : {}", res);
@@ -230,6 +232,8 @@ public class InteriorController {
             if (res==1) {
                 log.info("성공적으로 저장하였습니다.");
                 session.setAttribute("generatedImgUrl", generatedImgUrl);
+                log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
+
                 return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
             } else {
                 log.info("오류로 인해 실패하였습니다.");
