@@ -265,7 +265,7 @@ public class InteriorService implements IInteriorService {
     }
 
     @Override
-    public String runImgAnalysisPython(String imagePath) {
+    public Map<String, Object> runImgAnalysisPython(String imagePath) {
         try {
             // 파이썬 실행 명령어
             ProcessBuilder pb = new ProcessBuilder("python", "src/main/resources/python/image_analysis.py", imagePath);

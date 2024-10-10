@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface IInteriorService {
     int insertRecord(GRecordDTO pDTO) throws Exception;
@@ -20,6 +21,6 @@ public interface IInteriorService {
 
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 
-    String runImgAnalysisPython(String imagePath);
+    Map<String, Object> runImgAnalysisPython(String imagePath);
 
 }
