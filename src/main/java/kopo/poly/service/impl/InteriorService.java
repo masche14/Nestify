@@ -280,11 +280,14 @@ public class InteriorService implements IInteriorService {
             }
 
             process.waitFor();
-            return result.toString();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> resultMap = objectMapper.readValue(result.toString(), Map.class);
+
+            return resultMap;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Python 스크립트 실행 중 오류 발생";
+            return null;
         }
     }
 }

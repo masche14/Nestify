@@ -67,5 +67,5 @@ json_str = content[json_start:json_end].strip()
 # 추출한 JSON 문자열을 실제 파이썬 객체로 변환
 json_data = json.loads(json_str)
 
-# 결과 출력
-json_data
+# 결과를 JSON 형식으로 출력
+print(json.dumps(json_data))
