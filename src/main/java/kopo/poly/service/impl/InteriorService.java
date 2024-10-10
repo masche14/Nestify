@@ -310,8 +310,9 @@ public class InteriorService implements IInteriorService {
     @Override
     public GRecordDTO getGenerateSeq(GRecordDTO pDTO) throws Exception {
         log.info("{}.getGenerateSeq Start", this.getClass().getName());
+        log.info("generatedImgName : {}", pDTO.getGeneratedImgName());
         GRecordDTO rDTO = interiorMapper.getGenerateSeq(pDTO);
-        log.info("getGenerateSeq : {}", String.valueOf(rDTO.getGenerateSeq()));
+        log.info("getGenerateSeq : {}", rDTO.getGenerateSeq());
         log.info("{}.getGenerateSeq End", this.getClass().getName());
         return rDTO;
     }

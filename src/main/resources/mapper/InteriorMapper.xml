@@ -38,7 +38,7 @@
         ORDER BY REG_DT DESC
     </select>
 
-    <select id="getGeneratedSeq" parameterType="GRecordDTO" resultType="GRecordDTO">
+    <select id="getGenerateSeq" parameterType="GRecordDTO" resultType="GRecordDTO">
         SELECT GENERATE_SEQ
         FROM G_RECORD
         WHERE GENERATED_IMG_NAME = #{generatedImgName}
@@ -59,7 +59,7 @@
          CHG_DT)
         VALUES (#{userId},
                 #{generateSeq},
-                (SELECT NVL(MAX(A.DETAIL_SEQ),0)+1 FROM DETAIL A WHERE USER_ID=#{userId}) AND GENERATE_SEQ=#{generateSeq},
+                (SELECT NVL(MAX(A.DETAIL_SEQ),0)+1 FROM DETAIL A WHERE (USER_ID=#{userId}) AND GENERATE_SEQ=#{generateSeq}),
                 #{category},
                 #{productName},
                 #{color},
