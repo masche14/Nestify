@@ -318,7 +318,7 @@ a {
 .myPage {
     flex-direction: row !important;
     padding: 1.125rem 0.8125rem !important; /* 18px 13px -> 1.125rem 0.8125rem */
-    gap: 0.9375rem; /* 15px -> 0.9375rem */
+    /*gap: 0.9375rem; !* 15px -> 0.9375rem *!*/
 }
 
 .form_wrap {
@@ -327,19 +327,21 @@ a {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-left: 1rem;
+    padding-right: 0.3125rem;
 }
 
 .info_wrap {
     height: 100%;
     width: 31.25rem; /* 500px -> 31.25rem */
-    padding: 0.625rem; /* 10px -> 0.625rem */
+    padding: 0.625rem 0; /* 10px -> 0.625rem */
     padding-left: 0 !important;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     border-right: 0.0625rem solid;
     border-right-style: groove;
-    gap: 0;
+    gap: 0.625rem;
 }
 
 .info_box_container {
@@ -355,7 +357,8 @@ a {
 
 .img_wrap {
     height: 100%;
-    padding: 0.625rem;
+    padding: 0.3125rem 1rem;
+    padding-left: 0.3125rem !important;
 }
 
 .img_box {

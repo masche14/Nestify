@@ -149,7 +149,7 @@
                         window.location.href = "/Interior/result";
                     } else {
                         analyzeModal.style.display="none";
-                        alert("이미지를 저장하는 데 실패했습니다.");
+                        alert(response.body);
                     }
                 } catch (error) {
                     analyzeModal.style.display="none";

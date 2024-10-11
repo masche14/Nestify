@@ -1,4 +1,6 @@
-<%--
+<%@ page import="kopo.poly.dto.DetailDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="kopo.poly.util.CmmUtil" %><%--
   Created by IntelliJ IDEA.
   User: data21
   Date: 2024-09-24
@@ -16,6 +18,7 @@
     <link rel="stylesheet" href="/css/makeNewStyles.css">
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <% List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult"); %>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
@@ -70,47 +73,36 @@
             <div class="img_wrap">
                 <img src="" id="generatedImg" alt="generatedimage" class="image-records"></img>
             </div>
+            <div class="detail_wrap">
+                <%
+                    for (DetailDTO dto : rList) {
+                %>
+                <div>
+                    <div><%=CmmUtil.nvl(dto.getProductName())%> /
+                        <%=CmmUtil.nvl(dto.getCategory())%> /
+                        <%=CmmUtil.nvl(dto.getColor())%>
+                    </div>
+                    <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
+                </div>
+                <%
+                    }
+                %>
+            </div>
         </div>
-        <div class="form_wrap">
-            <form method="post" action="myPage" id="signupForm">
-                <div class="form_box">
-                    <label class="label_bold" for="input_nickname">닉네임 변경 / CHG_NICKNAME</label>
-                    <div class="input_box">
-                        <input type="text" class="send_code input_info" id="input_nickname" name="nickname" placeholder="닉네임을 입력하세요." disabled>
-                        <button type="button" class="side_btn" id="nick_check" onclick="checkDuplicate('input_nickname')">중복확인</button>
-                    </div>
-                    <p id="input_nicknameMessage"></p> <!-- 닉네임 중복 확인 결과 표시 -->
+        <div class="recommend_wrap">
+            <%
+                for (DetailDTO dto : rList) {
+            %>
+            <div class="recommend">
+                <div><%=CmmUtil.nvl(dto.getProductName())%> /
+                    <%=CmmUtil.nvl(dto.getCategory())%> /
+                    <%=CmmUtil.nvl(dto.getColor())%>
                 </div>
-                <div class="form_box">
-                    <label class="label_bold" for="input_pwd">비밀번호 변경 / CHG_PASSWORD</label>
-                    <div class="input_box">
-                        <input type="password" class="input_info" id="input_pwd" name="pwd" placeholder="비밀번호를 입력하세요." disabled>
-                    </div>
-                </div>
-                <div class="form_box">
-                    <label class="label_bold" for="chk_pwd">비밀번호 확인 / PASSWORD CHECK</label>
-                    <div class="input_box">
-                        <input type="password" class="input_info" id="chk_pwd" name="chk_pwd" placeholder="비밀번호를 확인하세요." disabled>
-                    </div>
-                </div>
-                <div class="form_box">
-                    <label class="label_bold" for="input_email">이메일 / E-MAIL</label>
-                    <div class="input_box">
-                        <input type="email" class="send_code input_info" id="input_email" name="email" placeholder="이메일을 입력하세요." disabled>
-                        <button type="button" id="send_code" class="side_btn" onclick="getEmailExists('input_email')">코드전송</button>
-                    </div>
-                </div>
-                <div class="form_box">
-                    <label class="label_bold" for="email_confirm">인증코드 입력</label>
-                    <div class="input_box">
-                        <input type="text" class="confirm_code input_info" id="email_confirm" name="email_confirm" placeholder="인증코드 입력." disabled>
-                        <button type="button" id="check_code" class="side_btn" onclick="approveCode()">인증확인</button>
-                    </div>
-                </div>
-                <div class="button_login_wrap">
-                    <button type="submit" class="btn_signup" id="goToMain">회원정보저장</button>
-                </div>
-            </form>
+                <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
+            </div>
+            <%
+                }
+            %>
         </div>
     </div>
 </div>

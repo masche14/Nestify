@@ -168,3 +168,31 @@
     gap : 5px;
 }
 
+.detail_wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding-left: 0.3125rem !important;
+    gap : 8px
+}
+
+.recommend_wrap {
+    width:55%;
+    height: 100%;
+    display: flex;
+    /*justify-content: space-evenly;*/
+    gap : 20px;
+    flex-direction: column;
+    padding-top: 0.9375rem;
+    padding-left: 1rem;
+    padding-right: 0.625rem;
+}
+
+.recommend {
+    width: 95%;
+    height: 70px;
+    border-radius: 0.625rem;
+    border : 1px solid;
+    padding: 0.625rem;
+}
+

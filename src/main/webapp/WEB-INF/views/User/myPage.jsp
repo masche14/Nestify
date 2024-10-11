@@ -25,6 +25,7 @@
 <%--    String SS_USER_NICKNAME = (String) session.getAttribute("SS_USER_NICKNAME");--%>
 <%--    String SS_USER_EMAIL = (String) session.getAttribute("SS_USER_EMAIL");--%>
 <%--  %>--%>
+  <% session.removeAttribute("pwdVerifyResult"); %>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"

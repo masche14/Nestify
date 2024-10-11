@@ -56,11 +56,18 @@ payload = {
     "max_tokens": 300
 }
 
-# Send the request to the OpenAI API
-response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+for i in range(3):
+    # Send the request to the OpenAI API
+    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
-# Set response encoding to utf-8
-response.encoding = 'utf-8'
+    if response.status_code != 200:
+        continue
+
+    else:
+        # Set response encoding to utf-8
+        response.encoding = 'utf-8'
+        break
+
 
 # Extract the content from the response
 content = response.json()['choices'][0]['message']['content']
