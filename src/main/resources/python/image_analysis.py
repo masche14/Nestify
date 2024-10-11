@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import sys
+import time
 
 # OpenAI API Key
 api_key = os.environ['OpenAi_Key']
@@ -68,6 +69,8 @@ for i in range(3):
         response.encoding = 'utf-8'
         break
 
+
+time.sleep(3)
 
 # Extract the content from the response
 content = response.json()['choices'][0]['message']['content']
