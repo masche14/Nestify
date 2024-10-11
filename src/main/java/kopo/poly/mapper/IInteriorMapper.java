@@ -15,4 +15,6 @@ public interface IInteriorMapper {
     GRecordDTO getGenerateSeq(GRecordDTO pDTO) throws Exception;
 
     int insertDetail(DetailDTO detailDTO) throws Exception;
+
+    List<DetailDTO> getDetail(DetailDTO paramDTO) throws Exception;
 }

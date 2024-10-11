@@ -335,4 +335,10 @@ public class InteriorService implements IInteriorService {
 
         return res;
     }
+
+    @Override
+    public List<DetailDTO> getDetail(DetailDTO paramDTO) throws Exception {
+        List<DetailDTO> rList = interiorMapper.getDetail(paramDTO);
+        return rList;
+    }
 }

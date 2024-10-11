@@ -357,9 +357,19 @@ public class InteriorController {
         String jsonRList = new Gson().toJson(rList);
         session.setAttribute("jsonRList", jsonRList);
 
-        log.info(jsonRList);
+        DetailDTO paramDTO = new DetailDTO();
+        paramDTO.setUserId(userId);
+
+        List<DetailDTO> resList = interiorService.getDetail(paramDTO);
+
+        String jsonResList = new Gson().toJson(resList);
+        session.setAttribute("jsonResList", jsonResList);
+
+        log.info("jsonRList : {}", jsonRList);
+        log.info("jsonRList : {}", jsonRList);
 
         session.setAttribute("rList", rList);
+        session.setAttribute("resList", resList);
 
         return "/Interior/records";
     }

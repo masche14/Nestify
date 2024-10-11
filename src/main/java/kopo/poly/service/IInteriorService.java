@@ -28,4 +28,6 @@ public interface IInteriorService {
 
     int insertDetail(DetailDTO detailDTO) throws Exception;
 
+    List<DetailDTO> getDetail(DetailDTO paramDTO) throws Exception;
+
 }

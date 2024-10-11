@@ -69,4 +69,10 @@
                 #{chgId},
                 NOW())
     </insert>
+
+    <select id="getDetail" parameterType="DetailDTO" resultType="DetailDTO">
+        SELECT *
+        FROM DETAIL
+        WHERE USER_ID = #{userId}
+    </select>
 </mapper>

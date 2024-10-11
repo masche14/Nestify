@@ -1,6 +1,7 @@
 <%@ page import="kopo.poly.dto.GRecordDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="kopo.poly.dto.DetailDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,6 +17,7 @@
         String jsonRList = (String) session.getAttribute("jsonRList");  // 세션에서 jsonRList 가져오기
         List<GRecordDTO> rList = (List<GRecordDTO>) session.getAttribute("rList");
         int maxNum = rList.size();  // rList에서 크기 계산
+        String jsonResList = (String) session.getAttribute("jsonResList");
     %>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -37,6 +39,7 @@
             let num = 0;
             const maxNum = <%= maxNum %>;
             const rList = <%= jsonRList %>;  // 세션에서 가져온 jsonRList 사용
+            const resList = JSON.parse('<%= jsonResList %>');
 
             console.log(maxNum);
 
@@ -45,9 +48,21 @@
                 if (maxNum>0) {
                     const imgDir = rList[num].generatedImgDir;
                     const imgName = rList[num].generatedImgName;
+                    const generateSeq = rList[num].generateSeq;
+                    console.log("generateSeq : "+generateSeq);
+
                     document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
                     // 페이지 카운터 업데이트
                     document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
+
+                    // 디테일 부분 필터링
+                    const filteredItems = resList.filter(function(item){
+                        return item.generateSeq === generateSeq;
+                    });
+
+                    // 필터링된 결과 출력
+                    console.log("필터링된 내용 : ", filteredItems);
+
                 } else {
                     document.getElementById('previewImage').style.display="none";
                     document.getElementById('ifEmpty').style.display="flex";
@@ -112,6 +127,7 @@
                         <span>디자인을 생성하려면 클릭하세요.</span>
                     </div>
                 </div>
+                <div id="details" style="display: none"></div>
             </div>
             <div id="pageCounter" class="page-counter"></div>
         </div>
