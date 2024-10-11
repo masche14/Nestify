@@ -70,7 +70,7 @@ for i in range(3):
         break
 
 
-time.sleep(3)
+# time.sleep(3)
 
 # Extract the content from the response
 content = response.json()['choices'][0]['message']['content']

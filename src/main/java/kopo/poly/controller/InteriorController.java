@@ -242,22 +242,30 @@ public class InteriorController {
                 log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
                 try {
                     List<DetailDTO> resp = interiorService.runImgAnalysisPython(imagePath);
-                    for (DetailDTO detailDTO : resp) {
-                        detailDTO.setUserId(userId);
-                        detailDTO.setGenerateSeq(generateSeq);
-                        detailDTO.setRegId(regId);
-                        detailDTO.setChgId(chgId);
-                        log.info("userId : {} / generateSeq : {} / category : {} / productName : {} / color : {} / features : {}", detailDTO.getUserId(), detailDTO.getGenerateSeq(), detailDTO.getCategory(), detailDTO.getProductName(), detailDTO.getColor(), detailDTO.getFeatures());
 
-                        // 디테일 테이블에 데이터 입력
-                        result = interiorService.insertDetail(detailDTO);
-                        if (result == 1) {
-                            log.info("데이터를 성공적으로 저장하였습니다.");
-                            session.setAttribute("analysisResult", resp);
-                        } else {
-                            log.info("데이터 저장에 실패하였습니다.");
+                    if (resp.isEmpty()){
+                        log.info("이미지 분석 중 오류가 발생하였습니다.");
+                        return new ResponseEntity<>("이미지 분석 중 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                    else {
+                        for (DetailDTO detailDTO : resp) {
+                            detailDTO.setUserId(userId);
+                            detailDTO.setGenerateSeq(generateSeq);
+                            detailDTO.setRegId(regId);
+                            detailDTO.setChgId(chgId);
+                            log.info("userId : {} / generateSeq : {} / category : {} / productName : {} / color : {} / features : {}", detailDTO.getUserId(), detailDTO.getGenerateSeq(), detailDTO.getCategory(), detailDTO.getProductName(), detailDTO.getColor(), detailDTO.getFeatures());
+
+                            // 디테일 테이블에 데이터 입력
+                            result = interiorService.insertDetail(detailDTO);
+                            if (result == 1) {
+                                log.info("데이터를 성공적으로 저장하였습니다.");
+                                session.setAttribute("analysisResult", resp);
+                            } else {
+                                log.info("데이터 저장에 실패하였습니다.");
+                            }
                         }
                     }
+
                 } catch (Exception e) {
                     return new ResponseEntity<>("이미지 분석에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
