@@ -408,6 +408,7 @@ a {
     width: auto !important;
     min-width: 0 !important;
     height: auto !important;
+    padding-bottom: 30px !important;
 }
 
 .modal-content {

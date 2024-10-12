@@ -203,3 +203,7 @@
     gap : 10px;
 }
 
+.detail-modal>div {
+    font-size: larger;
+}
+

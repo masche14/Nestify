@@ -155,7 +155,10 @@
 </div>
 
 <div class="content">
-    <div class="top"></div>
+    <div class="top">
+        <div class="head-line">이미지를 클릭하여</div>
+        <div class="head-line">상세 내용을 확인하세요</div>
+    </div>
     <div class="records-content">
         <button type="button" class="page-controll" id="goPrev">&lt;</button>
         <div class="records-container" style="height: auto">
