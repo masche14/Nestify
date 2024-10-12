@@ -366,7 +366,7 @@ public class InteriorController {
         session.setAttribute("jsonResList", jsonResList);
 
         log.info("jsonRList : {}", jsonRList);
-        log.info("jsonRList : {}", jsonRList);
+        log.info("jsonResList : {}", jsonResList);
 
         session.setAttribute("rList", rList);
         session.setAttribute("resList", resList);

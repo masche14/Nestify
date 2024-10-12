@@ -79,7 +79,6 @@
                 %>
                 <div>
                     <div><%=CmmUtil.nvl(dto.getProductName())%> /
-                        <%=CmmUtil.nvl(dto.getCategory())%> /
                         <%=CmmUtil.nvl(dto.getColor())%>
                     </div>
                     <div><%=CmmUtil.nvl(dto.getFeatures())%></div>

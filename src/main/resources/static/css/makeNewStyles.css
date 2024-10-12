@@ -196,3 +196,10 @@
     padding: 0.625rem;
 }
 
+.detail-modal {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap : 10px;
+}
+

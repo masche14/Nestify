@@ -404,6 +404,12 @@ a {
     background-color: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
 }
 
+.autoWidth {
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+}
+
 .modal-content {
     width: 21%;
     min-width: 21.375rem;
@@ -416,7 +422,6 @@ a {
     flex-direction: column;
     justify-content: space-between;
     border-radius: 0.5rem;
-
 }
 
 .terms-content {
@@ -448,6 +453,12 @@ a {
     white-space: nowrap;
     margin-top: 0.625rem; /* 10px -> 0.625rem */
     font-size: large;
+}
+
+.close_wrapper {
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .close {

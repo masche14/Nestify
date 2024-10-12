@@ -45,27 +45,42 @@
 
             // 이미지 업데이트 함수
             function updateImage() {
-                if (maxNum>0) {
+                if (maxNum > 0) {
                     const imgDir = rList[num].generatedImgDir;
                     const imgName = rList[num].generatedImgName;
                     const generateSeq = rList[num].generateSeq;
-                    console.log("generateSeq : "+generateSeq);
+                    console.log("generateSeq : " + generateSeq);
 
                     document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
-                    // 페이지 카운터 업데이트
                     document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
 
-                    // 디테일 부분 필터링
-                    const filteredItems = resList.filter(function(item){
+                    const filteredItems = resList.filter(function (item) {
                         return item.generateSeq === generateSeq;
                     });
 
-                    // 필터링된 결과 출력
                     console.log("필터링된 내용 : ", filteredItems);
 
+                    // 필터링된 내용을 detailModal에 출력
+                    const detailWrapper = document.getElementById("detail_wrapper");
+                    detailWrapper.innerHTML = ""; // 기존 내용을 초기화
+                    filteredItems.forEach(function (item) {
+                        // 개별적으로 각 div 요소에 내용을 추가
+                        const detailDiv = document.createElement("div");
+
+                        const productInfoDiv = document.createElement("div");
+                        productInfoDiv.innerHTML = item.productName + " / " + item.color;
+
+                        const featuresDiv = document.createElement("div");
+                        featuresDiv.innerHTML = item.features;
+
+                        detailDiv.appendChild(productInfoDiv);
+                        detailDiv.appendChild(featuresDiv);
+
+                        detailWrapper.appendChild(detailDiv);
+                    });
                 } else {
-                    document.getElementById('previewImage').style.display="none";
-                    document.getElementById('ifEmpty').style.display="flex";
+                    document.getElementById('previewImage').style.display = "none";
+                    document.getElementById('ifEmpty').style.display = "flex";
                 }
             }
 
@@ -87,12 +102,26 @@
                 updateImage();
             });
 
+            // 이미지 클릭 시 detailModal 띄우기
+            document.getElementById('previewImage').addEventListener("click", function () {
+                document.getElementById('detailModal').style.display = "flex";
+            });
+
+            // 모달 닫기 버튼 클릭 시 모달 닫기
+            document.getElementById('closeModal').addEventListener("click", function () {
+                document.getElementById('detailModal').style.display = "none";
+            });
+
+            // 모달 외부를 클릭했을 때 모달 닫기
+            window.addEventListener("click", function(event) {
+                const modal = document.getElementById('detailModal');
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
             // 페이지 로드 시 첫 이미지 설정
             updateImage();
-
-            document.getElementById('ifEmpty').addEventListener("click", function (){
-                document.location.href="/Interior/makeNew";
-            })
         });
     </script>
 </head>
@@ -113,15 +142,26 @@
     </div>
 </div>
 
+<!-- 모달 창 -->
+<div id="detailModal" class="modal">
+    <div class="modal-content autoWidth">
+        <div class="close_wrapper">
+            <span id="closeModal" class="close">&times;</span>
+        </div>
+        <div id="detail_wrapper" class="detail-modal">
+            <!-- 여기에 동적으로 필터링된 내용이 들어갑니다 -->
+        </div>
+    </div>
+</div>
+
 <div class="content">
     <div class="top"></div>
     <div class="records-content">
-        <%--    <div class="top"></div>--%>
         <button type="button" class="page-controll" id="goPrev">&lt;</button>
         <div class="records-container" style="height: auto">
             <div class="main">
                 <div id="imageBox">
-                    <img class="image-records" id="previewImage" src="">
+                    <img class="image-records" id="previewImage" src="" style="cursor: pointer;">
                     <div class="if-empty" id="ifEmpty">
                         <span>인테리어 디자인 생성 기록이 없습니다.</span>
                         <span>디자인을 생성하려면 클릭하세요.</span>
@@ -132,7 +172,6 @@
             <div id="pageCounter" class="page-counter"></div>
         </div>
         <button type="button" class="page-controll" id="goNext">&gt;</button>
-        <%--    <div class="bottom"></div>--%>
     </div>
     <div class="bottom"></div>
 </div>
