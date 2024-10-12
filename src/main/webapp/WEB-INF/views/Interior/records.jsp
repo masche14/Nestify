@@ -107,6 +107,10 @@
                 document.getElementById('detailModal').style.display = "flex";
             });
 
+            document.getElementById('ifEmpty').addEventListener("click", function (){
+               window.location.href="/Interior/makeNew";
+            });
+
             // 모달 닫기 버튼 클릭 시 모달 닫기
             document.getElementById('closeModal').addEventListener("click", function () {
                 document.getElementById('detailModal').style.display = "none";
