@@ -317,6 +317,7 @@ public class InteriorService implements IInteriorService {
         return rDTO;
     }
 
+    @Transactional
     @Override
     public int insertDetail(DetailDTO detailDTO) throws Exception {
         log.info("{}.insertDetail Start", this.getClass().getName());
