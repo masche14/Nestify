@@ -69,19 +69,17 @@ for i in range(3):
         response.encoding = 'utf-8'
         break
 
-
-time.sleep(3)
-
 # Extract the content from the response
 content = response.json()['choices'][0]['message']['content']
 
 # Find the start and end of the JSON string within the content
 json_start = content.find('```json') + len('```json\n')
 json_end = content.rfind('```')
-json_str = content[json_start:json_end].strip()
 
-# Replace any single quotes with double quotes to ensure valid JSON
-json_str = json_str.replace("'", '"')
+if json_end == 0:
+    json_str = content[json_start:].strip()
+else:
+    json_str = content[json_start:json_end].strip()
 
 # Convert the JSON string into a Python object
 json_data = json.loads(json_str)

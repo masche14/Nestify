@@ -177,23 +177,48 @@
 }
 
 .recommend_wrap {
-    width:55%;
+    width:50%;
+    min-width: 380px;
     height: 100%;
-    display: flex;
+    /*display: flex;*/
     /*justify-content: space-evenly;*/
-    gap : 20px;
-    flex-direction: column;
+    /*flex-direction: column;*/
     padding-top: 0.9375rem;
     padding-left: 1rem;
-    padding-right: 0.625rem;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    overflow-y: scroll;
+}
+
+/* 웹킷 브라우저용 (Chrome, Safari 등) */
+.recommend_wrap::-webkit-scrollbar {
+    width: 4px; /* 스크롤바의 너비 */
+    height: 4px; /* 수평 스크롤바의 높이 */
+}
+
+.recommend_wrap::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* 스크롤바의 색상 */
+    border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
+}
+
+.recommend_wrap::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1); /* 스크롤바 트랙(바탕)의 색상 */
+    border-radius: 10px; /* 트랙의 모서리 둥글게 */
+}
+
+/* Firefox용 */
+.recommend_wrap {
+    scrollbar-width: thin; /* 스크롤바 너비 설정 */
+    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* 스크롤바 및 트랙 색상 */
 }
 
 .recommend {
-    width: 95%;
-    height: 70px;
+    width: 94%;
+    height: 120px;
     border-radius: 0.625rem;
     border : 1px solid;
     padding: 0.625rem;
+    margin-bottom: 20px;
 }
 
 .detail-modal {
@@ -208,3 +233,7 @@
     font-size: larger;
 }
 
+.result {
+    width: auto !important;
+    max-height: 630px !important;
+}

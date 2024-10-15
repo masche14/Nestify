@@ -68,7 +68,7 @@
 </div>
 
 <div class="content">
-    <div class="container myPage">
+    <div class="container myPage result">
         <div class="info_wrap">
             <div class="img_wrap">
                 <img src="" id="generatedImg" alt="generatedimage" class="image-records"></img>
