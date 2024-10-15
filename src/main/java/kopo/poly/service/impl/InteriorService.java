@@ -342,4 +342,22 @@ public class InteriorService implements IInteriorService {
         List<DetailDTO> rList = interiorMapper.getDetail(paramDTO);
         return rList;
     }
+
+    @Transactional
+    @Override
+    public int deleteRecord(GRecordDTO pDTO) throws Exception {
+        log.info("삭제 시작");
+        int res;
+
+        int success = interiorMapper.deleteRecord(pDTO);
+
+        if (success > 0) {
+            res = 1;
+        }
+        else {
+            res = 0;
+        }
+
+        return res;
+    }
 }

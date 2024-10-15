@@ -78,6 +78,7 @@ public class InteriorController {
         String saveDir = null;
         String outputPath = null;
         String fileName = image.getOriginalFilename();
+        session.setAttribute("userOriginInput", fileName);
         String newFileName = interiorService.fileNameEncode(userId)+".png";
         String fileUrl = null;
 
@@ -167,13 +168,6 @@ public class InteriorController {
             log.info("e");
         }
 
-        if (fromImg.renameTo(toImg)) {
-            log.info("사용자 이미지 저장 완료");
-
-        } else {
-            log.info("사용자 이미지 저장 실패");
-        }
-
         int res = 0;
         GRecordDTO pDTO;
 
@@ -186,18 +180,15 @@ public class InteriorController {
         // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
             // 서버에 이미지 저장 로직
-            saveImageToServer(imageUrl, session, saveYn);
-
-            // 임시파일 저장 폴더 비우기
-            interiorService.delTempFolder();
+            String imagePath = saveImageToServer(imageUrl, session, saveYn);
 
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
-            String inputImgName = userInputImg;
+            String inputImgName = (String) session.getAttribute("userOriginInput");
             String generatedImgName = (String) session.getAttribute("generatedImgName");
             String regId = (String) session.getAttribute("SS_USER_ID");
             String chgId = (String) session.getAttribute("SS_USER_ID");
-            String newInputImgName = interiorService.fileNameEncode(userId);
+            String newInputImgName = userInputImg;
 
             log.info("userId : {}", userId);
             log.info("rootPath : {}", rootPath);
@@ -224,8 +215,6 @@ public class InteriorController {
             String generatedImgUrl = "http://localhost:11000/"+generatedImgDir+"/"+generatedImgName;
             log.info("generatedImgUrl : {}", generatedImgUrl);
 
-            String imagePath = rootPath+"/"+generatedImgDir+"/"+generatedImgName;
-
             res = interiorService.insertRecord(pDTO);
 
             log.info("레코드 저장 결과(res) : {}", res);
@@ -245,6 +234,20 @@ public class InteriorController {
 
                     if (resp.isEmpty()){
                         log.info("이미지 분석 중 오류가 발생하였습니다.");
+
+                        log.info("오류가 발생한 기록을 삭제합니다.");
+                        pDTO.setGenerateSeq(generateSeq);
+                        int deleteResult = interiorService.deleteRecord(pDTO);
+                        if (deleteResult > 0) {
+                            log.info("삭제 완료");
+                        } else {
+                            log.info("삭제 실패");
+                        }
+
+                        log.info("저장된 AI 생성 이미지 삭제");
+                        File deleteFile = new File(imagePath);
+                        deleteFile.delete();
+
                         return new ResponseEntity<>("이미지 분석 중 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                     else {
@@ -259,10 +262,19 @@ public class InteriorController {
                             result = interiorService.insertDetail(detailDTO);
                             if (result == 1) {
                                 log.info("데이터를 성공적으로 저장하였습니다.");
+
                                 session.setAttribute("analysisResult", resp);
                             } else {
                                 log.info("데이터 저장에 실패하였습니다.");
                             }
+                        }
+                        // 임시 저장 폴더에서 옮기기
+                        if (fromImg.renameTo(toImg)) {
+                            log.info("사용자 이미지 저장 완료");
+                            // 임시파일 저장 폴더 비우기
+                            interiorService.delTempFolder();
+                        } else {
+                            log.info("사용자 이미지 저장 실패");
                         }
                     }
 

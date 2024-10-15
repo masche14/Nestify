@@ -30,4 +30,6 @@ public interface IInteriorService {
 
     List<DetailDTO> getDetail(DetailDTO paramDTO) throws Exception;
 
+    int deleteRecord(GRecordDTO pDTO) throws Exception;
+
 }

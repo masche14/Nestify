@@ -75,4 +75,10 @@
         FROM DETAIL
         WHERE USER_ID = #{userId}
     </select>
+
+    <delete id="deleteRecord" parameterType="GRecordDTO">
+        DELETE
+        FROM G_RECORD
+        WHERE GENERATE_SEQ = #{generateSeq}
+    </delete>
 </mapper>
