@@ -336,6 +336,7 @@ a {
     width: 31.25rem; /* 500px -> 31.25rem */
     padding: 0.625rem 0; /* 10px -> 0.625rem */
     padding-left: 0 !important;
+    padding-right: 1rem !important;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -357,7 +358,7 @@ a {
 
 .img_wrap {
     height: 100%;
-    padding: 0.3125rem 1rem;
+    /*padding: 0.3125rem 1rem;*/
     padding-top: 0 !important;
     padding-left: 0.3125rem !important;
 }

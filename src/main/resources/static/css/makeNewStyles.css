@@ -169,47 +169,51 @@
 }
 
 .detail_wrap {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
     padding-left: 0.3125rem !important;
-    gap : 8px
+    box-sizing: border-box;
+    height: 40%;
+}
+
+.detail {
+    margin-bottom : 8px;
 }
 
 .recommend_wrap {
-    width:50%;
+    width: 50%;
     min-width: 380px;
     height: 100%;
-    /*display: flex;*/
-    /*justify-content: space-evenly;*/
-    /*flex-direction: column;*/
-    padding-top: 0.9375rem;
     padding-left: 1rem;
     padding-right: 5px;
-    padding-bottom: 10px;
+    box-sizing: border-box; /* 패딩을 포함한 전체 영역을 계산 */
+}
+
+.scroll_area {
+    height: 100%; /* 패딩의 상하 크기를 계산해서 뺌 (top + bottom) */
     overflow-y: scroll;
+    padding-right: 10px;
 }
 
-/* 웹킷 브라우저용 (Chrome, Safari 등) */
-.recommend_wrap::-webkit-scrollbar {
-    width: 4px; /* 스크롤바의 너비 */
-    height: 4px; /* 수평 스크롤바의 높이 */
+/* 스크롤바 전체 영역 */
+.scroll_area::-webkit-scrollbar {
+    width: 5px; /* 스크롤바의 너비 */
 }
 
-.recommend_wrap::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5); /* 스크롤바의 색상 */
-    border-radius: 10px; /* 스크롤바의 모서리를 둥글게 */
+/* 스크롤바 트랙(배경) */
+.scroll_area::-webkit-scrollbar-track {
+    /*background: #f1f1f1; !* 스크롤 트랙의 배경 색상 *!*/
+    border-radius: 5px; /* 둥근 모서리 */
 }
 
-.recommend_wrap::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.1); /* 스크롤바 트랙(바탕)의 색상 */
-    border-radius: 10px; /* 트랙의 모서리 둥글게 */
+/* 스크롤 핸들(드래그 가능한 부분) */
+.scroll_area::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤 핸들의 색상 */
+    border-radius: 5px; /* 스크롤 핸들의 둥근 모서리 */
+    border: 2px solid rgba(241, 241, 241, 0); /* 스크롤 핸들의 경계 */
 }
 
-/* Firefox용 */
-.recommend_wrap {
-    scrollbar-width: thin; /* 스크롤바 너비 설정 */
-    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); /* 스크롤바 및 트랙 색상 */
+/* 스크롤 핸들에 마우스를 올렸을 때 */
+.scroll_area::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* 마우스를 올렸을 때 핸들의 색상 */
 }
 
 .recommend {
@@ -236,4 +240,8 @@
 .result {
     width: auto !important;
     max-height: 630px !important;
+}
+
+.img-restrict {
+    max-height: 360px !important;
 }

@@ -70,15 +70,34 @@
 <div class="content">
     <div class="container myPage result">
         <div class="info_wrap">
-            <div class="img_wrap">
+            <div class="img_wrap img-restrict">
                 <img src="" id="generatedImg" alt="generatedimage" class="image-records"></img>
             </div>
             <div class="detail_wrap">
+                <div class="scroll_area">
+                    <%
+                        for (DetailDTO dto : rList) {
+                    %>
+                    <div class="detail">
+                        <div><%=CmmUtil.nvl(dto.getProductName())%> /
+                            <%=CmmUtil.nvl(dto.getColor())%>
+                        </div>
+                        <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+            </div>
+        </div>
+        <div class="recommend_wrap">
+            <div class="scroll_area">
                 <%
                     for (DetailDTO dto : rList) {
                 %>
-                <div>
+                <div class="recommend">
                     <div><%=CmmUtil.nvl(dto.getProductName())%> /
+                        <%=CmmUtil.nvl(dto.getCategory())%> /
                         <%=CmmUtil.nvl(dto.getColor())%>
                     </div>
                     <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
@@ -87,21 +106,6 @@
                     }
                 %>
             </div>
-        </div>
-        <div class="recommend_wrap">
-            <%
-                for (DetailDTO dto : rList) {
-            %>
-            <div class="recommend">
-                <div><%=CmmUtil.nvl(dto.getProductName())%> /
-                    <%=CmmUtil.nvl(dto.getCategory())%> /
-                    <%=CmmUtil.nvl(dto.getColor())%>
-                </div>
-                <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
-            </div>
-            <%
-                }
-            %>
         </div>
     </div>
 </div>
