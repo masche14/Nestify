@@ -81,7 +81,4 @@ if json_end == 0:
 else:
     json_str = content[json_start:json_end].strip()
 
-# Convert the JSON string into a Python object
-json_data = json.loads(json_str)
-
-print(json_data)
+print(json_str)
