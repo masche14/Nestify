@@ -1,9 +1,7 @@
 import base64
 import requests
-import json
 import os
 import sys
-import time
 
 # OpenAI API Key
 api_key = os.environ['OpenAi_Key']
