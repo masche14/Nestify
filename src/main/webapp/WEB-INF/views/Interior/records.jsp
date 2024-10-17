@@ -124,6 +124,13 @@
                 }
             });
 
+            window.addEventListener("keydown", function(event) {
+                const modal = document.getElementById('detailModal');
+                if (event.key === "Escape" && modal.style.display === "flex") {
+                    modal.style.display = "none";
+                }
+            });
+
             // 페이지 로드 시 첫 이미지 설정
             updateImage();
         });
