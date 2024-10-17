@@ -1,17 +1,25 @@
 package kopo.poly;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import kopo.poly.dto.DetailDTO;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
+@Slf4j
 public class App {
     public static void main(String[] args) throws Exception {
         String url = "http://127.0.0.1:8000/myImageAnalysisAPI";
         String pname = "image_path";
-        String ptext = "C:/KPaaS/KPaaS/src/main/resources/static/generatedImages/ai_sample03_20241017103428.png";
+        String ptext = "C:/KPaaS/src/main/resources/static/generatedImages/ai_sample03_20241016004546.png";
 
         // POST 요청을 위한 URL 연결 생성
         URL obj = new URL(url);
@@ -44,13 +52,22 @@ public class App {
                     response.append(inputLine);
                 }
 
-                // 디코딩된 응답 결과 출력
-                System.out.println("응답 내용: " + response.toString());
+                // 응답 내용을 JSON으로 파싱하여 List<DetailDTO>로 변환
+                String jsonResponse = response.toString();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<DetailDTO>>() {}.getType();
+                List<DetailDTO> detailList = gson.fromJson(jsonResponse, listType);
+
+                // 디코딩된 응답 결과 출력 (한글 포함)
+                for (DetailDTO detail : detailList) {
+                    System.out.println("카테고리: " + detail.getCategory());
+                    System.out.println("색상: " + detail.getColor());
+                    System.out.println("특징: " + detail.getFeatures());
+                    System.out.println("상품명: " + detail.getProductName());
+                }
             }
         } else {
             System.out.println("POST 요청 실패");
         }
-
-
     }
 }
