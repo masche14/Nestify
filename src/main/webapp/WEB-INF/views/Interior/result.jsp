@@ -69,7 +69,7 @@
 
 <div class="content">
     <div class="container myPage result">
-        <div class="info_wrap">
+        <div class="info_wrap result-info">
             <div class="img_wrap img-restrict">
                 <img src="" id="generatedImg" alt="generatedimage" class="image-records"></img>
             </div>

@@ -245,3 +245,7 @@
 .img-restrict {
     max-height: 360px !important;
 }
+
+.result-info {
+    justify-content: flex-start !important;
+}
