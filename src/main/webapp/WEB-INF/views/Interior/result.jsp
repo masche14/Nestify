@@ -1,6 +1,7 @@
 <%@ page import="kopo.poly.dto.DetailDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="kopo.poly.util.CmmUtil" %><%--
+<%@ page import="kopo.poly.util.CmmUtil" %>
+<%@ page import="kopo.poly.dto.RecommendDTO" %><%--
   Created by IntelliJ IDEA.
   User: data21
   Date: 2024-09-24
@@ -18,7 +19,10 @@
     <link rel="stylesheet" href="/css/makeNewStyles.css">
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
-    <% List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult"); %>
+    <%
+        List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
+        List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendResult");
+    %>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
@@ -93,14 +97,12 @@
         <div class="recommend_wrap">
             <div class="scroll_area">
                 <%
-                    for (DetailDTO dto : rList) {
+                    for (RecommendDTO dto : recommendList) {
                 %>
                 <div class="recommend">
-                    <div><%=CmmUtil.nvl(dto.getProductName())%> /
-                        <%=CmmUtil.nvl(dto.getCategory())%> /
-                        <%=CmmUtil.nvl(dto.getColor())%>
+                    <div><%=CmmUtil.nvl(dto.getTitle())%>
                     </div>
-                    <div><%=CmmUtil.nvl(dto.getFeatures())%></div>
+                    <div><%=CmmUtil.nvl(dto.getBrand())%></div>
                 </div>
                 <%
                     }

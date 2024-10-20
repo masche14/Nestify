@@ -393,7 +393,7 @@ public class InteriorService implements IInteriorService {
     @Override
     public List<RecommendDTO> getRecommend(String imagePath, List<DetailDTO> resp) throws Exception {
         // 요청을 보낼 Python 서버의 URL
-        String url = "http://127.0.0.1:8000/myImageAnalysisAPI";
+        String url = "http://127.0.0.1:8000/myRecommendAPI";
 
         // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
         Map<String, Object> data = new HashMap<>();
@@ -423,6 +423,8 @@ public class InteriorService implements IInteriorService {
         int responseCode = con.getResponseCode();
         System.out.println("POST Response Code :: " + responseCode);
 
+        List<RecommendDTO> recommendList;
+
         // 응답 데이터 처리 (응답이 필요하면 여기서 처리)
         if (responseCode == HttpURLConnection.HTTP_OK) {
             // 응답을 읽고 RecommendDTO 리스트로 변환하는 로직 추가
@@ -436,12 +438,13 @@ public class InteriorService implements IInteriorService {
 
                 // 응답 문자열을 List<RecommendDTO>로 변환
                 Type listType = new TypeToken<List<RecommendDTO>>() {}.getType();
-                List<RecommendDTO> recommendList = gson.fromJson(response.toString(), listType);
-                return recommendList;
+                recommendList = gson.fromJson(response.toString(), listType);
             }
         } else {
             log.error("응답 오류: " + responseCode);
-            return List.of(); // 빈 리스트 반환
+            recommendList = Collections.emptyList(); // 빈 리스트 반환
         }
+
+        return recommendList;
     }
 }

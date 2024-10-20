@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
+import kopo.poly.dto.RecommendDTO;
 import kopo.poly.service.IInteriorService;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
@@ -228,9 +229,11 @@ public class InteriorController {
                 GRecordDTO rDTO = interiorService.getGenerateSeq(pDTO);
                 int generateSeq = rDTO.getGenerateSeq();
 
+                List<DetailDTO> resp;
+
                 log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
                 try {
-                    List<DetailDTO> resp = interiorService.runImgAnalysisPython(imagePath);
+                    resp = interiorService.runImgAnalysisPython(imagePath);
 
                     if (resp.isEmpty()){
                         log.info("이미지 분석 중 오류가 발생하였습니다.");
@@ -282,6 +285,18 @@ public class InteriorController {
                     return new ResponseEntity<>("이미지 분석에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 session.setAttribute("generatedImgUrl", generatedImgUrl);
+
+                List<RecommendDTO> recommendList = interiorService.getRecommend(imagePath, resp);
+
+                if (!recommendList.isEmpty()) {
+                    log.info("제품 추천 리스트 선정 완료");
+                    String jsonRList = new Gson().toJson(recommendList);
+                    log.info("jsonRList : {}", jsonRList);
+                    session.setAttribute("recommendList", recommendList);
+                } else {
+                    log.info("제품 추천 중 오류가 발생하였습니다.");
+                    return new ResponseEntity<>("오류로 인해 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
 
                 return new ResponseEntity<>("Image saved successfully", HttpStatus.OK);
             } else {

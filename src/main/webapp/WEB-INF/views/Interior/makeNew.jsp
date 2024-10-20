@@ -175,7 +175,7 @@
 <div id="analyzeModal" class="modal">
     <div class="modal-content">
         <div class="generate-message">
-            <span>이미지에서 인테리어 요소를 분석 중입니다.</span>
+            <span>이미지에서 인테리어 요소를 분석 및 제품 추천 중입니다.</span>
         </div>
     </div>
 </div>
