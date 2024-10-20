@@ -100,7 +100,7 @@
                     for (RecommendDTO dto : recommendList) {
                 %>
                 <div class="recommend">
-                    <div style="height: 80%; display: flex; flex-direction: row; gap:15px">
+                    <div style="height: 80%; display: flex; flex-direction: row; gap:12px">
                         <div style="width: 25%; height: auto">
                             <img src="<%= CmmUtil.nvl(dto.getImage()) %>" class="image-records">
                         </div>
