@@ -21,7 +21,7 @@
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <%
         List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
-        List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendResult");
+        List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
     %>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -100,9 +100,17 @@
                     for (RecommendDTO dto : recommendList) {
                 %>
                 <div class="recommend">
-                    <div><%=CmmUtil.nvl(dto.getTitle())%>
+                    <div style="height: 80%; display: flex; flex-direction: row; gap:20px">
+                        <div style="width: 25%; height: auto">
+                            <img src="<%= CmmUtil.nvl(dto.getImage()) %>" class="image-records">
+                        </div>
+                        <div>
+                            <a href="<%= CmmUtil.nvl(dto.getLink()) %>">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).substring(0, 15).replace("<b>", "").replace("</b>", "")%>...</a>
+                            <div>쇼핑몰 : <%= CmmUtil.nvl(dto.getMallName())%></div>
+                            <div>가격 : <%= CmmUtil.nvl(dto.getLprice()) %> 원</div>
+                        </div>
                     </div>
-                    <div><%=CmmUtil.nvl(dto.getBrand())%></div>
+
                 </div>
                 <%
                     }
