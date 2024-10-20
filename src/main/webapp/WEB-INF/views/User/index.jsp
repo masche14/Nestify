@@ -78,7 +78,7 @@
             <div class="service">이전 인테리어 확인하기</div>
         </a>
         <a href="#" class="service-box">
-            <div class="service">상품 가격 비교하기</div>
+            <div class="service">상품 검색하기</div>
         </a>
     </div>
     <div class="bottom"></div>
