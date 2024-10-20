@@ -100,16 +100,18 @@
                     for (RecommendDTO dto : recommendList) {
                 %>
                 <div class="recommend">
-                    <div style="height: 80%; display: flex; flex-direction: row; gap:20px">
+                    <div style="height: 80%; display: flex; flex-direction: row; gap:15px">
                         <div style="width: 25%; height: auto">
                             <img src="<%= CmmUtil.nvl(dto.getImage()) %>" class="image-records">
                         </div>
-                        <div>
+                        <div style="display: flex; gap:1px; flex-direction: column">
                             <a href="<%= CmmUtil.nvl(dto.getLink()) %>">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).substring(0, 15).replace("<b>", "").replace("</b>", "")%>...</a>
                             <div>쇼핑몰 : <%= CmmUtil.nvl(dto.getMallName())%></div>
                             <div>가격 : <%= CmmUtil.nvl(dto.getLprice()) %> 원</div>
                         </div>
                     </div>
+
+                    <div style="display: flex; justify-content: flex-end"><a>더 알아보기</a></div>
 
                 </div>
                 <%
