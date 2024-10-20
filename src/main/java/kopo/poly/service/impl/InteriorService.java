@@ -392,6 +392,7 @@ public class InteriorService implements IInteriorService {
 
     @Override
     public List<RecommendDTO> getRecommend(String imagePath, List<DetailDTO> resp) throws Exception {
+        log.info("제품 추천 시작");
         // 요청을 보낼 Python 서버의 URL
         String url = "http://127.0.0.1:8000/myRecommendAPI";
 
@@ -420,6 +421,7 @@ public class InteriorService implements IInteriorService {
         }
 
         // 응답 코드 확인
+        log.info("응답확인");
         int responseCode = con.getResponseCode();
         System.out.println("POST Response Code :: " + responseCode);
 
