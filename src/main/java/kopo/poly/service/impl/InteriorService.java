@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
+import kopo.poly.dto.RecommendDTO;
 import kopo.poly.mapper.IInteriorMapper;
 import kopo.poly.service.IInteriorService;
 import lombok.RequiredArgsConstructor;
@@ -387,5 +388,60 @@ public class InteriorService implements IInteriorService {
         }
 
         return res;
+    }
+
+    @Override
+    public List<RecommendDTO> getRecommend(String imagePath, List<DetailDTO> resp) throws Exception {
+        // 요청을 보낼 Python 서버의 URL
+        String url = "http://127.0.0.1:8000/myImageAnalysisAPI";
+
+        // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
+        Map<String, Object> data = new HashMap<>();
+        data.put("imagePath", imagePath);
+        data.put("detailList", resp); // resp는 이미 List<DetailDTO>로 되어 있음
+
+        // Gson을 사용하여 Map을 JSON 문자열로 변환
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+
+        // POST 요청을 위한 URL 연결 생성
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("POST"); // POST 요청 설정
+        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+        // 요청 본문에 JSON 데이터 전송
+        log.info("분석 요청 전달");
+
+        con.setDoOutput(true); // 출력 스트림 사용 가능 설정
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = json.getBytes("UTF-8");
+            os.write(input, 0, input.length);
+        }
+
+        // 응답 코드 확인
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+
+        // 응답 데이터 처리 (응답이 필요하면 여기서 처리)
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            // 응답을 읽고 RecommendDTO 리스트로 변환하는 로직 추가
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                // 응답 문자열을 List<RecommendDTO>로 변환
+                Type listType = new TypeToken<List<RecommendDTO>>() {}.getType();
+                List<RecommendDTO> recommendList = gson.fromJson(response.toString(), listType);
+                return recommendList;
+            }
+        } else {
+            log.error("응답 오류: " + responseCode);
+            return List.of(); // 빈 리스트 반환
+        }
     }
 }

@@ -2,6 +2,7 @@ package kopo.poly.service;
 
 import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
+import kopo.poly.dto.RecommendDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -31,5 +32,7 @@ public interface IInteriorService {
     List<DetailDTO> getDetail(DetailDTO paramDTO) throws Exception;
 
     int deleteRecord(GRecordDTO pDTO) throws Exception;
+
+    List<RecommendDTO> getRecommend(String imagePath, List<DetailDTO> resp) throws Exception;
 
 }
