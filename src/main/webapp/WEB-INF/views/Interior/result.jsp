@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    <div style="display: flex; justify-content: flex-end"><a>더 알아보기</a></div>
+                    <div style="display: flex; justify-content: flex-end"><a href="https://shopping.naver.com/home" target="_blank">다른 제품 검색</a></div>
 
                 </div>
                 <%
