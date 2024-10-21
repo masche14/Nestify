@@ -65,7 +65,7 @@
             <form id="searchForm" action="/Search/searchProc" method="post" class="no-bottom-margin searchAgain">
                 <div class="form-container" id="prompt_container">
                     <input class="full" type="text" id="query" name="query" placeholder="찾으시는 상품을 입력하세요">
-                    <button class="btn_generate" type="submit" id="submit">전송</button>
+                    <button class="btn_generate" type="submit" id="submit">검색</button>
                 </div>
             </form>
             <div class="recommend_wrap searchResultScroll">
