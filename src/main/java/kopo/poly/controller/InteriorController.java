@@ -271,14 +271,6 @@ public class InteriorController {
                                 log.info("데이터 저장에 실패하였습니다.");
                             }
                         }
-                        // 임시 저장 폴더에서 옮기기
-                        if (fromImg.renameTo(toImg)) {
-                            log.info("사용자 이미지 저장 완료");
-                            // 임시파일 저장 폴더 비우기
-                            interiorService.delTempFolder();
-                        } else {
-                            log.info("사용자 이미지 저장 실패");
-                        }
                     }
 
                 } catch (Exception e) {
@@ -293,8 +285,25 @@ public class InteriorController {
                     String jsonRList = new Gson().toJson(recommendList);
                     log.info("jsonRList : {}", jsonRList);
                     session.setAttribute("recommendList", recommendList);
+
+                    // 임시 저장 폴더에서 옮기기
+                    if (fromImg.renameTo(toImg)) {
+                        log.info("사용자 이미지 저장 완료");
+                        // 임시파일 저장 폴더 비우기
+                        interiorService.delTempFolder();
+                    } else {
+                        log.info("사용자 이미지 저장 실패");
+                    }
+
                 } else {
                     log.info("제품 추천 중 오류가 발생하였습니다.");
+
+                    int deleteResult = interiorService.deleteRecord(pDTO);
+                    if (deleteResult > 0) {
+                        log.info("삭제 완료");
+                    } else {
+                        log.info("삭제 실패");
+                    }
                     return new ResponseEntity<>("오류로 인해 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
