@@ -79,7 +79,7 @@
                                 <img src="<%= CmmUtil.nvl(dto.getImage()) %>" class="image-records">
                             </div>
                             <div style="width: 74%; display: block; gap:1px; flex-direction: column; font-size: larger; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                <a href="<%= CmmUtil.nvl(dto.getLink()) %>">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).replace("<b>", "").replace("</b>", "")%></a>
+                                <a href="<%= CmmUtil.nvl(dto.getLink()) %>" target="_blank">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).replace("<b>", "").replace("</b>", "")%></a>
                                 <div>쇼핑몰 : <%= CmmUtil.nvl(dto.getMallName())%></div>
                                 <div>가격 : <%= CmmUtil.nvl(dto.getLprice()) %> 원</div>
                             </div>
