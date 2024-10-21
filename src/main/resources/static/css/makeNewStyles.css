@@ -193,6 +193,10 @@
     padding-right: 10px;
 }
 
+.scroll_area_width {
+    width: 400px;
+}
+
 /* 스크롤바 전체 영역 */
 .scroll_area::-webkit-scrollbar {
     width: 5px; /* 스크롤바의 너비 */
@@ -247,5 +251,6 @@
 }
 
 .result-info {
+    width: 420px !important;
     justify-content: flex-start !important;
 }

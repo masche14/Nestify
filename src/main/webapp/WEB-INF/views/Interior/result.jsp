@@ -94,18 +94,18 @@
                 </div>
             </div>
         </div>
-        <div class="recommend_wrap">
+        <div class="recommend_wrap scroll_area_width">
             <div class="scroll_area">
                 <%
                     for (RecommendDTO dto : recommendList) {
                 %>
                 <div class="recommend">
                     <div style="height: 80%; display: flex; flex-direction: row; gap:12px">
-                        <div style="width: 25%; height: auto">
+                        <div style="width: 95px; height: auto">
                             <img src="<%= CmmUtil.nvl(dto.getImage()) %>" class="image-records">
                         </div>
-                        <div style="display: flex; gap:1px; flex-direction: column">
-                            <a href="<%= CmmUtil.nvl(dto.getLink()) %>">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).substring(0, 15).replace("<b>", "").replace("</b>", "")%>...</a>
+                        <div style="width: 240px; display: block; gap:1px; flex-direction: column; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <a href="<%= CmmUtil.nvl(dto.getLink()) %>">제품 명 : <%=CmmUtil.nvl(dto.getTitle()).replace("<b>", "").replace("</b>", "")%>...</a>
                             <div>쇼핑몰 : <%= CmmUtil.nvl(dto.getMallName())%></div>
                             <div>가격 : <%= CmmUtil.nvl(dto.getLprice()) %> 원</div>
                         </div>
