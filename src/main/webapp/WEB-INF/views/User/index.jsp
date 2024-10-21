@@ -77,7 +77,7 @@
         <a href="/Interior/records" class="service-box">
             <div class="service">이전 인테리어 확인하기</div>
         </a>
-        <a href="#" class="service-box">
+        <a href="/Search/search" class="service-box">
             <div class="service">상품 검색하기</div>
         </a>
     </div>
