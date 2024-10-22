@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,23 +42,35 @@ public class S3Service implements IS3Service {
     // 사용자로부터 받은 이미지를 S3의 임시 폴더에 업로드
     @Override
     public String uploadUserImageToS3(MultipartFile file, String userId) throws Exception {
-        String fileName = generateFileName(file.getOriginalFilename(), userId); // 파일명 생성
+        log.info("uploadUserImageToS3 Start");
+
+        String fileName = generateFileName(userId); // 파일명 생성
         String s3Key = tempFolder + fileName; // S3에 저장될 키 (경로)
 
         // S3에 MultipartFile 업로드
         uploadMultipartFileToS3(file, s3Key);
-        return s3Client.getUrl(bucketName, s3Key).toString(); // 업로드된 파일의 URL 반환
+
+        String userImgUrl = s3Client.getUrl(bucketName, s3Key).toString();
+
+        log.info("userImgUrl: {}", userImgUrl);
+
+        return userImgUrl; // 업로드된 파일의 URL 반환
     }
 
     // API에서 응답받은 이미지의 URL을 S3 임시 폴더에 업로드
     @Override
     public String uploadApiResponseImageToS3(String imageUrl, String userId) throws Exception {
-        String fileName = generateFileName(new File(new URL(imageUrl).getPath()).getName(), userId); // 파일명 생성
+        String fileName = "ai_"+generateFileName(userId); // 파일명 생성
         String s3Key = tempFolder + fileName; // S3에 저장될 키 (경로)
 
         // URL로부터 이미지를 S3에 업로드
         uploadImageFromUrlToS3(imageUrl, s3Key);
-        return s3Client.getUrl(bucketName, s3Key).toString(); // 업로드된 파일의 URL 반환
+
+        String generatedImageUrl = s3Client.getUrl(bucketName, s3Key).toString();
+
+        log.info("Generated image url: " + generatedImageUrl);
+
+        return generatedImageUrl; // 업로드된 파일의 URL 반환
     }
 
     // 임시 폴더에 있는 이미지를 생성된 이미지 폴더로 이동
@@ -87,9 +102,19 @@ public class S3Service implements IS3Service {
     }
 
     // 파일명을 생성하는 헬퍼 메서드 (유저ID와 현재 타임스탬프를 포함)
-    private String generateFileName(String originalFileName, String userId) {
-        String timeStamp = String.valueOf(System.currentTimeMillis()); // 현재 타임스탬프 생성
-        return userId + "_" + timeStamp + "_" + originalFileName; // 유저ID와 타임스탬프를 포함한 파일명 반환
+    private String generateFileName(String userId) {
+//        String timeStamp = String.valueOf(System.currentTimeMillis()); // 현재 타임스탬프 생성
+//        return userId + "_" + timeStamp + "_" + originalFileName; // 유저ID와 타임스탬프를 포함한 파일명 반환
+        LocalDate localdate = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String date = localdate.format(dateFormatter);
+
+        LocalTime localtime = LocalTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+        String time = localtime.format(timeFormatter);
+
+
+        return userId+"_"+date+time+".png";
     }
 
     // MultipartFile을 S3에 업로드
