@@ -300,7 +300,8 @@ public class InteriorController {
                 } else {
                     log.info("제품 추천 중 오류가 발생하였습니다.");
 
-                    log.info("generateSeq : {}", pDTO.getGenerateSeq());
+                    log.info("generateSeq : {}", generateSeq);
+                    pDTO.setGenerateSeq(generateSeq);
 
                     int deleteResult = interiorService.deleteRecord(pDTO);
                     if (deleteResult > 0) {
