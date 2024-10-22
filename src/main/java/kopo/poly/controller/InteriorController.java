@@ -169,6 +169,8 @@ public class InteriorController {
             log.info("e");
         }
 
+        int generateSeq;
+
         int res = 0;
         GRecordDTO pDTO;
 
@@ -227,7 +229,7 @@ public class InteriorController {
 
                 // generatedSeq 추출
                 GRecordDTO rDTO = interiorService.getGenerateSeq(pDTO);
-                int generateSeq = rDTO.getGenerateSeq();
+                generateSeq = rDTO.getGenerateSeq();
 
                 List<DetailDTO> resp;
 
@@ -297,6 +299,8 @@ public class InteriorController {
 
                 } else {
                     log.info("제품 추천 중 오류가 발생하였습니다.");
+
+                    log.info("generateSeq : {}", pDTO.getGenerateSeq());
 
                     int deleteResult = interiorService.deleteRecord(pDTO);
                     if (deleteResult > 0) {
