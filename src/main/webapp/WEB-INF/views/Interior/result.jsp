@@ -23,7 +23,6 @@
         List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
         List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
     %>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
