@@ -15,11 +15,11 @@ public interface IInteriorService {
 
     String fileNameEncode(String userId) throws Exception;
 
-    String generateImg(File savedFile, String prompt, String userId) throws Exception;
+    String generateImg(String imageUrl, String prompt, String userId) throws Exception;
 
-    String downloadBase64Image(String base64DataUrl, String outputPath);
+//    String downloadBase64Image(String base64DataUrl, String outputPath);
 
-    void delTempFolder() throws Exception;
+//    void delTempFolder() throws Exception;
 
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 
@@ -33,6 +33,6 @@ public interface IInteriorService {
 
     int deleteRecord(GRecordDTO pDTO) throws Exception;
 
-    List<RecommendDTO> getRecommend(String imagePath, List<DetailDTO> resp) throws Exception;
+    List<RecommendDTO> getRecommend(String imageUrl, List<DetailDTO> resp) throws Exception;
 
 }

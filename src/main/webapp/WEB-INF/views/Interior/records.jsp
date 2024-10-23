@@ -46,12 +46,13 @@
             // 이미지 업데이트 함수
             function updateImage() {
                 if (maxNum > 0) {
+                    const rootPath = rList[num].rootPath;
                     const imgDir = rList[num].generatedImgDir;
                     const imgName = rList[num].generatedImgName;
                     const generateSeq = rList[num].generateSeq;
                     console.log("generateSeq : " + generateSeq);
 
-                    document.getElementById('previewImage').src = '/' + imgDir + '/' + imgName;
+                    document.getElementById('previewImage').src = 'https://'+ rootPath + "/" + imgDir + imgName;
                     document.getElementById('pageCounter').innerText = (num + 1) + ' / ' + maxNum;
 
                     const filteredItems = resList.filter(function (item) {

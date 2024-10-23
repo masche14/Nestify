@@ -47,9 +47,15 @@ public class S3Service implements IS3Service {
         String fileName = generateFileName(userId); // 파일명 생성
         String s3Key = tempFolder + fileName; // S3에 저장될 키 (경로)
 
-        // S3에 MultipartFile 업로드
-        uploadMultipartFileToS3(file, s3Key);
+        // 메타데이터 생성
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType()); // 파일의 컨텐츠 타입 설정 (예: image/png)
 
+        // S3에 파일 업로드
+        PutObjectRequest request = new PutObjectRequest(bucketName, s3Key, file.getInputStream(), metadata);
+        s3Client.putObject(request);
+
+        // 업로드된 파일의 URL 가져오기
         String userImgUrl = s3Client.getUrl(bucketName, s3Key).toString();
 
         log.info("userImgUrl: {}", userImgUrl);
@@ -61,7 +67,7 @@ public class S3Service implements IS3Service {
     @Override
     public String uploadApiResponseImageToS3(String imageUrl, String userId) throws Exception {
         String fileName = "ai_"+generateFileName(userId); // 파일명 생성
-        String s3Key = tempFolder + fileName; // S3에 저장될 키 (경로)
+        String s3Key = generatedImagesFolder + fileName; // S3에 저장될 키 (경로)
 
         // URL로부터 이미지를 S3에 업로드
         uploadImageFromUrlToS3(imageUrl, s3Key);
@@ -71,17 +77,6 @@ public class S3Service implements IS3Service {
         log.info("Generated image url: " + generatedImageUrl);
 
         return generatedImageUrl; // 업로드된 파일의 URL 반환
-    }
-
-    // 임시 폴더에 있는 이미지를 생성된 이미지 폴더로 이동
-    @Override
-    public String moveImageToGeneratedFolder(String fileName, String userId) throws Exception {
-        String sourceKey = tempFolder + fileName; // 소스 파일의 S3 경로
-        String destKey = generatedImagesFolder + fileName; // 이동할 대상 경로
-
-        // S3 객체를 생성된 이미지 폴더로 이동
-        moveS3Object(sourceKey, destKey);
-        return s3Client.getUrl(bucketName, destKey).toString(); // 이동된 이미지의 URL 반환
     }
 
     // 임시 폴더에 있는 이미지를 사용자 이미지 폴더로 이동

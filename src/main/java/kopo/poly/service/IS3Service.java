@@ -9,7 +9,6 @@ public interface IS3Service {
     String uploadApiResponseImageToS3(String imageUrl, String userId) throws Exception;
 
     // 임시 폴더에 있는 이미지를 생성된 이미지 폴더로 이동
-    String moveImageToGeneratedFolder(String fileName, String userId) throws Exception;
 
     // 임시 폴더에 있는 이미지를 사용자 이미지 폴더로 이동
     String moveImageToUserImagesFolder(String fileName, String userId) throws Exception;

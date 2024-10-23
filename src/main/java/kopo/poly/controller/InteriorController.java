@@ -6,6 +6,7 @@ import kopo.poly.dto.DetailDTO;
 import kopo.poly.dto.GRecordDTO;
 import kopo.poly.dto.RecommendDTO;
 import kopo.poly.service.IInteriorService;
+import kopo.poly.service.IS3Service;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,9 @@ import java.util.Map;
 @RequestMapping(value = "/Interior")
 public class InteriorController {
     private final IInteriorService interiorService;
+    private final IS3Service s3Service;
 
-    @Value("${rootPath}")
+    @Value("${upload.dir.rootPath}")
     private String rootPath;
 
     @Value("${inputImgDir}")
@@ -45,15 +47,32 @@ public class InteriorController {
     @Value("${generatedImgDir}")
     private String generatedImgDir;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
+
+    // 임시 폴더 경로 (S3 내 폴더처럼 경로를 사용)
+    @Value("${s3.folder.temporary}")
+    private String tempFolder;
+
+    // 사용자 이미지 저장 폴더 경로
+    @Value("${s3.folder.user-images}")
+    private String userImagesFolder;
+
+    // 생성된 이미지 저장 폴더 경로
+    @Value("${s3.folder.generated-images}")
+    private String generatedImagesFolder;
+
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
         String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
         session.removeAttribute("imageCount");
+
         try {
-            interiorService.delTempFolder();
+            s3Service.deleteTemporaryImages();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+
         return "/Interior/makeNew";
     }
 
@@ -76,69 +95,32 @@ public class InteriorController {
 
         log.info(String.valueOf(count));
 
-        String saveDir = null;
-        String outputPath = null;
         String fileName = image.getOriginalFilename();
         session.setAttribute("userOriginInput", fileName);
-        String newFileName = interiorService.fileNameEncode(userId)+".png";
-        String fileUrl = null;
 
         // 카운트가 0일 때만 서버에 이미지 저장
         if (count == 0 && !image.isEmpty()) {
             // 서비스 클래스로 분리 후 코드 간소화 예정
 
-            saveDir = "C:/uploads";
+            // S3
+            imageUrl = s3Service.uploadUserImageToS3(image, userId);
 
-            File saveDirectory = new File(saveDir);
+            String newFileName = imageUrl.substring(imageUrl.lastIndexOf("/")+1);
 
-            // 디렉토리가 존재하지 않으면 생성
-            if (!saveDirectory.exists()) {
-                saveDirectory.mkdirs();
-            }
-
-            File dest = new File(saveDir + File.separator + newFileName);
-            outputPath=dest.getAbsolutePath();
-            session.setAttribute("userInputImgPath", outputPath);
-            session.setAttribute("userInputImg", newFileName);
-            log.info("사용자 첨부 이미지 저장 : {}", outputPath);
-
-            try {
-                image.transferTo(dest);
-            } catch (IOException e) {
-                log.error("파일 저장 중 오류 발생: ", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 오류 발생 시 500 응답
-            }
-
-            session.setAttribute("inputImgName", fileName);
             session.setAttribute("newInputImgName", newFileName);
 
         } else if (count>0) {
             log.info("재생성 요청된 이미지 url : {}", imageUrl.toString());
             log.info("파일명 : {}", imageUrl.substring(imageUrl.lastIndexOf("/")+1));
-
-            String saveYn = "n";
-
-            outputPath = saveImageToServer(imageUrl, session, saveYn);
-
-            log.info("재생성 이미지 임시 저장 완료 : {}", outputPath);
         }
 
-        fileUrl = outputPath.split(":")[1];
 
-        log.info("fileUrl : {}", fileUrl);
-
-        String sourceUrl = fileUrl.replace("\\","/");
-
-        String forApiUrl = "http://localhost:11000"+sourceUrl;
-
-        log.info("forApiUrl : {}", forApiUrl);
+        log.info("imageUrl : {}", imageUrl);
 
         log.info("프롬프트 내용 : {}", prompt);
 
-        File savedFile = new File(outputPath);
-
         // API 요청
-        String generatedImageUrl = interiorService.generateImg(savedFile, prompt, userId);
+        String generatedImageUrl = interiorService.generateImg(imageUrl, prompt, userId);
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
         // 세션에 API로 생성된 이미지 저장
@@ -155,20 +137,6 @@ public class InteriorController {
     public ResponseEntity<String> saveGeneratedImage(@RequestBody Map<String, String> data, HttpSession session) {
         log.info("{}.saveGeneratedImage 시작", this.getClass().getName());
 
-        String userInputImgPath = (String) session.getAttribute("userInputImgPath");
-        String userInputImg = (String) session.getAttribute("userInputImg");
-
-        File fromImg = new File(userInputImgPath);
-        File toImg = new File(rootPath+File.separator+inputImgDir+File.separator+userInputImg);
-
-        Path inputPath = Paths.get(rootPath+File.separator+inputImgDir+File.separator+userInputImg);
-
-        try {
-            Files.createDirectories(inputPath.getParent());
-        } catch (Exception e) {
-            log.info("e");
-        }
-
         int generateSeq;
 
         int res = 0;
@@ -178,27 +146,32 @@ public class InteriorController {
 
         String imageUrl = data.get("imageUrl");
 
-        String saveYn = "y";
+        String fileName;
 
-        // 이미지 URL을 이용해 실제 이미지 저장 로직 수행
         try {
             // 서버에 이미지 저장 로직
-            String imagePath = saveImageToServer(imageUrl, session, saveYn);
 
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
+
+            String generatedImgUrl = s3Service.uploadApiResponseImageToS3(imageUrl, userId);
+
             String inputImgName = (String) session.getAttribute("userOriginInput");
-            String generatedImgName = (String) session.getAttribute("generatedImgName");
+
+            String generatedImgName = generatedImgUrl.substring(generatedImgUrl.lastIndexOf("/")+1);
+
             String regId = (String) session.getAttribute("SS_USER_ID");
             String chgId = (String) session.getAttribute("SS_USER_ID");
-            String newInputImgName = userInputImg;
+            String newInputImgName = (String) session.getAttribute("newInputImgName");
+
+            fileName = newInputImgName;
 
             log.info("userId : {}", userId);
             log.info("rootPath : {}", rootPath);
-            log.info("inputImgDir : {}", inputImgDir);
+            log.info("inputImgDir : {}", userImagesFolder);
             log.info("inputImgName : {}", inputImgName);
             log.info("newInputImgName : {}", newInputImgName);
-            log.info("generatedImgDir : {}", generatedImgDir);
+            log.info("generatedImgDir : {}", generatedImagesFolder);
             log.info("generatedImgName : {}", generatedImgName);
             log.info("regId : {}", regId);
             log.info("chgId : {}", chgId);
@@ -207,15 +180,14 @@ public class InteriorController {
 
             pDTO.setUserId(userId);
             pDTO.setRootPath(rootPath);
-            pDTO.setInputImgDir(inputImgDir);
+            pDTO.setInputImgDir(userImagesFolder);
             pDTO.setInputImgName(inputImgName);
             pDTO.setNewInputImgName(newInputImgName);
-            pDTO.setGeneratedImgDir(generatedImgDir);
+            pDTO.setGeneratedImgDir(generatedImagesFolder);
             pDTO.setGeneratedImgName(generatedImgName);
             pDTO.setRegId(regId);
             pDTO.setChgId(chgId);
 
-            String generatedImgUrl = "http://localhost:11000/"+generatedImgDir+"/"+generatedImgName;
             log.info("generatedImgUrl : {}", generatedImgUrl);
 
             res = interiorService.insertRecord(pDTO);
@@ -233,9 +205,9 @@ public class InteriorController {
 
                 List<DetailDTO> resp;
 
-                log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
+//                log.info("이미지 분석을 위한 이미지 경로 : {}", imagePath);
                 try {
-                    resp = interiorService.runImgAnalysisPython(imagePath);
+                    resp = interiorService.runImgAnalysisPython(imageUrl);
 
                     if (resp.isEmpty()){
                         log.info("이미지 분석 중 오류가 발생하였습니다.");
@@ -250,8 +222,6 @@ public class InteriorController {
                         }
 
                         log.info("저장된 AI 생성 이미지 삭제");
-                        File deleteFile = new File(imagePath);
-                        deleteFile.delete();
 
                         return new ResponseEntity<>("이미지 분석 중 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
@@ -280,7 +250,8 @@ public class InteriorController {
                 }
                 session.setAttribute("generatedImgUrl", generatedImgUrl);
 
-                List<RecommendDTO> recommendList = interiorService.getRecommend(imagePath, resp);
+                // 수정필요
+                List<RecommendDTO> recommendList = interiorService.getRecommend(imageUrl, resp);
 
                 if (!recommendList.isEmpty()) {
                     log.info("제품 추천 리스트 선정 완료");
@@ -289,13 +260,15 @@ public class InteriorController {
                     session.setAttribute("recommendList", recommendList);
 
                     // 임시 저장 폴더에서 옮기기
-                    if (fromImg.renameTo(toImg)) {
-                        log.info("사용자 이미지 저장 완료");
-                        // 임시파일 저장 폴더 비우기
-                        interiorService.delTempFolder();
-                    } else {
-                        log.info("사용자 이미지 저장 실패");
+                    String userImgUrl = s3Service.moveImageToUserImagesFolder(fileName, userId);
+                    log.info("userImgUrl : {}", userImgUrl);
+
+                    try {
+                        s3Service.deleteTemporaryImages();
+                    } catch (Exception e) {
+                        log.error(e.getMessage());
                     }
+
 
                 } else {
                     log.info("제품 추천 중 오류가 발생하였습니다.");
@@ -321,65 +294,6 @@ public class InteriorController {
             return new ResponseEntity<>("이미지 저장에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }
-
-    // 이미지 저장 메서드 (예시) -> 서비스 클래스로 분리예정
-    private String saveImageToServer(String imageUrl, HttpSession session, String saveYn) throws IOException {
-        // imageUrl을 이용해 이미지 다운로드 후 저장하는 로직 구현
-        // 예: 서버의 디렉토리에 이미지 저장
-        log.info(imageUrl);
-
-        String userId = (String) session.getAttribute("SS_USER_ID");
-
-        File dir = new File(rootPath+File.separator+generatedImgDir);
-
-        // URL로부터 InputStream 가져오기
-        URL url = new URL(imageUrl);
-        InputStream inputStream = null;
-        FileOutputStream outputStream = null;
-        Path outputPath;
-
-        try {
-            inputStream = url.openStream(); // 이미지 데이터를 가져옴
-
-            // 이미지 파일명을 지정할 때 원본 URL에서 파일명 추출 가능
-            String fileName = "ai_"+interiorService.fileNameEncode(userId) + ".png";
-
-            if (saveYn.equals("y")) {
-                // 저장할 경로와 파일 이름 설정
-                outputPath = Paths.get(dir + File.separator + fileName);
-            } else {
-                outputPath = Paths.get("C:/uploads" + File.separator + fileName);
-            }
-
-            // 디렉토리 생성 (존재하지 않으면)
-            Files.createDirectories(outputPath.getParent());
-
-            // OutputStream을 사용해 이미지 파일로 저장
-            outputStream = new FileOutputStream(outputPath.toFile());
-
-            // 버퍼를 사용해 이미지 데이터를 파일로 저장
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            log.info("이미지 저장 완료: " + outputPath.toString());
-            session.setAttribute("generatedImgName", fileName);
-
-        } catch (IOException e) {
-            log.error("이미지 저장 중 오류 발생: ", e);
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            // InputStream과 OutputStream 닫기
-            if (inputStream != null) inputStream.close();
-            if (outputStream != null) outputStream.close();
-        }
-
-        return outputPath.toString();
     }
 
     @GetMapping("/result")
