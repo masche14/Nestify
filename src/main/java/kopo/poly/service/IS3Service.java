@@ -15,4 +15,6 @@ public interface IS3Service {
 
     // S3의 임시 폴더에 있는 모든 이미지 삭제
     void deleteTemporaryImages() throws Exception;
+
+    void deleteSpecificFile(String folderPath, String fileName) throws Exception;
 }

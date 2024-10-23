@@ -132,4 +132,15 @@ public class S3Service implements IS3Service {
             s3Client.deleteObject(bucketName, objectSummary.getKey()); // 각 객체 삭제
         }
     }
+
+    // S3에서 특정 폴더 내 특정 파일명을 가진 파일을 삭제하는 함수
+    public void deleteSpecificFile(String folderPath, String fileName) throws Exception {
+        // 폴더 경로와 파일명을 조합하여 S3 객체 키 생성
+        String s3Key = folderPath + fileName;
+
+        // S3에서 해당 파일 삭제
+        s3Client.deleteObject(new DeleteObjectRequest(bucketName, s3Key));
+
+        log.info("파일 삭제 완료: " + s3Key);
+    }
 }

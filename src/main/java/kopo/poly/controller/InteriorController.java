@@ -7,6 +7,7 @@ import kopo.poly.dto.GRecordDTO;
 import kopo.poly.dto.RecommendDTO;
 import kopo.poly.service.IInteriorService;
 import kopo.poly.service.IS3Service;
+import kopo.poly.service.impl.S3Service;
 import kopo.poly.util.CmmUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -217,6 +218,8 @@ public class InteriorController {
                         int deleteResult = interiorService.deleteRecord(pDTO);
                         if (deleteResult > 0) {
                             log.info("삭제 완료");
+                            s3Service.deleteSpecificFile(generatedImagesFolder, generatedImgName);
+
                         } else {
                             log.info("삭제 실패");
                         }
@@ -279,6 +282,7 @@ public class InteriorController {
                     int deleteResult = interiorService.deleteRecord(pDTO);
                     if (deleteResult > 0) {
                         log.info("삭제 완료");
+                        s3Service.deleteSpecificFile(generatedImagesFolder, generatedImgName);
                     } else {
                         log.info("삭제 실패");
                     }
