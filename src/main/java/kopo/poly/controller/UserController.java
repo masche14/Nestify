@@ -480,6 +480,12 @@ public class UserController {
 
     @GetMapping("/delOrUpdate")
     public String showDelOrUpdate(HttpSession session) {
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID != null){
+            return "redirect:index";
+        }
+
         return "/User/delOrUpdate";
     }
 
