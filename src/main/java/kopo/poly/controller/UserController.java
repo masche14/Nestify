@@ -713,6 +713,7 @@ public class UserController {
                 msg="업데이트를 성공했습니다.";
                 session.setAttribute("userId", userId);
                 session.removeAttribute("checkUserEmail");
+                session.removeAttribute("pwdVerifyResult");
 
             } else {
                 msg="오류로 인해 업데이트를 실패하였습니다.";
