@@ -25,8 +25,6 @@
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
 
         String exists = emailResultDTO.getExistsYn();
-
-        session.removeAttribute("emailResultDTO");
     %>
     <script>
         var userId = "<%= userId %>";

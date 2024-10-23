@@ -339,6 +339,7 @@ public class UserController {
         if (res==1){
             session.removeAttribute("check_id");
             session.removeAttribute("check_nick");
+            session.removeAttribute("emailResultDTO");
             return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
         }
         else {
@@ -407,6 +408,7 @@ public class UserController {
                 if (res==1){
                     msg="업데이트를 성공했습니다.";
                     session.setAttribute("userId", userId);
+                    session.removeAttribute("emailResultDTO");
                 } else {
                     msg="오류로 인해 업데이트를 실패하였습니다.";
                 }
