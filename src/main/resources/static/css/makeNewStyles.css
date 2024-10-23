@@ -254,3 +254,7 @@
     width: 420px !important;
     justify-content: flex-start !important;
 }
+
+.sort-content-top {
+    justify-content: flex-start;
+}

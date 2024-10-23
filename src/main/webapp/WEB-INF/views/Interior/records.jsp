@@ -156,7 +156,7 @@
 
 <!-- 모달 창 -->
 <div id="detailModal" class="modal">
-    <div class="modal-content autoWidth">
+    <div class="modal-content autoWidth sort-content-top">
         <div class="close_wrapper">
             <span id="closeModal" class="close">&times;</span>
         </div>
