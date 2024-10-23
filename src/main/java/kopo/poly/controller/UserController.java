@@ -387,28 +387,15 @@ public class UserController {
             log.info("일치");
 
             try {
-
-//                String userName = CmmUtil.nvl(request.getParameter("name"));
-//                String gender = CmmUtil.nvl(request.getParameter("gender"));
-//                String userNickname = CmmUtil.nvl(request.getParameter("nickname"));
                 String userId = CmmUtil.nvl(request.getParameter("id"));
                 String password = CmmUtil.nvl(EncryptUtil.encHashSHA256(request.getParameter("pwd")));
                 String chgId;
                 chgId = userId;
 
-//                log.info("userName : {}", userName);
-//                log.info("gender : {}", gender);
-//                log.info("userNickname : {}", userNickname);
                 log.info("userId : {}", userId);
                 log.info("password : {}", password);
-//                log.info("userEmail : {}", userEmail);
 
                 pDTO = new UserInfoDTO();
-
-//                pDTO.setUserEmail(EncryptUtil.encAES128CBC(userEmail));
-//                pDTO.setUserName(userName);
-//                pDTO.setGender(gender);
-//                pDTO.setUserNickname(userNickname);
                 pDTO.setUserId(userId);
                 pDTO.setPassword(password);
                 pDTO.setChgId(chgId);
