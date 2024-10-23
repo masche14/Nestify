@@ -484,7 +484,7 @@ public class UserController {
     public String showDelOrUpdate(HttpSession session) {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
-        if (SS_USER_ID != null){
+        if (SS_USER_ID == null){
             return "redirect:index";
         }
 
@@ -505,7 +505,7 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "User/pwd_verification";
+            return "/User/pwd_verification";
         } else {
             return "redirect:index";
         }
