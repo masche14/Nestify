@@ -155,18 +155,11 @@ public class InteriorService implements IInteriorService {
             if ("success".equals(responseJson.get("status"))) {
                 // Base64 데이터가 있는 링크를 가져오기
                 List<String> output = (List<String>) responseJson.get("output");
-//                String base64DataUrl = output.get(0);
+
                 String generatedImgUrl = output.get(0);
 
                 log.info("gener test : {}", generatedImgUrl);
 
-//                log.info("base64DataUrl : {}", base64DataUrl);
-
-//                // base64 데이터 다운로드 및 이미지로 변환 후 저장
-//                String savedImagePath = downloadBase64Image(base64DataUrl, outputPath);
-
-                // 이미지 파일 경로를 URL로 변환하여 반환
-//                return "http://localhost:11000"+savedImagePath;
                 return generatedImgUrl;
             } else {
                 System.out.println("API 요청 실패: " + responseJson.get("message"));
