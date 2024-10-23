@@ -42,19 +42,6 @@ public class InteriorController {
     @Value("${upload.dir.rootPath}")
     private String rootPath;
 
-    @Value("${inputImgDir}")
-    private String inputImgDir;
-
-    @Value("${generatedImgDir}")
-    private String generatedImgDir;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucketName;
-
-    // 임시 폴더 경로 (S3 내 폴더처럼 경로를 사용)
-    @Value("${s3.folder.temporary}")
-    private String tempFolder;
-
     // 사용자 이미지 저장 폴더 경로
     @Value("${s3.folder.user-images}")
     private String userImagesFolder;
@@ -150,7 +137,6 @@ public class InteriorController {
         String fileName;
 
         try {
-            // 서버에 이미지 저장 로직
 
             // 서버에 이미지 저장 로직 (예: 이미지 다운로드 후 저장)
             String userId = (String) session.getAttribute("SS_USER_ID");
