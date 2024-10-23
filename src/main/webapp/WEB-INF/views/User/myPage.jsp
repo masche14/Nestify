@@ -25,7 +25,6 @@
 <%--    String SS_USER_NICKNAME = (String) session.getAttribute("SS_USER_NICKNAME");--%>
 <%--    String SS_USER_EMAIL = (String) session.getAttribute("SS_USER_EMAIL");--%>
 <%--  %>--%>
-  <% session.removeAttribute("pwdVerifyResult"); %>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
@@ -46,6 +45,15 @@
 
       if (errorMsg && errorMsg.trim() !== "null"){
         alert(errorMsg)
+      }
+
+      const referrer = document.referrer;
+
+      console.log("referrer : "+referrer.trim())
+
+      if ((referrer.trim()!=="http://localhost:11000/User/myPage")&&(referrer.trim()!=="http://localhost:11000/User/pwd_verification")){
+        alert("올바르지 않은 접근입니다.")
+        window.location.href="/User/index";
       }
 
       document.getElementById("nameDisplay").textContent = SS_USER_NAME;

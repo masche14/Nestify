@@ -71,5 +71,7 @@ function handleSubmit(event) {
 // DOM이 준비되면 버튼에 클릭 이벤트 핸들러를 추가
 document.addEventListener('DOMContentLoaded', function () {
     const nextButton = document.getElementById('nextButton');
-    nextButton.addEventListener('click', handleSubmit);
+    if (nextButton) {
+        nextButton.addEventListener('click', handleSubmit);
+    }
 });
