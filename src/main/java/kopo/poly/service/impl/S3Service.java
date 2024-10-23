@@ -98,8 +98,6 @@ public class S3Service implements IS3Service {
 
     // 파일명을 생성하는 헬퍼 메서드 (유저ID와 현재 타임스탬프를 포함)
     private String generateFileName(String userId) {
-//        String timeStamp = String.valueOf(System.currentTimeMillis()); // 현재 타임스탬프 생성
-//        return userId + "_" + timeStamp + "_" + originalFileName; // 유저ID와 타임스탬프를 포함한 파일명 반환
         LocalDate localdate = LocalDate.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String date = localdate.format(dateFormatter);
@@ -110,13 +108,6 @@ public class S3Service implements IS3Service {
 
 
         return userId+"_"+date+time+".png";
-    }
-
-    // MultipartFile을 S3에 업로드
-    private void uploadMultipartFileToS3(MultipartFile file, String s3Key) throws Exception {
-        InputStream inputStream = file.getInputStream(); // MultipartFile에서 InputStream 얻기
-        s3Client.putObject(new PutObjectRequest(bucketName, s3Key, inputStream, null)); // S3에 업로드
-        inputStream.close(); // InputStream 닫기
     }
 
     // URL로부터 이미지를 다운로드하여 S3에 업로드
