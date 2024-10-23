@@ -17,7 +17,7 @@
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script src="/js/setReferrer.js" defer></script>
     <script src="/js/checkDuplicate.js" defer></script>
-
+    <% session.removeAttribute("emailResultDTO"); %>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // JSP에서 세션 에러 메시지를 자바스크립트 변수에 직접 전달
