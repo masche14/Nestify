@@ -52,7 +52,7 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         String userId= (String) session.getAttribute("userId");
@@ -63,7 +63,7 @@ public class UserController {
             model.addAttribute("userId", "");
         }
 
-        return "User/signin";
+        return "/User/signin";
     }
 
     // 로그인 처리 (POST 요청)
@@ -190,9 +190,9 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
-        return "User/email_verification";
+        return "/User/email_verification";
     }
 
     @ResponseBody
@@ -240,13 +240,13 @@ public class UserController {
 
         switch (source) {
             case "signup":
-                return "redirect:signup_detail";
+                return "redirect:/User/signup_detail";
             case "find_id":
-                return "redirect:find_id";
+                return "redirect:/User/find_id";
             case "reset_pwd":
-                return "redirect:reset_pwd";
+                return "redirect:/User/reset_pwd";
             default:
-                return "redirect:email_verification";
+                return "redirect:/User/email_verification";
         }
     }
 
@@ -255,12 +255,12 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
@@ -268,7 +268,7 @@ public class UserController {
             session.setAttribute("error", alert);
         }
 
-        return "User/signup_detail";
+        return "/User/signup_detail";
     }
     // 회원가입 처리 (POST 요청)
 
@@ -343,7 +343,7 @@ public class UserController {
             return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
         }
         else {
-            return "redirect:signup_detail";
+            return "redirect:/User/signup_detail";
         }
     }
     // 비밀번호 재설정 페이지 표시 (GET 요청)
@@ -355,15 +355,15 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
-        return "User/reset_pwd";
+        return "/User/reset_pwd";
     }
 
     @PostMapping("/reset_pwd")
@@ -437,12 +437,12 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
@@ -455,7 +455,7 @@ public class UserController {
             model.addAttribute("userName", "");
             model.addAttribute("userId", "");
         }
-        return "User/find_id";
+        return "/User/find_id";
     }
 
     // 아이디 찾기 처리 (POST 요청)
@@ -466,11 +466,11 @@ public class UserController {
 
         switch (findIdSource) {
             case "signin":
-                return "redirect:signin";
+                return "redirect:/User/signin";
             case "reset_pwd":
-                return "redirect:reset_pwd";
+                return "redirect:/User/reset_pwd";
             default:
-                return "redirect:find_id";
+                return "redirect:/User/find_id";
         }
          // 찾은 아이디 결과 페이지로 이동
     }
@@ -485,7 +485,7 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID == null){
-            return "redirect:index";
+            return "redirect:/User/index";
         }
 
         return "/User/delOrUpdate";
@@ -507,7 +507,7 @@ public class UserController {
         if (SS_USER_ID != null){
             return "/User/pwd_verification";
         } else {
-            return "redirect:index";
+            return "redirect:/User/index";
         }
     }
     
@@ -623,7 +623,7 @@ public class UserController {
             return "redirect:/User/index";
         }
 
-        return "User/myPage";
+        return "/User/myPage";
     }
 
     @PostMapping("/myPage")

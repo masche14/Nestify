@@ -288,6 +288,22 @@ public class InteriorController {
 
     @GetMapping("/result")
     public  String showResult(HttpSession session){
+        String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
+
+        if (SS_USER_ID == null){
+            return "redirect:/User/index";
+        }
+
+        List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
+        if (rList == null) {
+            return "redirect:/User/index";
+        }
+
+        List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
+        if (recommendList == null) {
+            return "redirect:/User/index";
+        }
+
         return "/Interior/result";
     }
 
