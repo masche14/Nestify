@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="/css/makeNewStyles.css">
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
+    <%
+        List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
+        List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
+    %>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
@@ -36,20 +41,9 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
 
-            <%
-                List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
-                List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
-            %>
-
             const generatedImgUrl = "<%=(String) session.getAttribute("generatedImgUrl") %>";
             console.log("generatedUrl : "+generatedImgUrl);
             document.getElementById('generatedImg').src = generatedImgUrl;
-
-            // function validateForm(event) {
-            //     return true;
-            // }
-
-            // document.getElementById("submit").addEventListener("click", validateForm)
         });
     </script>
 </head>
