@@ -13,13 +13,7 @@ import java.util.Map;
 public interface IInteriorService {
     int insertRecord(GRecordDTO pDTO) throws Exception;
 
-    String fileNameEncode(String userId) throws Exception;
-
-    String generateImg(String imageUrl, String prompt, String userId) throws Exception;
-
-//    String downloadBase64Image(String base64DataUrl, String outputPath);
-
-//    void delTempFolder() throws Exception;
+    String generateImg(String imageUrl, String prompt) throws Exception;
 
     List<GRecordDTO> getRecords(GRecordDTO pDTO) throws Exception;
 

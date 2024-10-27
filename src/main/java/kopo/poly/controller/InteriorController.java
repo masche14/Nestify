@@ -108,7 +108,7 @@ public class InteriorController {
         log.info("프롬프트 내용 : {}", prompt);
 
         // API 요청
-        String generatedImageUrl = interiorService.generateImg(imageUrl, prompt, userId);
+        String generatedImageUrl = interiorService.generateImg(imageUrl, prompt);
         log.info("generatedImageUrl : {}",generatedImageUrl);
 
         // 세션에 API로 생성된 이미지 저장

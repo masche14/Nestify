@@ -82,94 +82,62 @@ public class InteriorService implements IInteriorService {
         return rList;
     }
 
-    // 이미지 이름 재생성
-    @Override
-    public String fileNameEncode(String userId){
-        LocalDate localdate = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String date = localdate.format(dateFormatter);
-
-        LocalTime localtime = LocalTime.now();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
-        String time = localtime.format(timeFormatter);
-
-
-        return userId+"_"+date+time;
-    }
-
     // API 이미지 생성 요청
     @Override
-    public String generateImg(String imageUrl, String prompt, String userId) throws Exception {
+    public String generateImg(String imageUrl, String prompt) throws Exception {
         log.info("이미지 생성 시작");
 
-        try {
-            // API URL
-            String apiUrl = "https://modelslab.com/api/v6/realtime/img2img";
+        String url = "http://127.0.0.1:8000/myGenerateImageAPI";
 
-            log.info("요청 데이터 생성");
-            // 요청할 JSON 데이터 생성
-            JSONObject payload = new JSONObject();
-            payload.put("key", imagenKey);
-            payload.put("prompt", prompt);
-            payload.put("negative_prompt", "bad quality");
-            payload.put("init_image", imageUrl);
-            payload.put("width", "512");
-            payload.put("height", "512");
-            payload.put("samples", "1");
-            payload.put("temp", false);
-            payload.put("safety_checker", false);
-            payload.put("strength", 0.5);
-            payload.put("instant_response", false);
-            payload.put("base64", false);
-            payload.put("seed", JSONObject.NULL);
-            payload.put("webhook", JSONObject.NULL);
-            payload.put("track_id", JSONObject.NULL);
+        // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
+        Map<String, Object> data = new HashMap<>();
+        data.put("imageUrl", imageUrl);
+        data.put("prompt", prompt); // resp는 이미 List<DetailDTO>로 되어 있음
 
-            log.info("요청데이터 생성 완료");
+        // Gson을 사용하여 Map을 JSON 문자열로 변환
+        Gson gson = new Gson();
+        String json = gson.toJson(data);
+        String resp = "";
 
-            // HTTP POST 요청 설정
-            HttpURLConnection conn = (HttpURLConnection) new URL(apiUrl).openConnection();
-            conn.setInstanceFollowRedirects(false);  // 리디렉션을 따르지 않음
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setDoOutput(true);
+        // POST 요청을 위한 URL 연결 생성
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("POST"); // POST 요청 설정
+        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-            log.info("요청 전송");
-            // JSON 데이터 전송
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = payload.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
+        // 요청 본문에 JSON 데이터 전송
+        log.info("이미지 생성 요청 전달");
 
-            // 응답 받기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-            StringBuilder response = new StringBuilder();
-            String responseLine;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-
-            log.info("응답 도착");
-            // JSON 응답 처리
-            Map<String, Object> responseJson = new ObjectMapper().readValue(response.toString(), LinkedHashMap.class);
-            if ("success".equals(responseJson.get("status"))) {
-                // Base64 데이터가 있는 링크를 가져오기
-                List<String> output = (List<String>) responseJson.get("output");
-
-                String generatedImgUrl = output.get(0);
-
-                log.info("gener test : {}", generatedImgUrl);
-
-                return generatedImgUrl;
-            } else {
-                System.out.println("API 요청 실패: " + responseJson.get("message"));
-                return null;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        con.setDoOutput(true); // 출력 스트림 사용 가능 설정
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = json.getBytes("UTF-8");
+            os.write(input, 0, input.length);
         }
+
+        // 응답 코드 확인
+        log.info("응답확인");
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+
+        // 응답 데이터 처리 (응답이 필요하면 여기서 처리)
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            // 응답을 읽고 RecommendDTO 리스트로 변환하는 로직 추가
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                resp = response.toString();
+            }
+
+        } else {
+            log.error("응답 오류: " + responseCode);
+        }
+
+        return resp;
     }
 
     @Override
