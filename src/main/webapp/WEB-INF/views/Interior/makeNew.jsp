@@ -149,7 +149,7 @@
                         window.location.href = "/Interior/result";
                     } else {
                         analyzeModal.style.display="none";
-                        alert("이미지 분석 및 제품 추천 중 오류 발생");
+                        alert("이미지 분석 및 제품 추천 중 오류가 발생했습니다.");
                     }
                 } catch (error) {
                     analyzeModal.style.display="none";
