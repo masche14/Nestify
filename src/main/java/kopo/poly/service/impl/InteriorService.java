@@ -39,19 +39,6 @@ public class InteriorService implements IInteriorService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${inputImgDir}")
-    private String inputImgDir;
-
-    @Value("${generatedImgDir}")
-    private String generatedImgDir;
-
-    @Value("${OpenAi_Key}")
-    private String openAiKey;
-
-    @Value("${IMAGEN_KEY}")
-    private String imagenKey;
-
-
     // G_RECORD 데이터베이스 추가
     @Transactional
     @Override
