@@ -34,3 +34,5 @@ build/
 
 # Secret properties 파일을 Git에서 제외
 /application-secrets.properties
+
+/src/main/resources/application-secrets.properties
