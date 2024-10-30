@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Secret properties 파일을 Git에서 제외
+/application-secrets.properties
