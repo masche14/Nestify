@@ -34,7 +34,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/Interior")
+@RequestMapping(value = "/interior")
 public class InteriorController {
     private final IInteriorService interiorService;
     private final IS3Service s3Service;
@@ -61,7 +61,7 @@ public class InteriorController {
             log.error(e.getMessage());
         }
 
-        return "/Interior/makeNew";
+        return "/interior/makeNew";
     }
 
     @PostMapping("/upload")
@@ -291,20 +291,20 @@ public class InteriorController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID == null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         List<DetailDTO> rList = (List<DetailDTO>) session.getAttribute("analysisResult");
         if (rList == null) {
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         List<RecommendDTO> recommendList = (List<RecommendDTO>) session.getAttribute("recommendList");
         if (recommendList == null) {
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
-        return "/Interior/result";
+        return "/interior/result";
     }
 
     @GetMapping("/records")
@@ -332,11 +332,11 @@ public class InteriorController {
         session.setAttribute("rList", rList);
         session.setAttribute("resList", resList);
 
-        return "/Interior/records";
+        return "/interior/records";
     }
 
     @GetMapping("/choose")
     public String showChoosePage(){
-        return "/Interior/choose";
+        return "/interior/choose";
     }
 }

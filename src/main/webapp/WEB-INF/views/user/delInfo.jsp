@@ -18,22 +18,8 @@
     <script src="/js/setReferrer.js" defer></script>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script> <!-- JS 경로 수정 -->
     <script>
-        const userName = "<%= (String)request.getAttribute("userName") %>";
-        const userId = "<%= (String)request.getAttribute("userId") %>";
-
         // DOMContentLoaded 이벤트 리스너를 사용하여 DOM이 완전히 로드된 후에 실행되도록 설정
         document.addEventListener('DOMContentLoaded', function() {
-
-            if (userName && userName.trim() !== "") {
-                if (userId && userId.trim() !== "") {
-                    document.getElementById('nameDisplay').textContent = userName;
-                    document.getElementById('idDisplay').textContent = userId;
-                }
-            } else {
-                alert("해당 이메일로 가입된 계정이 존재하지 않습니다.");
-                window.location.href="signup_detail"
-            }
-
             const SS_USER_ID = "<%= (String) session.getAttribute("SS_USER_ID") %>"
 
             if (SS_USER_ID && SS_USER_ID.trim() !== "null") {
@@ -43,6 +29,11 @@
                 document.getElementById("logoutNav").style.display = "none";
             }
         });
+
+        function doOrNot(selection){
+            document.getElementById('delOrNot').value=selection;
+            document.getElementById('delInfo').submit();
+        }
     </script>
 </head>
 <body>
@@ -55,31 +46,30 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
 <div class="content">
     <div class="container">
-        <form method="post" action="/User/find_id" id="findIdForm">
+        <form method="post" action="/user/delInfo" id="delInfo">
             <div class="form_box">
                 <div class="noti">
                     <div class="show_info" id="user_info">
-                        <span id="nameDisplay"></span>
-                        <span>님의 아이디는</span>
-                    </div>
-                    <div class="show_info" id="id_info">
-                        <span id="idDisplay"></span>
-                        <span>입니다.</span>
+                        <span>정말 탈퇴하시겠습니까?</span>
                     </div>
                     <div class="extra_top_margin input_box">
-                        <input type="hidden" name="findIdSource" id="findIdSource">
-                        <button type="button" class="two_button" id="goToLogin" onclick="setSource('signin')">로그인 페이지</button>
-                        <button type="button" class="two_button" id="goToResetPwd" onclick="setSource('reset_pwd')">비밀번호 재설정</button>
+                        <input type="hidden" name="delOrNot" id="delOrNot">
+                        <button type="button" class="two_button" id="goBack" onclick="doOrNot('cancel')">
+                            <div>취소</div>
+                        </button>
+                        <button type="button" class="two_button" id="goToDelete" onclick="doOrNot('confirm')">
+                            <div>회원탈퇴</div>
+                        </button>
                     </div>
                 </div>
             </div>

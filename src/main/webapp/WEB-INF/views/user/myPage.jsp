@@ -51,9 +51,9 @@
 
       console.log("referrer : "+referrer.trim())
 
-      if ((referrer.trim()!=="http://localhost:11000/User/myPage")&&(referrer.trim()!=="http://localhost:11000/User/pwd_verification")){
+      if ((referrer.trim()!=="http://localhost:11000/user/myPage")&&(referrer.trim()!=="http://localhost:11000/user/pwd_verification")){
         alert("올바르지 않은 접근입니다.")
-        window.location.href="/User/index";
+        window.location.href="/user/index";
       }
 
       document.getElementById("nameDisplay").textContent = SS_USER_NAME;
@@ -120,11 +120,11 @@
 
   <!-- 우측 메뉴 -->
   <div class="menu">
-    <a href="/User/index">홈</a>
-    <a href="/Interior/choose">인테리어</a>
+    <a href="/user/index">홈</a>
+    <a href="/interior/choose">인테리어</a>
     <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-    <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-    <a href="/User/logout" id="logoutNav">로그아웃</a>
+    <a href="/user/delOrUpdate" id="myPageNav" >마이페이지</a>
+    <a href="/user/logout" id="logoutNav">로그아웃</a>
   </div>
 </div>
 
@@ -156,7 +156,7 @@
       </div>
     </div>
     <div class="form_wrap">
-      <form method="post" action="/User/myPage" id="signupForm">
+      <form method="post" action="/user/myPage" id="signupForm">
         <div class="form_box">
           <label class="label_bold" for="input_nickname">닉네임 변경 / CHG_NICKNAME</label>
           <div class="input_box">

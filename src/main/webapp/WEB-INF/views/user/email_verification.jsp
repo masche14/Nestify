@@ -51,17 +51,17 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
 <div class="content">
     <div class="container">
-        <form method="post" action="/User/email_verification" id="emailVerificationForm">
+        <form method="post" action="/user/email_verification" id="emailVerificationForm">
             <input type="hidden" id="sourceField" name="source">
             <div class="form_box">
                 <label class="label_bold" for="input_email">이메일 / E-MAIL</label>

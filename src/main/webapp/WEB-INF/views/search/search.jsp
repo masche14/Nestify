@@ -42,11 +42,11 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav">마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav">마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
@@ -54,7 +54,7 @@
     <div class="top">
         <span class="head-line">상품을 검색하세요</span>
     </div>
-    <form id="searchForm" action="/Search/searchProc" method="post" class="no-bottom-margin">
+    <form id="searchForm" action="/search/searchProc" method="post" class="no-bottom-margin">
         <div class="form-container" id="prompt_container">
             <input class="full" type="text" id="query" name="query" placeholder="찾으시는 상품을 입력하세요">
             <button class="btn_generate" type="submit" id="submit">검색</button>

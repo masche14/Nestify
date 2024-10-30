@@ -28,7 +28,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/User")
+@RequestMapping(value = "/user")
 public class UserController {
 
     private final IUserInfoService userInfoService;
@@ -37,13 +37,13 @@ public class UserController {
     public String setReferrer(HttpSession session, HttpServletRequest request, Model model) {
         log.info("referrer : {}", request.getHeader("referer"));
         session.setAttribute("referrer", request.getHeader("referer"));
-        return "redirect:/User/signin";
+        return "redirect:/user/signin";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 무효화
-        return "redirect:/User/index";
+        return "redirect:/user/index";
     }
 
     // 로그인 페이지 표시 (GET 요청)
@@ -52,7 +52,7 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         String userId= (String) session.getAttribute("userId");
@@ -63,7 +63,7 @@ public class UserController {
             model.addAttribute("userId", "");
         }
 
-        return "/User/signin";
+        return "/user/signin";
     }
 
     // 로그인 처리 (POST 요청)
@@ -111,18 +111,18 @@ public class UserController {
 
         if (res == 1) {
             switch (ref){
-                case "/Interior/makeNew":
-                    return "redirect:/Interior/makeNew";
-                case "/Interior/choose":
-                    return "redirect:/Interior/choose";
-                case "/Interior/records":
-                    return "redirect:/Interior/records";
+                case "/interior/makeNew":
+                    return "redirect:/interior/makeNew";
+                case "/interior/choose":
+                    return "redirect:/interior/choose";
+                case "/interior/records":
+                    return "redirect:/interior/records";
                 default:
-                    return "redirect:/User/index";
+                    return "redirect:/user/index";
             }
         } else {
             session.setAttribute("msg", msg);
-            return "redirect:/User/signin";
+            return "redirect:/user/signin";
         }
     }
 
@@ -190,9 +190,9 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
-        return "/User/email_verification";
+        return "/user/email_verification";
     }
 
     @ResponseBody
@@ -233,20 +233,20 @@ public class UserController {
         if (!email.equals(checkUserEmail)) {
             errorMsg = "이메일을 새로 입력하였습니다. 이메일 인증을 다시 진행해주세요.";
             session.setAttribute("errorMsg", errorMsg);
-            return "redirect:/User/email_verification";
+            return "redirect:/user/email_verification";
         }
 
         session.removeAttribute("checkUserEmail");
 
         switch (source) {
             case "signup":
-                return "redirect:/User/signup_detail";
+                return "redirect:/user/signup_detail";
             case "find_id":
-                return "redirect:/User/find_id";
+                return "redirect:/user/find_id";
             case "reset_pwd":
-                return "redirect:/User/reset_pwd";
+                return "redirect:/user/reset_pwd";
             default:
-                return "redirect:/User/email_verification";
+                return "redirect:/user/email_verification";
         }
     }
 
@@ -255,12 +255,12 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
@@ -268,7 +268,7 @@ public class UserController {
             session.setAttribute("error", alert);
         }
 
-        return "/User/signup_detail";
+        return "/user/signup_detail";
     }
     // 회원가입 처리 (POST 요청)
 
@@ -343,7 +343,7 @@ public class UserController {
             return "redirect:signin";// 회원가입 성공 후 로그인 페이지로 리다이렉트
         }
         else {
-            return "redirect:/User/signup_detail";
+            return "redirect:/user/signup_detail";
         }
     }
     // 비밀번호 재설정 페이지 표시 (GET 요청)
@@ -355,15 +355,15 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
-        return "/User/reset_pwd";
+        return "/user/reset_pwd";
     }
 
     @PostMapping("/reset_pwd")
@@ -421,13 +421,13 @@ public class UserController {
                 dto.setMsg(msg);
             }
             session.setAttribute("signinResultDTO", dto);
-            return "redirect:/User/signin";
+            return "redirect:/user/signin";
 
         } else{
             log.info("불일치");
             msg = "해당 이메일로 가입된 아이디가 아닙니다. 아이디를 다시 확인하세요.";
             session.setAttribute("deferentId", msg);
-            return "redirect:/User/reset_pwd";
+            return "redirect:/user/reset_pwd";
         }
     }
 
@@ -437,12 +437,12 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         UserInfoDTO emailResultDTO = (UserInfoDTO) session.getAttribute("emailResultDTO");
         if (emailResultDTO==null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         if (emailResultDTO.getExistsYn().equals("Y")) {
@@ -455,7 +455,7 @@ public class UserController {
             model.addAttribute("userName", "");
             model.addAttribute("userId", "");
         }
-        return "/User/find_id";
+        return "/user/find_id";
     }
 
     // 아이디 찾기 처리 (POST 요청)
@@ -466,18 +466,18 @@ public class UserController {
 
         switch (findIdSource) {
             case "signin":
-                return "redirect:/User/signin";
+                return "redirect:/user/signin";
             case "reset_pwd":
-                return "redirect:/User/reset_pwd";
+                return "redirect:/user/reset_pwd";
             default:
-                return "redirect:/User/find_id";
+                return "redirect:/user/find_id";
         }
          // 찾은 아이디 결과 페이지로 이동
     }
         // 홈 페이지 (index.jsp로 설정)
     @GetMapping("/index")
     public String showHomePage() {
-        return "User/index"; // /WEB-INF/views/index.jsp
+        return "/user/index"; // /WEB-INF/views/index.jsp
     }
 
     @GetMapping("/delOrUpdate")
@@ -485,10 +485,10 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID == null){
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
-        return "/User/delOrUpdate";
+        return "/user/delOrUpdate";
     }
 
     @PostMapping("/delOrUpdate")
@@ -497,7 +497,7 @@ public class UserController {
         String selection = request.getParameter("selection");
         log.info(selection);
         session.setAttribute("selection", selection);
-        return "redirect:/User/pwd_verification";
+        return "redirect:/user/pwd_verification";
     }
 
     @GetMapping("/pwd_verification")
@@ -505,9 +505,9 @@ public class UserController {
         String SS_USER_ID = (String) session.getAttribute("SS_USER_ID");
 
         if (SS_USER_ID != null){
-            return "/User/pwd_verification";
+            return "/user/pwd_verification";
         } else {
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
     }
     
@@ -550,15 +550,15 @@ public class UserController {
             session.setAttribute("pwdVerifyResult", "y");
             switch (selection){
                 case "update":
-                    return "redirect:/User/myPage";
+                    return "redirect:/user/myPage";
                 case "delete":
-                    return "redirect:/User/delInfo";
+                    return "redirect:/user/delInfo";
                 default:
-                    return "redirect:/User/pwd_verification";
+                    return "redirect:/user/pwd_verification";
             }
         } else {
             session.setAttribute("msg", msg);
-            return "redirect:/User/pwd_verification";
+            return "redirect:/user/pwd_verification";
         }
     }
 
@@ -567,12 +567,12 @@ public class UserController {
         String pwdVerifyResult = (String) session.getAttribute("pwdVerifyResult");
 
         if (pwdVerifyResult==null) {
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
         session.removeAttribute("pwdVerifyResult");
 
-        return "/User/delInfo";
+        return "/user/delInfo";
     }
 
     @PostMapping("/delInfo")
@@ -590,7 +590,7 @@ public class UserController {
         switch (delOrNot) {
             case "cancel":
                 log.info("삭제 취소");
-                return "redirect:/User/index";
+                return "redirect:/user/index";
             case "confirm":
                 log.info("삭제 진행");
 
@@ -603,15 +603,15 @@ public class UserController {
 
                     if (res == 1) {
                         log.info("삭제 완료했습니다.");
-                        return "redirect:/User/logout";
+                        return "redirect:/user/logout";
                     }
                 } catch (Exception e) {
                     log.info("삭제에 실패했습니다.");
                 }
-                return "redirect:/User/delInfo";
+                return "redirect:/user/delInfo";
             default:
                 log.info("예외");
-                return "redirect:/User/delInfo";
+                return "redirect:/user/delInfo";
         }
     }
 
@@ -620,10 +620,10 @@ public class UserController {
         String pwdVerifyResult = (String) session.getAttribute("pwdVerifyResult");
 
         if (pwdVerifyResult==null) {
-            return "redirect:/User/index";
+            return "redirect:/user/index";
         }
 
-        return "/User/myPage";
+        return "/user/myPage";
     }
 
     @PostMapping("/myPage")
@@ -645,7 +645,7 @@ public class UserController {
                 session.removeAttribute("pwdVerifyResult");
 
                 log.info("test1");
-                return "redirect:/User/myPage";
+                return "redirect:/user/myPage";
             } else if (checkUserEmail!=null){
                 if (!request.getParameter("email").equals(checkUserEmail)) {
                     errorMsg = "이메일을 새로 입력하였습니다. 이메일 인증을 다시 진행해주세요.";
@@ -653,7 +653,7 @@ public class UserController {
                     session.removeAttribute("checkUserEmail");
                     session.setAttribute("errorMsg", errorMsg);
                     log.info("test2");
-                    return "redirect:/User/myPage";
+                    return "redirect:/user/myPage";
                 }
             }
         }
@@ -730,7 +730,7 @@ public class UserController {
         }
         session.setAttribute("signinResultDTO", dto);
 
-        return "/User/index";
+        return "/user/index";
     }
 
 }

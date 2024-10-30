@@ -16,13 +16,13 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/Search")
+@RequestMapping(value = "/search")
 public class SearchController {
     private final ISearchService searchService;
 
     @GetMapping("/search")
     public String showSearchPage(HttpSession session){
-        return "/Search/search";
+        return "/search/search";
     }
 
     @PostMapping("/searchProc")
@@ -30,11 +30,11 @@ public class SearchController {
         String query = request.getParameter("query");
         List<RecommendDTO> rList = searchService.searchResult(query);
         session.setAttribute("searchResult", rList);
-        return "redirect:/Search/searchResult";
+        return "redirect:/search/searchResult";
     }
 
     @GetMapping("/searchResult")
     public String showSearchResult(HttpSession session){
-        return "/Search/searchResult";
+        return "/search/searchResult";
     }
 }

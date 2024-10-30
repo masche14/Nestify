@@ -28,7 +28,7 @@ public class SearchService implements ISearchService {
 
         log.info("제품 검색 시작");
         // 요청을 보낼 Python 서버의 URL
-        String url = "http://127.0.0.1:8000/mySearchAPI";
+        String url = "http://198.19.183.123:8000/mySearchAPI";
         String pname = "query";
         String ptext = query;
 

@@ -63,11 +63,11 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav" >마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav" >마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
@@ -79,10 +79,10 @@
         <div class="head-line">당신의 자취방을 꾸며보세요</div>
     </div>
     <div class="container no-margin">
-        <a href="/Interior/makeNew" class="service-box">
+        <a href="/interior/makeNew" class="service-box">
             <div class="service">새로운 인테리어 생성하기</div>
         </a>
-        <a href="/Interior/records" class="service-box">
+        <a href="/interior/records" class="service-box">
             <div class="service">이전 인테리어 확인하기</div>
         </a>
     </div>

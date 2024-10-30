@@ -109,7 +109,7 @@
             });
 
             document.getElementById('ifEmpty').addEventListener("click", function (){
-               window.location.href="/Interior/makeNew";
+               window.location.href="/interior/makeNew";
             });
 
             // 모달 닫기 버튼 클릭 시 모달 닫기
@@ -146,11 +146,11 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav">마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav">마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 

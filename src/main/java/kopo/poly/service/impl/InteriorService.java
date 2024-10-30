@@ -11,8 +11,6 @@ import kopo.poly.mapper.IInteriorMapper;
 import kopo.poly.service.IInteriorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -22,11 +20,6 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -74,7 +67,7 @@ public class InteriorService implements IInteriorService {
     public String generateImg(String imageUrl, String prompt) throws Exception {
         log.info("이미지 생성 시작");
 
-        String url = "http://127.0.0.1:8000/myGenerateImageAPI";
+        String url = "http://198.19.183.123:8000/myGenerateImageAPI";
 
         // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
         Map<String, Object> data = new HashMap<>();
@@ -131,7 +124,7 @@ public class InteriorService implements IInteriorService {
     public List<DetailDTO> runImgAnalysisPython(String imageUrl) {
         log.info("이미지 분석 시작");
 
-        String url = "http://127.0.0.1:8000/myImageAnalysisAPI";
+        String url = "http://198.19.183.123:8000/myImageAnalysisAPI";
         String pname = "image_url";
         String ptext = imageUrl;
 
@@ -250,7 +243,7 @@ public class InteriorService implements IInteriorService {
     public List<RecommendDTO> getRecommend(String imageUrl, List<DetailDTO> resp) throws Exception {
         log.info("제품 추천 시작");
         // 요청을 보낼 Python 서버의 URL
-        String url = "http://127.0.0.1:8000/myRecommendAPI";
+        String url = "http://198.19.183.123:8000/myRecommendAPI";
 
         // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
         Map<String, Object> data = new HashMap<>();

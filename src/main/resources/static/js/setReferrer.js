@@ -4,7 +4,7 @@ function setReferrer() {
 
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/User/setReferrer';
+    form.action = '/user/setReferrer';
     document.body.appendChild(form);
     form.submit();
 }

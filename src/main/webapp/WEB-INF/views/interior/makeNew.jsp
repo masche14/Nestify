@@ -72,7 +72,7 @@
 
                 try {
                     // 서버로 이미지와 프롬프트 전송
-                    const response = await fetch('/Interior/upload', {
+                    const response = await fetch('/interior/upload', {
                         method: 'POST',
                         body: formData
                     });
@@ -133,7 +133,7 @@
 
                 // 서버에 API로 생성된 이미지 저장 요청
                 try {
-                    const response = await fetch('/Interior/saveGeneratedImage', {
+                    const response = await fetch('/interior/saveGeneratedImage', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -146,7 +146,7 @@
                     if (response.ok) {
                         analyzeModal.style.display="none";
                         // 이미지 저장이 완료되면 결과 페이지로 이동
-                        window.location.href = "/Interior/result";
+                        window.location.href = "/interior/result";
                     } else {
                         analyzeModal.style.display="none";
                         alert("이미지 분석 및 제품 추천 중 오류가 발생했습니다.");
@@ -187,11 +187,11 @@
 
     <!-- 우측 메뉴 -->
     <div class="menu">
-        <a href="/User/index">홈</a>
-        <a href="/Interior/choose">인테리어</a>
+        <a href="/user/index">홈</a>
+        <a href="/interior/choose">인테리어</a>
         <a href="javascript:void(0);" id="loginNav" onclick="setReferrer()">로그인</a>
-        <a href="/User/delOrUpdate" id="myPageNav">마이페이지</a>
-        <a href="/User/logout" id="logoutNav">로그아웃</a>
+        <a href="/user/delOrUpdate" id="myPageNav">마이페이지</a>
+        <a href="/user/logout" id="logoutNav">로그아웃</a>
     </div>
 </div>
 
@@ -200,7 +200,7 @@
         <span class="head-line">방의 사진을 첨부하고</span>
         <span class="head-line">원하는 인테리어 스타일을 입력하세요</span>
     </div>
-    <form id="interiorForm" action="/Interior/upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
+    <form id="interiorForm" action="/interior/upload" method="post" enctype="multipart/form-data" class="no-bottom-margin form-center">
         <div class="image-box" id="imageBox">
             <p>이미지를 첨부하려면 클릭하세요</p>
             <img id="previewImage" alt="Image Preview" style="display: none;">
