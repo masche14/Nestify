@@ -48,10 +48,11 @@
       }
 
       const referrer = document.referrer;
+      const referrer_page = referrer.split('/').pop();
 
-      console.log("referrer : "+referrer.trim())
+      console.log("referrer : "+referrer_page)
 
-      if ((referrer.trim()!=="http://localhost:11000/user/myPage")&&(referrer.trim()!=="http://localhost:11000/user/pwd_verification")){
+      if ((referrer_page!=="myPage")&&(referrer_page!=="pwd_verification")){
         alert("올바르지 않은 접근입니다.")
         window.location.href="/user/index";
       }

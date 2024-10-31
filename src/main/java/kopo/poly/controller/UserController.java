@@ -642,8 +642,6 @@ public class UserController {
                 log.info(errorMsg);
                 session.setAttribute("errorMsg", errorMsg);
                 session.removeAttribute("emailResultDTO");
-                session.removeAttribute("pwdVerifyResult");
-
                 log.info("test1");
                 return "redirect:/user/myPage";
             } else if (checkUserEmail!=null){
