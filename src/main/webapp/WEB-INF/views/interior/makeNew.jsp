@@ -81,7 +81,12 @@
                         const result = await response.json();
                         const generatedImageUrl = result.generatedImageUrl; // API에서 생성된 이미지 URL
 
-                        console.log(generatedImageUrl);
+                        console.log("generatedImgUrl : "+generatedImageUrl);
+
+                        if (generatedImageUrl.trim()===""){
+                            alert("이미지 생성 실패하였습니다. 다시 진행해주세요");
+                            window.location.reload();
+                        }
 
                         // 미리보기 이미지로 표시
                         document.getElementById("previewImage").src = generatedImageUrl;
