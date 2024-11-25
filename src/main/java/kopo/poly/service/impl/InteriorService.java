@@ -68,6 +68,8 @@ public class InteriorService implements IInteriorService {
         log.info("이미지 생성 시작");
 
         String url = "http://198.19.183.123:8000/myGenerateImageAPI";
+        // 198.19.183.123
+        // 127.0.0.1
 
         // Map을 사용하여 데이터를 저장 (이미지 경로와 DetailDTO 리스트)
         Map<String, Object> data = new HashMap<>();
