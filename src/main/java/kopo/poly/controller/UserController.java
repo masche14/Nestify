@@ -75,6 +75,8 @@ public class UserController {
         String referrer = (String) session.getAttribute("referrer");
         String ref = referrer.replace("http://localhost:11000", "");
 
+        model.addAttribute("ref", ref);
+
         log.info("ref : {}", ref);
 
         int res = 0;
