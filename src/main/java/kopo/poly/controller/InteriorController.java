@@ -50,15 +50,25 @@ public class InteriorController {
     @Value("${s3.folder.generated-images}")
     private String generatedImagesFolder;
 
+    @Value("${s3.folder.temporary}")
+    private String tempFolder;
+
     @GetMapping("/makeNew")
     public  String showMakeNewPage(HttpSession session){
         String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
         session.removeAttribute("imageCount");
 
-        try {
-            s3Service.deleteTemporaryImages();
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        String newInputImgName = (String) session.getAttribute("newInputImgName");
+
+        if (newInputImgName == null){
+            log.info("temp folder is empty");
+        } else {
+            try {
+                s3Service.deleteSpecificFile(tempFolder, newInputImgName);
+                session.removeAttribute("newInputImgName");
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
 
         return "/interior/makeNew";
@@ -253,7 +263,7 @@ public class InteriorController {
                     log.info("userImgUrl : {}", userImgUrl);
 
                     try {
-                        s3Service.deleteTemporaryImages();
+                        s3Service.deleteSpecificFile(tempFolder, newInputImgName);
                     } catch (Exception e) {
                         log.error(e.getMessage());
                     }
